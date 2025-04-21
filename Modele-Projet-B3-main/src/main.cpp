@@ -8,6 +8,10 @@
 StateMachine machine = StateMachine();
 Button bouton(PIN_BOUTON);
 unsigned long tempsDebut = 0;
+IRsend irsend(PIN_IR_SEND);
+IRrecv irrecv(PIN_IR_RECV);
+
+
 
 // Création des états
 State* etatInitial = machine.addState(&EtatInitial);

@@ -9,6 +9,7 @@
 #include <Arduino.h>
 #include <StateMachine.h>
 #include <Button.h>
+#include <IRremote.h>
 
 // le mot clé #define permet de définir des constantes, les valeurs seront effectivement remplacées
 // dans le code avant la compilation.
@@ -17,6 +18,8 @@
 // Définition des broches
 #define PIN_LED 13
 #define PIN_BOUTON 2
+#define PIN_IR_SEND 32
+#define PIN_IR_RECV 33
 
 // Définition des délais
 #define DELAI_ATTENTE 3000  // 3 secondes
