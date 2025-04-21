@@ -9,6 +9,7 @@
 #include <Arduino.h>
 #include <StateMachine.h>
 #include <Button.h>
+#include <HCSR04.h>
 
 // le mot clé #define permet de définir des constantes, les valeurs seront effectivement remplacées
 // dans le code avant la compilation.
@@ -17,6 +18,18 @@
 // Définition des broches
 #define PIN_LED 13
 #define PIN_BOUTON 2
+
+// Définition des broches ultrason
+#define PIN_TRIGGER_1 34  // Pin for the trigger of the HC-SR04
+#define PIN_ECHO_1 35    // Pin for the echo of the HC-SR04
+#define PIN_TRIGGER_2 36  // Pin for the trigger of the second HC-SR04
+#define PIN_ECHO_2 37    // Pin for the echo of the second HC-SR04
+#define PIN_TRIGGER_3 38  // Pin for the trigger of the third HC-SR04
+#define PIN_ECHO_3 39    // Pin for the echo of the third HC-SR04
+#define PIN_TRIGGER_4 40  // Pin for the trigger of the fourth HC-SR04
+#define PIN_ECHO_4 41    // Pin for the echo of the fourth HC-SR04
+
+
 
 // Définition des délais
 #define DELAI_ATTENTE 3000  // 3 secondes
