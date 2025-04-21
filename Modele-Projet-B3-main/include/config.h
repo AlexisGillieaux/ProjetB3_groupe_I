@@ -11,6 +11,7 @@
 #include <Button.h>
 #include <IRremote.h>
 #include <HCSR04.h>
+#include <MFRC522.h>
 
 // le mot clé #define permet de définir des constantes, les valeurs seront effectivement remplacées
 // dans le code avant la compilation.
@@ -21,6 +22,9 @@
 #define PIN_BOUTON 2
 #define PIN_IR_SEND 32
 #define PIN_IR_RECV 33
+#define PIN_SS 49
+#define PIN_RST 53
+#define PIN_BUZZER 42
 
 // Définition des broches ultrason
 #define PIN_TRIGGER_1 34  // Pin for the trigger of the HC-SR04

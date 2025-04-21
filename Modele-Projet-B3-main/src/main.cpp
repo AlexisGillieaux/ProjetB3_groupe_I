@@ -10,7 +10,11 @@ Button bouton(PIN_BOUTON);
 unsigned long tempsDebut = 0;
 IRsend irsend(PIN_IR_SEND);
 IRrecv irrecv(PIN_IR_RECV);
-
+MFRC522 mfrc522(PIN_SS, PIN_RST);
+UltraSonicDistanceSensor ultrasonicSensor1(PIN_TRIGGER_1, PIN_ECHO_1);
+UltraSonicDistanceSensor ultrasonicSensor2(PIN_TRIGGER_2, PIN_ECHO_2);
+UltraSonicDistanceSensor ultrasonicSensor3(PIN_TRIGGER_3, PIN_ECHO_3);
+UltraSonicDistanceSensor ultrasonicSensor4(PIN_TRIGGER_4, PIN_ECHO_4);
 
 
 // Création des états
@@ -22,6 +26,9 @@ State* etatFinal = machine.addState(&EtatFinal);
 void setup() {
   // Initialisation de la communication série
   Serial.begin(9600);
+  SPI.begin();
+  mfrc522.PCD_Init();
+
   Serial.println("Démarrage de la machine d'état");
   
   // Configuration des broches
