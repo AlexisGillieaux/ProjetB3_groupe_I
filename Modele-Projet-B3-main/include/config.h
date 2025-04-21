@@ -12,6 +12,8 @@
 #include <IRremote.h>
 #include <HCSR04.h>
 #include <DFRobot_TCS34725.h>
+#include <L298N.h>
+#include <L298NX2.h>
 
 
 // le mot clé #define permet de définir des constantes, les valeurs seront effectivement remplacées
@@ -39,6 +41,13 @@
 // Définition des broches du capteur de couleur
 #define PIN_TCS_SDA 20    // Pin for the SDA of the TCS34725
 #define PIN_TCS_SCL 21    // Pin for the SCL of the TCS34725
+#define ADDRESS_TCS34725 0x29 // Adresse I2C du capteur de couleur TCS34725
+
+// Définition des broches du moteur
+#define PIN_AIN1 24    // Pin for the IN1 of the motor A
+#define PIN_AIN2 25    // Pin for the IN2 of the motor A
+#define PIN_BIN1 26    // Pin for the IN1 of the motor B
+#define PIN_BIN2 27    // Pin for the IN2 of the motor B
 
 
 // Définition des délais

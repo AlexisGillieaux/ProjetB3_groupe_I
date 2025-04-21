@@ -10,6 +10,10 @@ Button bouton(PIN_BOUTON);
 unsigned long tempsDebut = 0;
 IRsend irsend(PIN_IR_SEND);
 IRrecv irrecv(PIN_IR_RECV);
+decode_results results;
+DFRobot_TCS34725 tcs(&Wire, ADDRESS_TCS34725, TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X);
+L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
+
 
 
 
