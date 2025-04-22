@@ -9,7 +9,7 @@
 #include <Arduino.h>
 #include <StateMachine.h>
 #include <Button.h>
-#include <IRremote.h>
+
 #include <HCSR04.h>
 #include <MFRC522.h>
 #include <DFRobot_TCS34725.h>
