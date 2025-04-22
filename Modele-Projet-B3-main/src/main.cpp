@@ -3,8 +3,11 @@
 #include "etatAttente.h"
 #include "etatAction.h"
 #include "etatFinal.h"
+#include "matrice.h"
 
 // Définition des variables globales
+char matriceNonDecode[] = "1111111111111112010041000111101011101011010100000101101011111110110100000000011011111111101100000001003110101111101311010100000121101110111110110000000000011111111111111";
+int i = 0;
 StateMachine machine = StateMachine();
 Button bouton(PIN_BOUTON);
 unsigned long tempsDebut = 0;
@@ -44,12 +47,26 @@ void setup() {
   etatFinal->addTransition(&transition_Final_Initial, etatInitial);
   
   // Démarrer la machine dans l'état initial
-  machine.run();
+  //machine.run();
 }
 
 void loop() {
   // Mettre à jour la machine d'état
-  machine.run();
+  //machine.run();
+  if (i ==0){
+    int** matriceDecode = processMatrice(matriceNonDecode);
+    Serial.println("Matrice traitée :");
+    for (int j = 0; j < 13; j++) {
+      for (int k = 0; k < 13; k++) {
+        Serial.print(matriceDecode[j][k]);
+        Serial.print(" ");
+      }
+      Serial.println();
+    }
+    free(matriceDecode); // Libérer la mémoire allouée
+
+    i++;
+  }
   
   // Petit délai pour éviter une utilisation excessive du CPU
   delay(DELAI_BOUCLE_MS);
