@@ -1,5 +1,3 @@
 # ProjetB3_groupe_I
-Projet B3 Pierrard Virton nom de code MazeRunner
-Bonjour alex
-
-test
+Projet B3 Pierrard Virton 
+Ici on mange des grosses saucisses en mode CHIEN CHAUD™
