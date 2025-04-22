@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "author": "Ton Nom",
+    "editor": "wokwi",
+    "parts": [
+      {
+        "type": "wokwi-arduino-mega",
+        "id": "mega",
+        "top": -10,
+        "left": -10,
+        "angle": 0
+      },
+      {
+        "type": "wokwi-led",
+        "id": "led1",
+        "top": 50,
+        "left": 100,
+        "angle": 0,
+        "color": "red"
+      },
+      {
+        "type": "wokwi-pushbutton",
+        "id": "button1",
+        "top": 150,
+        "left": 100,
+        "angle": 0
+      }
+    ],
+    "connections": [
+      { "from": "mega:D13", "to": "led1:anode" },
+      { "from": "led1:cathode", "to": "mega:GND" },
+      { "from": "mega:D2", "to": "button1:pin1" },
+      { "from": "button1:pin2", "to": "mega:GND" }
+    ]
+  }
