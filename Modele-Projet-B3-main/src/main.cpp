@@ -28,10 +28,9 @@ State* etatFinal = machine.addState(&EtatFinal);
 void setup() {
   // Initialisation de la communication série
   Serial.begin(9600);
-  //SPI.begin();
-  //mfrc522.PCD_Init();
-  //IrReceiver.begin(PIN_IR_RECV);
-  //IrSender.begin(PIN_IR_SEND);
+  SPI.begin();
+  mfrc522.PCD_Init();
+
   Serial.println("Démarrage de la machine d'état");
   
   // Configuration des broches
