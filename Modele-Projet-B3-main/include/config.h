@@ -65,5 +65,12 @@
 extern StateMachine machine;
 extern Button bouton;
 extern unsigned long tempsDebut;
+extern MFRC522 mfrc522;
+extern UltraSonicDistanceSensor ultrasonicSensor1;
+extern UltraSonicDistanceSensor ultrasonicSensor2;
+extern UltraSonicDistanceSensor ultrasonicSensor3;
+extern UltraSonicDistanceSensor ultrasonicSensor4;
+extern DFRobot_TCS34725 tcs;
+extern L298NX2 moteur;
 
 #endif
