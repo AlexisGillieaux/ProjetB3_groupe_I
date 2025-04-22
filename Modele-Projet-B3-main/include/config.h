@@ -9,12 +9,14 @@
 #include <Arduino.h>
 #include <StateMachine.h>
 #include <Button.h>
-#include <IRremote.h>
-#include <HCSR04.h>
-#include <MFRC522.h>
-#include <DFRobot_TCS34725.h>
-#include <L298N.h>
-#include <L298NX2.h>
+#include <IRremote.h> // Librairie pour le module infrarouge
+#include <HCSR04.h> // Librairie pour le capteur ultrason
+#include <SPI.h> // Librairie pour la communication SPI
+#include <MFRC522.h>        // Librairie pour le module RFID MFRC522
+#include <DFRobot_TCS34725.h>   // Librairie pour le capteur de couleur TCS34725
+#include <L298N.h>      // Librairie pour le module de contrôle de moteur L298N
+#include <L298NX2.h>    // Librairie pour le module de contrôle de moteur L298N (version 2 moteurs)
+#include <Wire.h> // Librairie pour la communication I2C
 
 
 // le mot clé #define permet de définir des constantes, les valeurs seront effectivement remplacées
@@ -48,10 +50,10 @@
 #define ADDRESS_TCS34725 0x29 // Adresse I2C du capteur de couleur TCS34725
 
 // Définition des broches du moteur
-#define PIN_AIN1 24    // Pin for the IN1 of the motor A
-#define PIN_AIN2 25    // Pin for the IN2 of the motor A
-#define PIN_BIN1 26    // Pin for the IN1 of the motor B
-#define PIN_BIN2 27    // Pin for the IN2 of the motor B
+#define PIN_AIN1 4    // Pin for the IN1 of the motor A
+#define PIN_AIN2 5    // Pin for the IN2 of the motor A
+#define PIN_BIN1 6    // Pin for the IN1 of the motor B
+#define PIN_BIN2 7    // Pin for the IN2 of the motor B
 
 
 // Définition des délais
