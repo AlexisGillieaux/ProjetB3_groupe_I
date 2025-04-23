@@ -5,7 +5,7 @@
 
 
 
-int** processMatrice(int* matriceNonDecode)
+int** processMatrix(int* matriceNonDecode)
 {
     int** matriceDecode = (int**)malloc(13 * sizeof(int*));
     if (matriceNonDecode == NULL) {

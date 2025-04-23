@@ -3,7 +3,7 @@
 
 
 // Constructeur par défaut
-void setup() 
+void setupRgb() 
 {
   Serial.begin(115200);
   Serial.println("Color View Test!");

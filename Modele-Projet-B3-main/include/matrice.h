@@ -1,1 +1,1 @@
-int** processMatrice(char matriceNonDecode[]);
+int** processMatrix(int* matriceNonDecode);

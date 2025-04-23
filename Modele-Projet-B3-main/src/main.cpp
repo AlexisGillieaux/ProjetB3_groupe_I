@@ -57,11 +57,18 @@ void loop() {
   // Mettre à jour la machine d'état
   //machine.run();
   if (i ==0){
-    for (int j = 0; j < 13; j++)
+    Serial.println("Matrice non traitée :");
+    for (int j = 0; j < 169; j++)
     {
         matriceNonDecode[j] = matriceNonDecodeChar[j] - '0';
     }
-    int** matriceDecode = processMatrice(matriceNonDecode);
+    for (size_t i = 0; i < 169; i++)
+    {
+      Serial.print(matriceNonDecode[i]);
+    }
+    Serial.println();
+    
+    int** matriceDecode = processMatrix(matriceNonDecode);
     Serial.println("Matrice traitée :");
     for (int j = 0; j < 13; j++) {
       for (int k = 0; k < 13; k++) {
