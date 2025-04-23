@@ -9,6 +9,7 @@
 #include <Arduino.h>
 #include <StateMachine.h>
 #include <Button.h>
+#include <string.h> // Pour utiliser strcpy
  // Librairie pour le module infrarouge
 #include <HCSR04.h> // Librairie pour le capteur ultrason
 #include <SPI.h> // Librairie pour la communication SPI
