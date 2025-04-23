@@ -19,7 +19,10 @@ DFRobot_TCS34725 tcs(&Wire, ADDRESS_TCS34725, TCS34725_INTEGRATIONTIME_50MS, TCS
 L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
 int* matriceNonDecode = (int*)malloc(13 * 13 * sizeof(int)); 
 char matriceNonDecodeChar[] = "1111111111111112010041000111101011101011010100000101101011111110110100000000011011111111101100000001003110101111101311010100000121101110111110110000000000011111111111111";
-  
+int n = 10;
+int d = 6;  
+int mod;
+int divisionResult;
 
 
 
@@ -78,7 +81,10 @@ void loop() {
       Serial.println();
     }
     free(matriceDecode); // Libérer la mémoire allouée
-
+    divisionResult = n/d;
+    mod = n%d;
+    Serial.println("div : " + String(divisionResult));
+    Serial.println("mod : " + String(mod));
     i++;
   }
   

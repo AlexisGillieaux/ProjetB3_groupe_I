@@ -17,6 +17,7 @@
 #include <L298N.h>      // Librairie pour le module de contrôle de moteur L298N
 #include <L298NX2.h>    // Librairie pour le module de contrôle de moteur L298N (version 2 moteurs)
 #include <Wire.h> // Librairie pour la communication I2C
+#include <math.h>
 
 
 // le mot clé #define permet de définir des constantes, les valeurs seront effectivement remplacées
