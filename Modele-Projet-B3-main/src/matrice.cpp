@@ -5,7 +5,7 @@
 
 
 
-int** processMatrice(char matriceNonDecode[])
+int** processMatrice(int* matriceNonDecode)
 {
     int** matriceDecode = (int**)malloc(13 * sizeof(int*));
     if (matriceNonDecode == NULL) {
@@ -17,9 +17,9 @@ int** processMatrice(char matriceNonDecode[])
         matriceDecode[i] = (int*)malloc(13 * sizeof(int));
         for (int j = 0; j < 13; j++)
         {
-            matriceDecode[i][j] = matriceNonDecode[i * 13 + j] - '0'; // Convert char to int
+            matriceDecode[i][j] = matriceNonDecode[i * 13 + j];
         }
     }
+    free(matriceNonDecode); 
     return matriceDecode;
-
 }

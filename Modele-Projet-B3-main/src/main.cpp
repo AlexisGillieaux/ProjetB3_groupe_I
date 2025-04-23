@@ -6,7 +6,6 @@
 #include "matrice.h"
 
 // Définition des variables globales
-char matriceNonDecode[] = "1111111111111112010041000111101011101011010100000101101011111110110100000000011011111111101100000001003110101111101311010100000121101110111110110000000000011111111111111";
 int i = 0;
 StateMachine machine = StateMachine();
 Button bouton(PIN_BOUTON);
@@ -18,6 +17,9 @@ UltraSonicDistanceSensor ultrasonicSensor3(PIN_TRIGGER_3, PIN_ECHO_3);
 UltraSonicDistanceSensor ultrasonicSensor4(PIN_TRIGGER_4, PIN_ECHO_4);
 DFRobot_TCS34725 tcs(&Wire, ADDRESS_TCS34725, TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X);
 L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
+int* matriceNonDecode = (int*)malloc(13 * 13 * sizeof(int)); 
+char matriceNonDecodeChar[] = "1111111111111112010041000111101011101011010100000101101011111110110100000000011011111111101100000001003110101111101311010100000121101110111110110000000000011111111111111";
+  
 
 
 
@@ -33,6 +35,7 @@ void setup() {
   Serial.begin(9600);
   SPI.begin();
   mfrc522.PCD_Init();
+  
 
   Serial.println("Démarrage de la machine d'état");
   
@@ -54,6 +57,10 @@ void loop() {
   // Mettre à jour la machine d'état
   //machine.run();
   if (i ==0){
+    for (int j = 0; j < 13; j++)
+    {
+        matriceNonDecode[j] = matriceNonDecodeChar[j] - '0';
+    }
     int** matriceDecode = processMatrice(matriceNonDecode);
     Serial.println("Matrice traitée :");
     for (int j = 0; j < 13; j++) {
