@@ -4,6 +4,8 @@
 
 #include <stdint.h> // Pour les types uint16_t
 
+extern float colorReel[3]; // Tableau pour stocker les valeurs RGB
+extern float colorDetecte[3]; // Tableau pour stocker les valeurs RGB détectées
 class GestionRGB {
 public:
     // Constructeur par défaut
