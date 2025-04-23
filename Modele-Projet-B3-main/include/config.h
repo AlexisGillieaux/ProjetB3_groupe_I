@@ -72,5 +72,6 @@ extern UltraSonicDistanceSensor ultrasonicSensor3;
 extern UltraSonicDistanceSensor ultrasonicSensor4;
 extern DFRobot_TCS34725 tcs;
 extern L298NX2 moteur;
+extern byte *RFID;
 
 #endif

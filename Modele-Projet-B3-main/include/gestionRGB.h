@@ -20,5 +20,7 @@ private:
     int greenValue;
     int blueValue;
 };
+void connection(); // Fonction pour établir la connexion avec le capteur de couleur
+void viewColor(); // Fonction pour afficher la couleur détectée
 
 #endif // GESTIONRGB_H
