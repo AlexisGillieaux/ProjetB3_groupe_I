@@ -10,7 +10,11 @@
 #include <StateMachine.h>
 #include <Button.h>
 #include <string.h> // Pour utiliser strcpy
- // Librairie pour le module infrarouge
+#include <stdlib.h> // Pour utiliser malloc
+#include <stdio.h> // Pour utiliser printf
+#include <string.h> // Pour utiliser strcpy
+#include <math.h> // Pour utiliser les fonctions mathématiques
+#include <IRremote.h> // Librairie pour le module infrarouge
 #include <HCSR04.h> // Librairie pour le capteur ultrason
 #include <SPI.h> // Librairie pour la communication SPI
 #include <MFRC522.h>        // Librairie pour le module RFID MFRC522
