@@ -1,1 +1,0 @@
-int** processMatrix(int* matriceNonDecode);
