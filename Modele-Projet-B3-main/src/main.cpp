@@ -4,6 +4,7 @@
 #include "etatAction.h"
 #include "etatFinal.h"
 #include "matrice.h"
+#include "a-star.h"
 
 // Définition des variables globales
 int i = 0;
@@ -19,10 +20,7 @@ DFRobot_TCS34725 tcs(&Wire, ADDRESS_TCS34725, TCS34725_INTEGRATIONTIME_50MS, TCS
 L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
 int* matriceNonDecode = (int*)malloc(13 * 13 * sizeof(int)); 
 char matriceNonDecodeChar[] = "1111111111111112010041000111101011101011010100000101101011111110110100000000011011111111101100000001003110101111101311010100000121101110111110110000000000011111111111111";
-int n = 10;
-int d = 6;  
-int mod;
-int divisionResult;
+int** nodes = (int**)malloc(36*sizeof(int*));
 
 
 
@@ -80,11 +78,28 @@ void loop() {
       }
       Serial.println();
     }
+    Serial.println("Listes des noeuds :");
+    nodes = matrixToNodes(matriceDecode);
+    for (int j = 0; j < 36; j++){
+      Serial.print("Noeud ");
+      Serial.print(j);
+      Serial.print(" : ");
+      Serial.print(nodes[j][0]);
+      Serial.print(" ");
+      Serial.print(nodes[j][1]);
+      Serial.print(" ");
+      Serial.print(nodes[j][2]);
+      Serial.print(" ");
+      Serial.print(nodes[j][3]);
+      Serial.print(" ");
+      Serial.print(nodes[j][4]);
+      Serial.print(" ");
+      Serial.print(nodes[j][5]);
+      Serial.print(" ");
+      Serial.println(nodes[j][6]);
+    }
+    free(nodes); // Libérer la mémoire allouée
     free(matriceDecode); // Libérer la mémoire allouée
-    divisionResult = n/d;
-    mod = n%d;
-    Serial.println("div : " + String(divisionResult));
-    Serial.println("mod : " + String(mod));
     i++;
   }
   
