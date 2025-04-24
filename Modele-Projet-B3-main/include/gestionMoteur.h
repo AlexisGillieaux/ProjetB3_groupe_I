@@ -5,8 +5,8 @@
 #include "etatAction.h"
 
 // Declaration des variables globales
-double speed1; // Vitesse du moteur avant
-double speed2; // Vitesse du moteur reculer
+//float urielBG1=200; // Vitesse du moteur avant
+//float urielBG2=200; // Vitesse du moteur reculer
 
 
 // Déclaration des fonctions

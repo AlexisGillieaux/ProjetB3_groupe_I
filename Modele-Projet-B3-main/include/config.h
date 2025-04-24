@@ -55,10 +55,10 @@
 #define ADDRESS_TCS34725 0x29 // Adresse I2C du capteur de couleur TCS34725
 
 // Définition des broches du moteur
-#define PIN_AIN1 4    // Pin for the IN1 of the motor A
+#define PIN_AIN1 3    // Pin for the IN1 of the motor A
 #define PIN_AIN2 5    // Pin for the IN2 of the motor A
 #define PIN_BIN1 6    // Pin for the IN1 of the motor B
-#define PIN_BIN2 7    // Pin for the IN2 of the motor B
+#define PIN_BIN2 9    // Pin for the IN2 of the motor B
 
 
 // Définition des délais
@@ -78,5 +78,7 @@ extern UltraSonicDistanceSensor ultrasonicSensor4;
 extern DFRobot_TCS34725 tcs;
 extern L298NX2 moteur;
 extern byte *RFID;
+extern float urielBG1; // Vitesse du moteur avant
+extern float urielBG2; // Vitesse du moteur reculer
 
 #endif

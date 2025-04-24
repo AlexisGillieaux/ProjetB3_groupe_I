@@ -5,9 +5,9 @@
 #include "etatFinal.h"
 #include "matrice.h"
 #include "a-star.h"
-#include "gestionRFID.h"
-//#include "gestionMoteur.h"
-#include "gestionUltrason.h"
+//#include "gestionRFID.h"
+#include "gestionMoteur.h"
+//#include "gestionUltrason.h"
 #include "gestionRGB.h"
 
 // Définition des variables globales
@@ -25,6 +25,8 @@ L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
 int* matriceNonDecode = (int*)malloc(13 * 13 * sizeof(int)); 
 char matriceNonDecodeChar[] = "1111111111111112010041000111101011101011010100000101101011111110110100000000011011111111101100000001003110101111101311010100000121101110111110110000000000011111111111111";
 int** nodes = (int**)malloc(36*sizeof(int*));
+float urielBG1=20; // Vitesse du moteur avant
+float urielBG2=20; // Vitesse du moteur reculer
 
 
 
@@ -40,8 +42,17 @@ void setup() {
   Serial.begin(9600);
   SPI.begin();
   mfrc522.PCD_Init();
-  pinMode(PIN_TRIGGER_1, OUTPUT);
-  pinMode(PIN_ECHO_1, INPUT);
+  while (tcs.begin() != 0) 
+  {
+    Serial.println("Aucun capteur de couleur trouvé ... vérifiez vos connexions");
+    delay(1000);
+  }
+
+  
+  //pinMode(PIN_TRIGGER_1, OUTPUT);
+  //pinMode(PIN_ECHO_1, INPUT);
+  //setUpRgb(); // Initialiser le capteur de couleur
+  Serial.println("Initialisation du capteur de couleur...");
   
 
   Serial.println("Démarrage de la machine d'état");
@@ -109,7 +120,15 @@ void loop() {
     i++;
   }*/
 
-  getDistance1();
+  //Serial.println(getDistance1());
+  //Serial.print("Distance 1: ");
+  delay(5000);
+  runOnce();
+  //Serial.print("Color detecte: ");
+  //Serial.print(colorDetecte[0]);
+  Avancer();
+  delay(5000);
+  Arreter();
   
   // Petit délai pour éviter une utilisation excessive du CPU
   delay(DELAI_BOUCLE_MS);
