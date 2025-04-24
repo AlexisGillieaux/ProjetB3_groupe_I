@@ -5,6 +5,10 @@
 #include "etatFinal.h"
 #include "matrice.h"
 #include "a-star.h"
+#include "gestionRFID.h"
+//#include "gestionMoteur.h"
+#include "gestionUltrason.h"
+#include "gestionRGB.h"
 
 // Définition des variables globales
 int i = 0;
@@ -36,6 +40,8 @@ void setup() {
   Serial.begin(9600);
   SPI.begin();
   mfrc522.PCD_Init();
+  pinMode(PIN_TRIGGER_1, OUTPUT);
+  pinMode(PIN_ECHO_1, INPUT);
   
 
   Serial.println("Démarrage de la machine d'état");
@@ -57,7 +63,7 @@ void setup() {
 void loop() {
   // Mettre à jour la machine d'état
   //machine.run();
-  if (i ==0){
+  /*if (i ==0){
     Serial.println("Matrice non traitée :");
     for (int j = 0; j < 169; j++)
     {
@@ -101,7 +107,9 @@ void loop() {
     free(nodes); // Libérer la mémoire allouée
     free(matriceDecode); // Libérer la mémoire allouée
     i++;
-  }
+  }*/
+
+  getDistance1();
   
   // Petit délai pour éviter une utilisation excessive du CPU
   delay(DELAI_BOUCLE_MS);

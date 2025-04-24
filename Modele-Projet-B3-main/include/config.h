@@ -40,8 +40,8 @@
 #define PIN_BUZZER 42
 
 // Définition des broches ultrason
-#define PIN_TRIGGER_1 34  // Pin for the trigger of the HC-SR04
-#define PIN_ECHO_1 35    // Pin for the echo of the HC-SR04
+#define PIN_TRIGGER_1 8  // Pin for the trigger of the HC-SR04
+#define PIN_ECHO_1 7    // Pin for the echo of the HC-SR04
 #define PIN_TRIGGER_2 36  // Pin for the trigger of the second HC-SR04
 #define PIN_ECHO_2 37    // Pin for the echo of the second HC-SR04
 #define PIN_TRIGGER_3 38  // Pin for the trigger of the third HC-SR04
