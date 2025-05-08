@@ -5,6 +5,7 @@
 
 
 
+
 int** processMatrix(int* matriceNonDecode)
 {
     int** matriceDecode = (int**)malloc(13 * sizeof(int*));
@@ -46,9 +47,117 @@ int** matrixToNodes(int** matrix){
     return nodes;
 }
 
+    
 bool isAccessible(int value) {
     return value == 0 || value == 2 || value == 3;
 }
+
+int* dijkstra(int** nodes, int start[]) {
+    int dist[36]; // Tableau pour stocker les distances
+    int* prev = (int*)malloc(36 * sizeof(int)); // Tableau pour stocker les noeuds précédents
+    int priorityQueue[36]; // File de priorité pour les noeuds à explorer
+    dist[start[0]] = 0; // Distance du noeud de départ à lui-même
+    priorityQueue[start[0]] = 0; // Ajouter le noeud de départ à la file de priorité
+    for (int i = 0; i < 36; i++) {
+        if (i != start[0]) {
+            dist[i] = INFINITY; // Initialiser les distances à l'infini
+            prev[i] = -1; // Initialiser les noeuds précédents à -1
+            priorityQueue[i] = INFINITY; // Initialiser la file de priorité
+        }
+
+    }
+    while (true){
+        int isPriorityQueueEmpty = 1;
+        for (int i = 0; i < 36; i++){
+            if (priorityQueue[i] != INFINITY){
+                isPriorityQueueEmpty = 0;
+                break;
+            }
+        }
+        if (isPriorityQueueEmpty == 1){
+            return prev; // Si la file de priorité est vide, sortir de la boucle
+        }
+        else{
+            int currentNode = -1;
+            int minDistance = INFINITY;
+            for (int i = 0; i < 36; i++)
+            {
+                if (priorityQueue[i] != INFINITY && dist[i] < minDistance) {
+                    minDistance = dist[i];
+                    currentNode = i;
+                    priorityQueue[i] = INFINITY; // Marquer le noeud comme visité
+                }
+            }
+            int neighbor1 = currentNode - 1;
+            int neighbor2 = currentNode + 1;
+            int neighbor3 = currentNode - 6;
+            int neighbor4 = currentNode + 6;
+            if (neighbor1 < 0)
+            {
+            neighbor1 = -1;
+            }
+            if (neighbor2 > 35)
+            {
+                neighbor2 = -1;
+            }
+            if (neighbor3 < 0)
+            {
+                neighbor3 = -1;
+            }
+            if (neighbor4 > 35)
+            {
+                neighbor4 = -1;
+            }
+            if (nodes[neighbor1][4] == 1 && neighbor1 != -1) {
+                neighbor1 = -1; // Noeud inaccessible
+            }
+            if (nodes[neighbor2][5] == 1 && neighbor2 != -1) {
+                neighbor2 = -1; // Noeud inaccessible
+            }
+            if (nodes[neighbor3][6] == 1 && neighbor3 != -1) {
+                neighbor3 = -1; // Noeud inaccessible
+            }
+            if (nodes[neighbor4][7] == 1 && neighbor4 != -1) {
+                neighbor4 = -1; // Noeud inaccessible
+            }
+            int neighbors[4] = { neighbor1, neighbor2, neighbor3, neighbor4 };
+            for (int i = 0; i < 4; i++) {
+                if (neighbors[i] != -1 ) {
+                    int neighborNode = neighbors[i];
+                    int alt = dist[currentNode] + 1; // Coût entre les noeuds adjacents est 1
+                    if (alt < dist[neighborNode]) {
+                        dist[neighborNode] = alt;
+                        prev[neighborNode] = currentNode; // Mettre à jour le noeud précédent
+                        priorityQueue[neighborNode] = alt; // Ajouter le voisin à la file de priorité
+                    }
+                }
+            }
+        }
+    }
+}
+int* path (int* prev,int goal[], int start[]){
+    int reversedPath[36];
+    int pathSize = 0;
+    for (int i = 0; i < 36; i++)
+    {
+        reversedPath[i] = -1; // Initialiser le tableau de chemin inversé
+    }
+    reversedPath[0]= prev[goal[0]]; // Marquer le noeud de but comme visité
+    for (int i = 1; i < 36; i++){
+        if(reversedPath[i] == -1 || reversedPath[i] == start[0]){
+            break;
+        }
+        reversedPath[i] = prev[reversedPath[i-1]]; // Marquer le noeud de but comme visité
+        pathSize++;
+    }
+    int* path = (int*)malloc((pathSize + 1) * sizeof(int)); // Allouer de la mémoire pour le chemin
+    for (int i = 0; i < pathSize; i++){
+        path[i] = reversedPath[pathSize - i - 1]; // Inverser le chemin
+    } 
+    free(prev); // Libérer la mémoire allouée pour le tableau de noeuds précédents  
+    return path; // Retourner le chemin
+}
+
 int* reconstructPath(int** closedList, int start, int goal) {
     int* path = (int*)malloc(36 * sizeof(int));
     int pathSize = 0;
@@ -356,3 +465,4 @@ int** aStar(int** matrix, int start[], int goal[]) {
     free(nodes);
     return NULL;
 }
+

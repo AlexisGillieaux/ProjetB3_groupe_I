@@ -3,7 +3,7 @@
 
 
 // Constructeur par défaut
-void setupRgb() 
+void connexion() 
 {
   Serial.begin(115200);
   Serial.println("Color View Test!");
@@ -15,7 +15,7 @@ void setupRgb()
   }
 }
 
-void runOnce() {
+void viewColor() {
   uint16_t clear, red, green, blue;
   tcs.getRGBC(&red, &green, &blue, &clear);
   // turn off LED

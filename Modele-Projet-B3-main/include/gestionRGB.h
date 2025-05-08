@@ -3,7 +3,8 @@
 #define GESTIONRGB_H
 
 #include <stdint.h> // Pour les types uint16_t
-
+void connexion() ; // Fonction pour établir la connexion avec le capteur de couleur
+void viewColor(); // Fonction pour afficher la couleur détectée
 extern float colorReel[3]; // Tableau pour stocker les valeurs RGB
 extern float colorDetecte[3]; // Tableau pour stocker les valeurs RGB détectées
 class GestionRGB {
@@ -22,7 +23,6 @@ private:
     int greenValue;
     int blueValue;
 };
-void connection(); // Fonction pour établir la connexion avec le capteur de couleur
-void viewColor(); // Fonction pour afficher la couleur détectée
+
 
 #endif // GESTIONRGB_H

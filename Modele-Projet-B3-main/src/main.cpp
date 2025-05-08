@@ -4,7 +4,8 @@
 #include "etatAction.h"
 #include "etatFinal.h"
 #include "matrice.h"
-#include "a-star.h"
+#include "algo.h"
+#include "gestionRGB.h"
 
 
 // Définition des variables globales
@@ -37,6 +38,7 @@ void setup() {
   Serial.begin(9600);
   SPI.begin();
   mfrc522.PCD_Init();
+  connexion();
   
 
   Serial.println("Démarrage de la machine d'état");
@@ -160,7 +162,7 @@ void loop() {
     // Appeler la fonction A* et afficher les résultats
     //int** chemin = aStar(matriceDecode, startNode, goalNode);
     // Reconstruire et afficher le chemin parcouru
-    int* cheminReconstruit = aStar2(matriceDecode, startNode, goalNode);
+    int* cheminReconstruit = path( dijkstra(matriceDecode, goalNode), startNode, goalNode);
     Serial.println("Chemin parcouru :");
     for (int j = 0; cheminReconstruit[j] != -1; j++) {
       Serial.print(cheminReconstruit[j]);
@@ -176,6 +178,7 @@ void loop() {
     free(nodes); // Libérer la mémoire allouée
     free(matriceDecode); // Libérer la mémoire allouée
     i++;
+    viewColor();
   }
   
   // Petit délai pour éviter une utilisation excessive du CPU
