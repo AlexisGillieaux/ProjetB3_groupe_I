@@ -60,16 +60,16 @@ int* dijkstra(int** nodes, int start[]) {
     priorityQueue[start[0]] = 0; // Ajouter le noeud de départ à la file de priorité
     for (int i = 0; i < 36; i++) {
         if (i != start[0]) {
-            dist[i] = INFINITY; // Initialiser les distances à l'infini
+            dist[i] = 256; // Initialiser les distances à l'infini
             prev[i] = -1; // Initialiser les noeuds précédents à -1
-            priorityQueue[i] = INFINITY; // Initialiser la file de priorité
+            priorityQueue[i] = 256; // Initialiser la file de priorité
         }
 
     }
     while (true){
         int isPriorityQueueEmpty = 1;
         for (int i = 0; i < 36; i++){
-            if (priorityQueue[i] != INFINITY){
+            if (priorityQueue[i] != 256){
                 isPriorityQueueEmpty = 0;
                 break;
             }
@@ -79,13 +79,13 @@ int* dijkstra(int** nodes, int start[]) {
         }
         else{
             int currentNode = -1;
-            int minDistance = INFINITY;
+            int minDistance = 256;
             for (int i = 0; i < 36; i++)
             {
-                if (priorityQueue[i] != INFINITY && dist[i] < minDistance) {
+                if (priorityQueue[i] != 256 && dist[i] < minDistance) {
                     minDistance = dist[i];
                     currentNode = i;
-                    priorityQueue[i] = INFINITY; // Marquer le noeud comme visité
+                    priorityQueue[i] = 256; // Marquer le noeud comme visité
                 }
             }
             int neighbor1 = currentNode - 1;
@@ -197,8 +197,8 @@ int* aStar2(int** matrix, int start[], int goal[]) {
     float fScore[36];
 
     for (int i = 0; i < 36; i++) {
-        gScore[i] = INFINITY;
-        fScore[i] = INFINITY;
+        gScore[i] = 256;
+        fScore[i] = 256;
     }
 
     gScore[start[0]] = 0;
@@ -210,7 +210,7 @@ int* aStar2(int** matrix, int start[], int goal[]) {
     openListSize++;
 
     while (openListSize > 0) {
-        float minFScore = INFINITY;
+        float minFScore = 256;
         int minIndex = -1;
 
         for (int i = 0; i < openListSize; i++) {
@@ -318,8 +318,8 @@ int** aStar(int** matrix, int start[], int goal[]) {
     float gScore[36]; // Coût du chemin depuis le début jusqu'à ce noeud
     float fScore[36]; // Coût total estimé du début au but en passant par ce noeud
     for (int i = 0; i < 36; i++) {
-        gScore[i] = INFINITY; // Initialiser gScore à l'infini
-        fScore[i] = INFINITY; // Initialiser fScore à l'infini
+        gScore[i] = 256; // Initialiser gScore à l'infini
+        fScore[i] = 256; // Initialiser fScore à l'infini
         closedList[i][0] = -1; // Initialiser la liste fermée avec -1
         closedList[i][1] = -1;
         closedList[i][2] = -1;
@@ -336,7 +336,7 @@ int** aStar(int** matrix, int start[], int goal[]) {
 
     while (openListSize > 0) {
         // Trouver le noeud avec le coût total le plus bas dans la liste ouverte
-        float minFScore = INFINITY;
+        float minFScore = 256;
         for (int i = 0; i < openListSize; i++) {
             if (fScore[openList[i][0]] < minFScore) {
                 minFScore = fScore[openList[i][0]];
