@@ -66,6 +66,13 @@
 #define DELAI_ACTION 5000   // 5 secondes
 #define DELAI_BOUCLE_MS 10 // 10 millisecondes par boucle
 
+// Définition des broches RFID
+#define PIN_RFID_SS 53    // Pin for the SS of the MFRC522
+#define PIN_RFID_RST 49    // Pin for the RST of the MFRC522
+#define PIN_RFID_MOSI 51    // Pin for the RST of the MFRC522
+#define PIN_RFID_MISO 50    // Pin for the RST of the MFRC522
+#define PIN_RFID_SCK 52    // Pin for the RST of the MFRC522
+
 // Déclaration des variables globales (définies dans main.cpp)
 extern StateMachine machine;
 extern Button bouton;
