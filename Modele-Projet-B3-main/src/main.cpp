@@ -5,23 +5,26 @@
 #include "etatFinal.h"
 #include "matrice.h"
 #include "a-star.h"
-//#include "gestionRFID.h"
+#include "gestionRFID.h"
 #include "gestionMoteur.h"
-//#include "gestionUltrason.h"
+#include "gestionUltrason.h"
 #include "gestionRGB.h"
+#include "gestionIR.h"
+
+
 
 // Définition des variables globales
 int i = 0;
 StateMachine machine = StateMachine();
 Button bouton(PIN_BOUTON);
 unsigned long tempsDebut = 0;
-MFRC522 mfrc522(PIN_SS, PIN_RST);
-UltraSonicDistanceSensor ultrasonicSensor1(PIN_TRIGGER_1, PIN_ECHO_1);
-UltraSonicDistanceSensor ultrasonicSensor2(PIN_TRIGGER_2, PIN_ECHO_2);
-UltraSonicDistanceSensor ultrasonicSensor3(PIN_TRIGGER_3, PIN_ECHO_3);
-UltraSonicDistanceSensor ultrasonicSensor4(PIN_TRIGGER_4, PIN_ECHO_4);
-DFRobot_TCS34725 tcs(&Wire, ADDRESS_TCS34725, TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X);
-L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
+ MFRC522 mfrc522(PIN_SS, PIN_RST);
+ UltraSonicDistanceSensor ultrasonicSensor1(PIN_TRIGGER_1, PIN_ECHO_1);
+ UltraSonicDistanceSensor ultrasonicSensor2(PIN_TRIGGER_2, PIN_ECHO_2);
+ UltraSonicDistanceSensor ultrasonicSensor3(PIN_TRIGGER_3, PIN_ECHO_3);
+ UltraSonicDistanceSensor ultrasonicSensor4(PIN_TRIGGER_4, PIN_ECHO_4);
+ DFRobot_TCS34725 tcs(&Wire, ADDRESS_TCS34725, TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X);
+ L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
 int* matriceNonDecode = (int*)malloc(13 * 13 * sizeof(int)); 
 char matriceNonDecodeChar[] = "1111111111111112010041000111101011101011010100000101101011111110110100000000011011111111101100000001003110101111101311010100000121101110111110110000000000011111111111111";
 int** nodes = (int**)malloc(36*sizeof(int*));
@@ -40,27 +43,28 @@ State* etatFinal = machine.addState(&EtatFinal);
 void setup() {
   // Initialisation de la communication série
   Serial.begin(9600);
-  SPI.begin();
-  mfrc522.PCD_Init();
-  while (tcs.begin() != 0) 
-  {
-    Serial.println("Aucun capteur de couleur trouvé ... vérifiez vos connexions");
-    delay(1000);
-  }
+  setupGestionRFID();
+  // SPI.begin();
+  // mfrc522.PCD_Init();
+  // while (tcs.begin() != 0) 
+  // {
+  //   Serial.println("Aucun capteur de couleur trouvé ... vérifiez vos connexions");
+  //   delay(1000);
+  // }
 
   
   //pinMode(PIN_TRIGGER_1, OUTPUT);
   //pinMode(PIN_ECHO_1, INPUT);
   //setUpRgb(); // Initialiser le capteur de couleur
-  Serial.println("Initialisation du capteur de couleur...");
+  //Serial.println("Initialisation du capteur de couleur...");
   
 
-  Serial.println("Démarrage de la machine d'état");
+  //Serial.println("Démarrage de la machine d'état");
   
   // Configuration des broches
   pinMode(PIN_LED, OUTPUT);
   // Pas besoin de configurer PIN_BOUTON car la librairie Button s'en charge
-  
+ 
   // Configuration des transitions
   etatInitial->addTransition(&transition_Initial_Attente, etatAttente);
   etatAttente->addTransition(&transition_Attente_Action, etatAction);
@@ -72,6 +76,14 @@ void setup() {
 }
 
 void loop() {
+
+  delay(3000); // Attendre 1 seconde pour éviter les lectures trop rapides
+  //Serial.print("Lecture de l'UID de la carte RFID...");
+  
+  
+  //Serial.println("Lecture de la carte RFID...");
+  
+
   // Mettre à jour la machine d'état
   //machine.run();
   /*if (i ==0){
@@ -122,13 +134,13 @@ void loop() {
 
   //Serial.println(getDistance1());
   //Serial.print("Distance 1: ");
-  delay(5000);
-  runOnce();
+  //delay(5000);
+  // runOnce();
   //Serial.print("Color detecte: ");
   //Serial.print(colorDetecte[0]);
-  Avancer();
-  delay(5000);
-  Arreter();
+  // Avancer();
+  //delay(5000);
+  // Arreter();
   
   // Petit délai pour éviter une utilisation excessive du CPU
   delay(DELAI_BOUCLE_MS);

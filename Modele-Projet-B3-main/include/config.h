@@ -8,20 +8,24 @@
 
 #include <Arduino.h>
 #include <StateMachine.h>
-#include <Button.h>
+ #include <Button.h>
 #include <string.h> // Pour utiliser strcpy
 #include <stdlib.h> // Pour utiliser malloc
 #include <stdio.h> // Pour utiliser printf
 #include <string.h> // Pour utiliser strcpy
 #include <math.h> // Pour utiliser les fonctions mathématiques
-#include <HCSR04.h> // Librairie pour le capteur ultrason
+ #include <HCSR04.h> // Librairie pour le capteur ultrason
 #include <SPI.h> // Librairie pour la communication SPI
-#include <MFRC522.h>        // Librairie pour le module RFID MFRC522
-#include <DFRobot_TCS34725.h>   // Librairie pour le capteur de couleur TCS34725
-#include <L298N.h>      // Librairie pour le module de contrôle de moteur L298N
-#include <L298NX2.h>    // Librairie pour le module de contrôle de moteur L298N (version 2 moteurs)
-#include <Wire.h> // Librairie pour la communication I2C
-#include <math.h>
+ #include <MFRC522.h>        // Librairie pour le module RFID MFRC522
+ #include <DFRobot_TCS34725.h>   // Librairie pour le capteur de couleur TCS34725
+ #include <L298N.h>      // Librairie pour le module de contrôle de moteur L298N
+ #include <L298NX2.h>    // Librairie pour le module de contrôle de moteur L298N (version 2 moteurs)
+ #include <Wire.h> // Librairie pour la communication I2C
+ #include <math.h>
+ #include <DFRobot_TCS34725.h> // Librairie pour le capteur de couleur TCS34725
+ #include <MFRC522.h> // Librairie pour le module RFID MFRC522
+ #include <IRremote.h>
+
 
 
 // le mot clé #define permet de définir des constantes, les valeurs seront effectivement remplacées
@@ -66,6 +70,14 @@
 #define DELAI_ACTION 5000   // 5 secondes
 #define DELAI_BOUCLE_MS 10 // 10 millisecondes par boucle
 
+//Définition des broches RFID
+#define PIN_RFID_RST 49 // Pin for the reset of the MFRC522
+#define PIN_RFID_SS 53  // Pin for the slave select of the MFRC522
+#define PIN_RFID_SCK 52 // Pin for the SCK of the MFRC522
+#define PIN_RFID_MOSI 51 // Pin for the MOSI of the MFRC522
+#define PIN_RFID_MISO 50 // Pin for the MISO of the MFRC522
+
+
 // Déclaration des variables globales (définies dans main.cpp)
 extern StateMachine machine;
 extern Button bouton;
@@ -78,6 +90,8 @@ extern UltraSonicDistanceSensor ultrasonicSensor4;
 extern DFRobot_TCS34725 tcs;
 extern L298NX2 moteur;
 extern byte *RFID;
+extern byte *bufferMain;
+extern byte &bufferSizeMain;
 extern float urielBG1; // Vitesse du moteur avant
 extern float urielBG2; // Vitesse du moteur reculer
 
