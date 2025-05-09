@@ -38,7 +38,7 @@ void setup() {
   Serial.begin(9600);
   SPI.begin();
   mfrc522.PCD_Init();
-  connexion();
+  //connexion();
   
 
   Serial.println("Démarrage de la machine d'état");
@@ -52,7 +52,7 @@ void setup() {
   etatAttente->addTransition(&transition_Attente_Action, etatAction);
   etatAction->addTransition(&transition_Action_Final, etatFinal);
   etatFinal->addTransition(&transition_Final_Initial, etatInitial);
-  
+
   // Démarrer la machine dans l'état initial
   //machine.run();
 }
@@ -81,7 +81,7 @@ void loop() {
       }
       Serial.println();
     }
-    Serial.println("Listes des noeuds :");
+    // Serial.println("Listes des noeuds :");
     nodes = matrixToNodes(matriceDecode);
     for (int j = 0; j < 36; j++){
       Serial.print("Noeud ");
@@ -115,22 +115,22 @@ void loop() {
         startNode[4] = nodes[j][4];
         startNode[5] = nodes[j][5];
         startNode[6] = nodes[j][6];
-        Serial.print("Noeud de depart ");
-        Serial.print(nodes[j][0]);
-        Serial.print(" : ");
-        Serial.print(nodes[j][1]);
-        Serial.print(" ");
-        Serial.print(nodes[j][2]);
-        Serial.print(" ");
-        Serial.print(nodes[j][3]);
-        Serial.print(" ");
-        Serial.print(nodes[j][4]);
-        Serial.print(" ");
-        Serial.print(nodes[j][5]);
-        Serial.print(" ");
-        Serial.print(nodes[j][6]);
-        Serial.print(" ");
-        Serial.println(nodes[j][7]);
+        // Serial.print("Noeud de depart ");
+        // Serial.print(nodes[j][0]);
+        // Serial.print(" : ");
+        // Serial.print(nodes[j][1]);
+        // Serial.print(" ");
+        // Serial.print(nodes[j][2]);
+        // Serial.print(" ");
+        // Serial.print(nodes[j][3]);
+        // Serial.print(" ");
+        // Serial.print(nodes[j][4]);
+        // Serial.print(" ");
+        // Serial.print(nodes[j][5]);
+        // Serial.print(" ");
+        // Serial.print(nodes[j][6]);
+        // Serial.print(" ");
+        // Serial.println(nodes[j][7]);
       }
       if (nodes[j][3] == 2) { // Noeud d'arrivée
         goalNode[0] = nodes[j][0];
@@ -140,35 +140,36 @@ void loop() {
         goalNode[4] = nodes[j][4];
         goalNode[5] = nodes[j][5];
         goalNode[6] = nodes[j][6];
-        Serial.print("Noeud d'arriver ");
-        Serial.print(nodes[j][0]);
-        Serial.print(" : ");
-        Serial.print(nodes[j][1]);
-        Serial.print(" ");
-        Serial.print(nodes[j][2]);
-        Serial.print(" ");
-        Serial.print(nodes[j][3]);
-        Serial.print(" ");
-        Serial.print(nodes[j][4]);
-        Serial.print(" ");
-        Serial.print(nodes[j][5]);
-        Serial.print(" ");
-        Serial.print(nodes[j][6]);
-        Serial.print(" ");
-        Serial.println(nodes[j][7]);
+        // Serial.print("Noeud d'arriver ");
+        // Serial.print(nodes[j][0]);
+        // Serial.print(" : ");
+        // Serial.print(nodes[j][1]);
+        // Serial.print(" ");
+        // Serial.print(nodes[j][2]);
+        // Serial.print(" ");
+        // Serial.print(nodes[j][3]);
+        // Serial.print(" ");
+        // Serial.print(nodes[j][4]);
+        // Serial.print(" ");
+        // Serial.print(nodes[j][5]);
+        // Serial.print(" ");
+        // Serial.print(nodes[j][6]);
+        // Serial.print(" ");
+        // Serial.println(nodes[j][7]);
       }
     }
-
+        
     // Appeler la fonction A* et afficher les résultats
     //int** chemin = aStar(matriceDecode, startNode, goalNode);
     // Reconstruire et afficher le chemin parcouru
-    int* cheminReconstruit = path( dijkstra(matriceDecode, goalNode), startNode, goalNode);
-    Serial.println("Chemin parcouru :");
-    for (int j = 0; cheminReconstruit[j] != -1; j++) {
-      Serial.print(cheminReconstruit[j]);
-      Serial.print(" ");
-    }
-    Serial.println();
+
+    int* cheminReconstruit = path( dijkstra(nodes, startNode), startNode, goalNode);
+    // Serial.println("Chemin parcouru :");
+    // for (int j = 0; 36; j++) {
+    //   Serial.print(dijkstra(matriceDecode, startNode)[j]);
+    //   Serial.print(" ");
+    // }
+    // Serial.println();
 
     // Libérer la mémoire allouée pour le chemin reconstruit
     free(cheminReconstruit);
@@ -178,7 +179,7 @@ void loop() {
     free(nodes); // Libérer la mémoire allouée
     free(matriceDecode); // Libérer la mémoire allouée
     i++;
-    viewColor();
+    //viewColor();
   }
   
   // Petit délai pour éviter une utilisation excessive du CPU

@@ -5,7 +5,7 @@
 // Constructeur par défaut
 void connexion() 
 {
-  Serial.begin(115200);
+  //Serial.begin(115200);
   Serial.println("Color View Test!");
 
   while(!tcs.begin())

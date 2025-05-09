@@ -64,8 +64,25 @@ int* dijkstra(int** nodes, int start[]) {
             prev[i] = -1; // Initialiser les noeuds précédents à -1
             priorityQueue[i] = 256; // Initialiser la file de priorité
         }
-
     }
+    // for (int j = 0; j < 36; j++){
+    //     Serial.print("Noeud ");
+    //     Serial.print(nodes[j][0]);
+    //     Serial.print(" : ");
+    //     Serial.print(nodes[j][1]);
+    //     Serial.print(" ");
+    //     Serial.print(nodes[j][2]);
+    //     Serial.print(" ");
+    //     Serial.print(nodes[j][3]);
+    //     Serial.print(" ");
+    //     Serial.print(nodes[j][4]);
+    //     Serial.print(" ");
+    //     Serial.print(nodes[j][5]);
+    //     Serial.print(" ");
+    //     Serial.print(nodes[j][6]);
+    //     Serial.print(" ");
+    //     Serial.println(nodes[j][7]);
+    //   }
     while (true){
         int isPriorityQueueEmpty = 1;
         for (int i = 0; i < 36; i++){
@@ -85,18 +102,19 @@ int* dijkstra(int** nodes, int start[]) {
                 if (priorityQueue[i] != 256 && dist[i] < minDistance) {
                     minDistance = dist[i];
                     currentNode = i;
-                    priorityQueue[i] = 256; // Marquer le noeud comme visité
+                    
                 }
             }
-            int neighbor1 = currentNode - 1;
-            int neighbor2 = currentNode + 1;
-            int neighbor3 = currentNode - 6;
-            int neighbor4 = currentNode + 6;
-            if (neighbor1 < 0)
+            priorityQueue[currentNode] = 256; // Marquer le noeud comme visité
+            int neighbor1 = currentNode - 1; // Noeud à gauche
+            int neighbor2 = currentNode + 1; // Noeud à droite
+            int neighbor3 = currentNode - 6; // Noeud en haut
+            int neighbor4 = currentNode + 6; // Noeud en bas
+            if (neighbor1 < 0 || currentNode % 6 - 1 < 0) // Noeud inaccessible
             {
-            neighbor1 = -1;
+                neighbor1 = -1;
             }
-            if (neighbor2 > 35)
+            if (neighbor2 > 35 || currentNode % 6 + 1 > 5) // Noeud inaccessible
             {
                 neighbor2 = -1;
             }
@@ -108,19 +126,37 @@ int* dijkstra(int** nodes, int start[]) {
             {
                 neighbor4 = -1;
             }
-            if (nodes[neighbor1][4] == 1 && neighbor1 != -1) {
-                neighbor1 = -1; // Noeud inaccessible
+            if (neighbor1 != -1) {
+                if (nodes[neighbor1][5] == 1){
+                    neighbor1 = -1; // Noeud inaccessible
+                }
             }
-            if (nodes[neighbor2][5] == 1 && neighbor2 != -1) {
-                neighbor2 = -1; // Noeud inaccessible
+            if (neighbor2 != -1) {
+                if (nodes[neighbor2][4] == 1){
+                    neighbor2 = -1; // Noeud inaccessible
+                }
             }
-            if (nodes[neighbor3][6] == 1 && neighbor3 != -1) {
-                neighbor3 = -1; // Noeud inaccessible
+            if (neighbor3 != -1) {
+                if (nodes[neighbor3][7] == 1){
+                    neighbor3 = -1; // Noeud inaccessible
+                }
             }
-            if (nodes[neighbor4][7] == 1 && neighbor4 != -1) {
-                neighbor4 = -1; // Noeud inaccessible
+            if (neighbor4 != -1) {
+                if (nodes[neighbor4][6] == 1){
+                    neighbor4 = -1; // Noeud inaccessible
+                }
             }
             int neighbors[4] = { neighbor1, neighbor2, neighbor3, neighbor4 };
+            // Serial.print("Noeud courant : ");
+            // Serial.print(currentNode);
+            // Serial.print(" , Neigbors : ");
+            // for (int i = 0; i < 4; i++){
+            //     Serial.print(neighbors[i]);
+            //     Serial.print(" : ");
+            //     Serial.print(nodes[neighbors[i]][4+i]);
+            //     Serial.print(" , ");
+            // }
+            // Serial.println(" ");
             for (int i = 0; i < 4; i++) {
                 if (neighbors[i] != -1 ) {
                     int neighborNode = neighbors[i];
