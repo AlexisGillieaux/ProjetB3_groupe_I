@@ -15,7 +15,7 @@ int i = 0;
 StateMachine machine = StateMachine();
 Button bouton(PIN_BOUTON);
 unsigned long tempsDebut = 0;
-MFRC522 mfrc522(PIN_SS, PIN_RST);
+//MFRC522 mfrc522(PIN_SS, PIN_RST);
 UltraSonicDistanceSensor ultrasonicSensor1(PIN_TRIGGER_1, PIN_ECHO_1);
 UltraSonicDistanceSensor ultrasonicSensor2(PIN_TRIGGER_2, PIN_ECHO_2);
 UltraSonicDistanceSensor ultrasonicSensor3(PIN_TRIGGER_3, PIN_ECHO_3);
