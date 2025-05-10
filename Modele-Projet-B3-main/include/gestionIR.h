@@ -8,5 +8,8 @@
 
 
 
-void setupIR() ;
+
+void setupReceiveIR() ;
 void printReceivedIR() ;
+void setupSendIR() ;
+void printSendIR() ;
