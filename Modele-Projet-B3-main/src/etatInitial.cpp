@@ -1,4 +1,5 @@
 #include "etatInitial.h"
+#include "gestionIR.h"
 
 /**
  * Fonction exécutée pendant l'état initial
@@ -13,9 +14,10 @@ void EtatInitial() {
   }
   
   // Mettre à jour l'état du bouton
+  printReceivedIR();
   bouton.read();
 }
-
+ 
 /**
  * Fonction de transition de l'état initial vers l'état d'attente
  * @param aucun

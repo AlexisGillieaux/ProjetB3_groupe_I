@@ -6,6 +6,8 @@
 #include "matrice.h"
 #include "algo.h"
 #include "gestionRGB.h"
+#include <IRremote.hpp>
+#include "IR.h"
 
 
 // Définition des variables globales
