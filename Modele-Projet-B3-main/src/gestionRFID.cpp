@@ -18,9 +18,10 @@ void rfid_init() {
     mfrc522.PCD_Init(); //
     Serial.println("Scan PICC to see UID and type...");
  
-    for (byte i = 0; i < 6; i++) {
+    for (byte i = 0; i < 6; i++) 
+    {
         key.keyByte[i] = 0xFF;
-      }
+    }
 }
  
  
