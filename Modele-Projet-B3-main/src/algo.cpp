@@ -65,25 +65,26 @@ int* dijkstra(int** nodes, int start[]) {
             priorityQueue[i] = 256; // Initialiser la file de priorité
         }
     }
-    // for (int j = 0; j < 36; j++){
-    //     Serial.print("Noeud ");
-    //     Serial.print(nodes[j][0]);
-    //     Serial.print(" : ");
-    //     Serial.print(nodes[j][1]);
-    //     Serial.print(" ");
-    //     Serial.print(nodes[j][2]);
-    //     Serial.print(" ");
-    //     Serial.print(nodes[j][3]);
-    //     Serial.print(" ");
-    //     Serial.print(nodes[j][4]);
-    //     Serial.print(" ");
-    //     Serial.print(nodes[j][5]);
-    //     Serial.print(" ");
-    //     Serial.print(nodes[j][6]);
-    //     Serial.print(" ");
-    //     Serial.println(nodes[j][7]);
-    //   }
+    for (int j = 0; j < 36; j++){
+        Serial.print("Noeud ");
+        Serial.print(nodes[j][0]);
+        Serial.print(" : ");
+        Serial.print(nodes[j][1]);
+        Serial.print(" ");
+        Serial.print(nodes[j][2]);
+        Serial.print(" ");
+        Serial.print(nodes[j][3]);
+        Serial.print(" ");
+        Serial.print(nodes[j][4]);
+        Serial.print(" ");
+        Serial.print(nodes[j][5]);
+        Serial.print(" ");
+        Serial.print(nodes[j][6]);
+        Serial.print(" ");
+        Serial.println(nodes[j][7]);
+      }
     while (true){
+        Serial.print("rentrée dans la boucle");
         int isPriorityQueueEmpty = 1;
         for (int i = 0; i < 36; i++){
             if (priorityQueue[i] != 256){

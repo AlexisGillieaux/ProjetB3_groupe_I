@@ -164,12 +164,12 @@ void loop() {
     // Reconstruire et afficher le chemin parcouru
 
     int* cheminReconstruit = path( dijkstra(nodes, startNode), startNode, goalNode);
-    // Serial.println("Chemin parcouru :");
-    // for (int j = 0; 36; j++) {
-    //   Serial.print(dijkstra(matriceDecode, startNode)[j]);
-    //   Serial.print(" ");
-    // }
-    // Serial.println();
+    Serial.println("Chemin parcouru :");
+    for (int j = 0; 36; j++) {
+      Serial.print(dijkstra(matriceDecode, startNode)[j]);
+      Serial.print(" ");
+    }
+    Serial.println();
 
     // Libérer la mémoire allouée pour le chemin reconstruit
     free(cheminReconstruit);
