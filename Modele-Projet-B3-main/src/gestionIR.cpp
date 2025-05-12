@@ -46,149 +46,6 @@
 // Initialisation des objets pour l'émetteur et le récepteur IR
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Émetteur IR
 
 // Fonction pour initialiser le récepteur IR
@@ -217,7 +74,8 @@ void sendIRData(uint16_t address, uint8_t command, uint8_t repeats) {
 }
 
 // Fonction pour recevoir des données IR
-void receiveIRData() {
+void receiveIRData() 
+{
     if (IrReceiver.decode()) { // Vérifier si des données IR ont été reçues
         Serial.print(F("Données IR reçues : Protocole="));
         Serial.print(getProtocolString(IrReceiver.decodedIRData.protocol));
@@ -227,5 +85,8 @@ void receiveIRData() {
         Serial.println(IrReceiver.decodedIRData.command, HEX);
 
         IrReceiver.resume(); // Préparer la réception des prochaines données
+    }
+    else {
+        Serial.println(F("Aucun signal IR reçu.")); // Message si aucun signal n'est reçu
     }
 }
