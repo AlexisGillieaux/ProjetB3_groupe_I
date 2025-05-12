@@ -3,7 +3,9 @@
 // ces lignes permettent d'éviter les inclusions multiples
 #ifndef CONFIG_H
 #define CONFIG_H 
-
+#define DECODE_NEC 
+#define EXCLUDE_EXOTIC_PROTOCOLS
+#define RAW_BUFFER_LENGTH  20
 
 
 #include <Arduino.h>
@@ -22,6 +24,7 @@
 #include <L298NX2.h>    // Librairie pour le module de contrôle de moteur L298N (version 2 moteurs)
 #include <Wire.h> // Librairie pour la communication I2C
 #include <math.h>
+
 
 
 // le mot clé #define permet de définir des constantes, les valeurs seront effectivement remplacées
