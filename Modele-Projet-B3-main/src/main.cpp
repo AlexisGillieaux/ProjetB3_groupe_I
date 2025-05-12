@@ -9,6 +9,7 @@
 #include <IRremote.hpp>
 #include "IR.h"
 #include "gestionRFID.h"
+#include <gestionIR.h>
 
 
 // Définition des variables globales
@@ -37,12 +38,14 @@ State* etatAction = machine.addState(&EtatAction);
 State* etatFinal = machine.addState(&EtatFinal);
 
 void setup() {
-  // Initialisation de la communication série
-  // Serial.begin(9600);
-  // SPI.begin();
+   //Initialisation de la communication série
+   Serial.begin(9600);
+   SPI.begin();
   // mfrc522.PCD_Init();
   //connexion();
-  rfid_init();
+  //rfid_init();
+  setupReceiveIR();   // Initialiser le récepteur IR
+  
   
   
 
@@ -63,9 +66,15 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("Initialisation du capteur de couleur");
+  //delay(5000);
+  //setupReceiveIR();
+  delay(2000); // Attendre 2 secondes avant d'envoyer à nouveau
 
-  rfidddd();
+    // Exemple de réception de données IR
+    receiveIRData();
+  //Serial.println("Initialisation du capteur de couleur");
+
+  //rfidddd();
   // Mettre à jour la machine d'état
   //machine.run();
   // if (i ==0){
