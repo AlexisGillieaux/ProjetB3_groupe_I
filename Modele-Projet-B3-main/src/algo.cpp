@@ -65,26 +65,27 @@ int* dijkstra(int** nodes, int start[]) {
             priorityQueue[i] = 256; // Initialiser la file de priorité
         }
     }
-    for (int j = 0; j < 36; j++){
-        Serial.print("Noeud ");
-        Serial.print(nodes[j][0]);
-        Serial.print(" : ");
-        Serial.print(nodes[j][1]);
-        Serial.print(" ");
-        Serial.print(nodes[j][2]);
-        Serial.print(" ");
-        Serial.print(nodes[j][3]);
-        Serial.print(" ");
-        Serial.print(nodes[j][4]);
-        Serial.print(" ");
-        Serial.print(nodes[j][5]);
-        Serial.print(" ");
-        Serial.print(nodes[j][6]);
-        Serial.print(" ");
-        Serial.println(nodes[j][7]);
-      }
+
+    // for (int j = 0; j < 36; j++){
+    //     Serial.print("Noeud ");
+    //     Serial.print(nodes[j][0]);
+    //     Serial.print(" : ");
+    //     Serial.print(nodes[j][1]);
+    //     Serial.print(" ");
+    //     Serial.print(nodes[j][2]);
+    //     Serial.print(" ");
+    //     Serial.print(nodes[j][3]);
+    //     Serial.print(" ");
+    //     Serial.print(nodes[j][4]);
+    //     Serial.print(" ");
+    //     Serial.print(nodes[j][5]);
+    //     Serial.print(" ");
+    //     Serial.print(nodes[j][6]);
+    //     Serial.print(" ");
+    //     Serial.println(nodes[j][7]);
+    //   }
     while (true){
-        Serial.print("rentrée dans la boucle");
+        // Serial.print("rentrée dans la boucle");
         int isPriorityQueueEmpty = 1;
         for (int i = 0; i < 36; i++){
             if (priorityQueue[i] != 256){
@@ -92,7 +93,15 @@ int* dijkstra(int** nodes, int start[]) {
                 break;
             }
         }
+
+        
         if (isPriorityQueueEmpty == 1){
+            Serial.print("Prev :");
+            for (int i = 0; i < 36; i++){
+                Serial.print(prev[i]);
+                Serial.print(" ");
+            }
+            Serial.println(" ");
             return prev; // Si la file de priorité est vide, sortir de la boucle
         }
         else{
@@ -106,6 +115,14 @@ int* dijkstra(int** nodes, int start[]) {
                     
                 }
             }
+            // Serial.print("Noeud courant : ");
+            // Serial.println(currentNode);
+            // Serial.print("PriorityQueue : ");
+            // for (int i = 0; i < 36; i++){
+            //     Serial.print(priorityQueue[i]);
+            //     Serial.print(" ");
+            // }
+            // Serial.println(" ");
             priorityQueue[currentNode] = 256; // Marquer le noeud comme visité
             int neighbor1 = currentNode - 1; // Noeud à gauche
             int neighbor2 = currentNode + 1; // Noeud à droite
@@ -166,12 +183,19 @@ int* dijkstra(int** nodes, int start[]) {
                         dist[neighborNode] = alt;
                         prev[neighborNode] = currentNode; // Mettre à jour le noeud précédent
                         priorityQueue[neighborNode] = alt; // Ajouter le voisin à la file de priorité
+                        // Serial.print("Noeud voisin : ");
+                        // Serial.print(neighborNode);
+                        // Serial.print(" , Prev : ");
+                        // Serial.print(prev[neighborNode]);
+                        // Serial.print(" , Noeud courrant : ");
+                        // Serial.println(currentNode);
                     }
                 }
             }
         }
     }
 }
+//path est encore problematique : à retravailler
 int* path (int* prev,int goal[], int start[]){
     int reversedPath[36];
     int pathSize = 0;
