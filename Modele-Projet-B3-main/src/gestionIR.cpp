@@ -1,24 +1,82 @@
 #include "config.h"
 #include "gestionIR.h"
 #include <IRremote.h>
-// void setupReceiveIR() {
-//     IrReceiver.begin(PIN_IR_RECV, DISABLE_LED_FEEDBACK);
-//     Serial.println(F("Réception infrafouge prête, protocole : "));
-//     printActiveIRProtocols(&Serial);
-//     Serial.println();
-// }
+
+
+void setupIR_upload(){
+    IrSender.begin(PIN_IR_SEND);
+    Serial.println(F("Envoi infrarouge prêt, protocole : "));
+    printActiveIRProtocols(&Serial);
+    Serial.println();
+}
+
+void IR_upload(){
+    digitalWrite(13, HIGH);
+    delay(100);
+    //digitalWrite(13, LOW);
+    delay(100);
     
-// void printReceivedIR() {
-//     setupReceiveIR();
-//     Serial.println(F("En attente d'une trame infrarouge"));
-//         Serial.println();
-//         IrReceiver.enableIRIn();  // Start the receiver
-//         Serial.println(F("Trame infrarouge reçue"));
-//         IrReceiver.start();
-//         IrReceiver.printIRResultShort(&Serial);
-//         IrReceiver.resume();  // Enable receiving of the next value
-//     Serial.println(F("Trame infrarouge reçue"));
-// }
+    Serial.println(F("Envoi infrarouge"));
+    Serial.println(F("Envoi de la trame : 0xC837FF00"));
+        Serial.println(F("Envoi de la trame : 0xC837FF00"));
+        Serial.println(F("Envoi de la trame : 0xC837FF00"));
+        IrSender.sendNEC(0xCB34FF00, 32, 0);
+        //; // Attendre avant d'envoyer la prochaine trame
+       // 0xC837FF00*/
+        IrSender.sendNEC(0xCC33FE01, 32, 0);
+        delay(DELAI_ATTENTE);
+        
+    }
+    // void setupIR() {
+    //     IrReceiver.begin(PIN_IR_RECV, DISABLE_LED_FEEDBACK);
+    //     Serial.println(F("Réception infrafouge prête, protocole : "));
+    //     printActiveIRProtocols(&Serial);
+    //     Serial.println();
+    // }
+    
+    // void printReceivedIR() 
+    // { setupIR();
+    //     //setupReceiveIR();
+    //     Serial.println(F("En attente d'une trame infrarouge"));
+    //     Serial.println();
+    //     IrReceiver.enableIRIn();  // Start the receiver
+    //     if (IrReceiver.decode()) {
+    //         Serial.println("testtest");
+    //         IrReceiver.printIRResultShort(&Serial);
+    //         IrReceiver.resume();  // Enable receiving of the next value
+    //         Serial.println(F("Trame infrarouge reçue"));
+    //     }
+   
+    // }
+    
+    void setupReceiveIR() 
+    {
+    
+        IrReceiver.begin(PIN_IR_RECV, DISABLE_LED_FEEDBACK);
+        Serial.println(F("Réception infrafouge prête, protocole : "));
+        printActiveIRProtocols(&Serial);
+        Serial.println();
+    }
+    
+    void printReceivedIR() 
+    {
+        //setupReceiveIR();
+        if(IrReceiver.decode()) {
+           
+        
+        Serial.println(F("En attente d'une trame infrarouge"));
+        Serial.println();
+        IrReceiver.enableIRIn();  // Start the receiver
+        Serial.println(F("Trame infrarouge reçue"));
+        IrReceiver.start();
+        IrReceiver.printIRResultShort(&Serial);
+        IrReceiver.resume();  // Enable receiving of the next value
+        Serial.println(F("Trame infrarouge reçue"));
+        }
+        else {
+            Serial.println(F("Aucune trame infrarouge reçue"));
+        }
+    }
 // void setupSendIR() {
 //     IrSender.begin(18,PIN_IR_SEND, ENABLE_LED_FEEDBACK);
 //     Serial.println(F("Envoi infrarouge prêt"));
@@ -91,42 +149,3 @@
 //     //     Serial.println(F("Aucun signal IR reçu.")); // Message si aucun signal n'est reçu
 //     // }
 // }
-void setupIR_upload(){
-IrSender.begin(PIN_IR_SEND);
-Serial.println(F("Envoi infrarouge prêt, protocole : "));
-printActiveIRProtocols(&Serial);
-Serial.println();
-}
- 
-void IR_upload(){
-    digitalWrite(13, HIGH);
-    delay(100);
-    //digitalWrite(13, LOW);
-    delay(100);
- 
-    Serial.println(F("Envoi infrarouge"));
-    Serial.println(F("Envoi de la trame : 0xC837FF00"));
-    Serial.println(F("Envoi de la trame : 0xC837FF00"));
-    Serial.println(F("Envoi de la trame : 0xC837FF00"));
-    IrSender.sendNEC(0xCB34FF00, 32, 0);
-    //; // Attendre avant d'envoyer la prochaine trame
-   // 0xC837FF00*/
-    IrSender.sendNEC(0xCC33FE01, 32, 0);
-    delay(DELAI_ATTENTE);
- 
-}
-void setupIR() {
-    IrReceiver.begin(PIN_IR_RECV, DISABLE_LED_FEEDBACK);
-    Serial.println(F("Réception infrafouge prête, protocole : "));
-    printActiveIRProtocols(&Serial);
-    Serial.println();
-}
-   
-void printReceivedIR() {
-//Serial.println("test");
-    if (IrReceiver.decode()) {
-        Serial.println("testtest");
-        IrReceiver.printIRResultShort(&Serial);
-        IrReceiver.resume();  // Enable receiving of the next value
-    }
-}

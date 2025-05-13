@@ -26,5 +26,6 @@ void setupIR_upload();
 // Fonctions pour envoyer et recevoir des données IR
 void printReceivedIR();
 void IR_upload();
+void setupReceiveIR();
 
 #endif // GESTION_IR_H

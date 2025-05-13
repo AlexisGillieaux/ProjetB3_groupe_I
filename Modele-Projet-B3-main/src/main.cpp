@@ -51,7 +51,10 @@ void setup() {
   
   // Configuration des broches
   pinMode(PIN_LED, OUTPUT);
+  // setupIR_upload();
+  setupReceiveIR();
   setupIR_upload();
+  
   // Configuration des transitions
   etatInitial->addTransition(&transition_Initial_Attente, etatAttente);
   etatAttente->addTransition(&transition_Attente_Action, etatAction);
@@ -63,10 +66,12 @@ void setup() {
 }
 
 void loop() {
+  delay(1000);
   printReceivedIR();
-  delay(5000);
- IR_upload();
- delay(5000);
+  IR_upload();
+  //delay(5000);
+ //IR_upload();
+ //delay(5000);
 
   //Serial.println("Initialisation du capteur de couleur");
 
