@@ -20,11 +20,11 @@
 
 
 // Initialisation de l'émetteur et du récepteur IR
-void setupReceiveIR();
-void setupSendIR();
+void setupIR();
+void setupIR_upload();
 
 // Fonctions pour envoyer et recevoir des données IR
-void sendIRData(uint16_t address, uint8_t command, uint8_t repeats);
-void receiveIRData();
+void printReceivedIR();
+void IR_upload();
 
 #endif // GESTION_IR_H

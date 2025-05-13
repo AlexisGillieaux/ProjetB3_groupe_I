@@ -51,9 +51,7 @@ void setup() {
   
   // Configuration des broches
   pinMode(PIN_LED, OUTPUT);
-  setupReceiveIR();
-  // Pas besoin de configurer PIN_BOUTON car la librairie Button s'en charge
-  
+  setupIR_upload();
   // Configuration des transitions
   etatInitial->addTransition(&transition_Initial_Attente, etatAttente);
   etatAttente->addTransition(&transition_Attente_Action, etatAction);
@@ -65,7 +63,11 @@ void setup() {
 }
 
 void loop() {
-  receiveIRData();
+  printReceivedIR();
+  delay(5000);
+ IR_upload();
+ delay(5000);
+
   //Serial.println("Initialisation du capteur de couleur");
 
   //rfidddd();
