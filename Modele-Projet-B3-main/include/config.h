@@ -88,5 +88,19 @@ extern UltraSonicDistanceSensor ultrasonicSensor4;
 extern DFRobot_TCS34725 tcs;
 extern L298NX2 moteur;
 extern byte *RFID;
+// Variables globales
+extern uint32_t signalEndingWith0 = 0;
+extern uint32_t signalEndingWith1 = 0; // Signal se terminant par 1
+extern bool isSignalEndingWith0Valid = false;
+extern bool isSignalEndingWith1Valid = false;
+extern uint32_t signalEndingWith0;
+extern uint32_t signalEndingWith1;
+extern bool isSignalEndingWith0Valid;
+extern bool isSignalEndingWith1Valid;
+ 
+extern unsigned long lastSignalTime0; // Temps du dernier signal se terminant par 0
+extern unsigned long lastSignalTime1; // Temps du dernier signal se terminant par 1
+extern unsigned long timeBetween0And1; // Temps entre un signal se terminant par 0 et un signal se terminant par 1
+extern unsigned long timeBetween1And0; // Temps entre un signal se terminant par 1 et un signal se terminant par 0
 
 #endif

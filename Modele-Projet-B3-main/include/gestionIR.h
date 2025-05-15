@@ -28,4 +28,11 @@ void printReceivedIR();
 void IR_upload();
 void setupReceiveIR();
 
+ 
+ 
+void setupIR() ;
+void printReceivedIR() ;
+
+ 
+
 #endif // GESTION_IR_H

@@ -52,9 +52,8 @@ void setup() {
   // Configuration des broches
   pinMode(PIN_LED, OUTPUT);
   // setupIR_upload();
-  setupReceiveIR();
-  setupIR_upload();
-  
+  setupIR();
+    setupIR_upload();
   // Configuration des transitions
   etatInitial->addTransition(&transition_Initial_Attente, etatAttente);
   etatAttente->addTransition(&transition_Attente_Action, etatAction);
@@ -66,12 +65,14 @@ void setup() {
 }
 
 void loop() {
-  delay(1000);
-  printReceivedIR();
-  IR_upload();
-  //delay(5000);
- //IR_upload();
- //delay(5000);
+  // Vérifier et stocker les signaux reçus
+    printReceivedIR();
+ 
+    // Activer IR_upload uniquement si les deux mémoires contiennent des valeurs valides
+    if (isSignalEndingWith0Valid && isSignalEndingWith1Valid) 
+    {
+        IR_upload();
+    }
 
   //Serial.println("Initialisation du capteur de couleur");
 
