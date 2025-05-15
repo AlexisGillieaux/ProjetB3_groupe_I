@@ -2,6 +2,13 @@
 #include <gestionUltrason.h>
 #include <gestionRGB.h> 
 
+
+int ultrasonDroite = 0;
+int ultrasonGauche = 0;
+int ultrasonAvant = 0;
+int ultrasonArriere = 0;
+float colorReel[3] = {0};
+float colorDetecte[3] = {0};
 // Constructeur par défaut
 void EnAvant() 
 {

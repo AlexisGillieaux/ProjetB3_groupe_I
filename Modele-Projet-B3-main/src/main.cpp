@@ -10,6 +10,8 @@
 #include "IR.h"
 #include "gestionRFID.h"
 #include <gestionIR.h>
+#include "mainDroite.h"
+#include "pid_controller.h"
 
 
 // Définition des variables globales
@@ -31,19 +33,22 @@ int** nodes = (int**)malloc(36*sizeof(int*));
 
 
 
+
 // Création des états
 State* etatInitial = machine.addState(&EtatInitial);
 State* etatAttente = machine.addState(&EtatAttente);
 State* etatAction = machine.addState(&EtatAction);
 State* etatFinal = machine.addState(&EtatFinal);
 
-void setup() {
+void setup() 
+{
   // Initialisation de la communication série
-   Serial.begin(9600);
-  // SPI.begin();
+    Serial.begin(9600);
+  //  SPI.begin();
   // mfrc522.PCD_Init();
-  //connexion();
-  //rfid_init();
+  // connexion();
+  // rfid_init();
+  //SetTunings(2, 0, 1); // Initialisation des paramètres PID
   
   
 
@@ -52,8 +57,8 @@ void setup() {
   // Configuration des broches
   pinMode(PIN_LED, OUTPUT);
   // setupIR_upload();
-  setupIR();
-    setupIR_upload();
+  // setupIR();
+  //   setupIR_upload();
   // Configuration des transitions
   etatInitial->addTransition(&transition_Initial_Attente, etatAttente);
   etatAttente->addTransition(&transition_Attente_Action, etatAction);
@@ -65,14 +70,15 @@ void setup() {
 }
 
 void loop() {
+  EnAvant();
   // Vérifier et stocker les signaux reçus
-    printReceivedIR();
- 
+    // printReceivedIR();
+    //EnAvant();
     // Activer IR_upload uniquement si les deux mémoires contiennent des valeurs valides
-    if (isSignalEndingWith0Valid && isSignalEndingWith1Valid) 
-    {
-        IR_upload();
-    }
+    // if (isSignalEndingWith0Valid && isSignalEndingWith1Valid) 
+    // {
+    //     IR_upload();
+    // }
 
   //Serial.println("Initialisation du capteur de couleur");
 
@@ -207,5 +213,5 @@ void loop() {
   // }
   
   // Petit délai pour éviter une utilisation excessive du CPU
-  delay(DELAI_BOUCLE_MS);
+  //delay(DELAI_BOUCLE_MS);
 }

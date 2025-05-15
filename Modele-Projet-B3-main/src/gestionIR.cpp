@@ -3,18 +3,14 @@
 #include <IRremote.h>
 #include <string.h> // Pour utiliser strcpy
 
-// Variables globales
+// //Variables globales
 uint32_t signalEndingWith0 = 0;
-uint32_t signalEndingWith1 = 0; // Signal se terminant par 1
+uint32_t signalEndingWith1 = 0;
 bool isSignalEndingWith0Valid = false;
 bool isSignalEndingWith1Valid = false;
  
-// Variables pour mesurer les temps
-unsigned long lastSignalTime0 = 0; // Temps du dernier signal se terminant par 0
-unsigned long lastSignalTime1 = 0; // Temps du dernier signal se terminant par 1
-unsigned long timeBetween0And1 = 0; // Temps entre un signal se terminant par 0 et un signal se terminant par 1
-unsigned long timeBetween1And0 = 0; // Temps entre un signal se terminant par 1 et un signal se terminant par 0
- 
+
+
 void setupIR() {
     IrReceiver.begin(PIN_IR_RECV, DISABLE_LED_FEEDBACK);
     Serial.begin(9600);
