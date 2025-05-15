@@ -13,8 +13,8 @@ float colorDetecte[3] = {0};
 void EnAvant() 
 {
     // Avancer en avant
-    digitalWrite(PIN_AIN1, HIGH); // Activer le moteur A dans le sens avant
-    digitalWrite(PIN_AIN2, LOW);  // Désactiver le moteur A dans le sens arrière
+    digitalWrite(PIN_AIN2, HIGH); // Activer le moteur A dans le sens avant
+    digitalWrite(PIN_AIN1, LOW);  // Désactiver le moteur A dans le sens arrière
     digitalWrite(PIN_BIN1, HIGH); // Activer le moteur B dans le sens avant
     digitalWrite(PIN_BIN2, LOW);  // Désactiver le moteur B dans le sens arrière
 }

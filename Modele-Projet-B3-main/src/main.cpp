@@ -70,7 +70,9 @@ void setup()
 }
 
 void loop() {
-  EnAvant();
+  //
+  //getDistance1();
+  //EnAvant();
   // Vérifier et stocker les signaux reçus
     // printReceivedIR();
     //EnAvant();
