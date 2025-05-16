@@ -70,7 +70,7 @@ void setup()
 }
 
 void loop() {
-  //
+   mainDroite(ultrasonicSensor1.measureDistanceCm(), ultrasonicSensor2.measureDistanceCm(), ultrasonicSensor3.measureDistanceCm(), ultrasonicSensor4.measureDistanceCm());
   //getDistance1();
   //EnAvant();
   // Vérifier et stocker les signaux reçus

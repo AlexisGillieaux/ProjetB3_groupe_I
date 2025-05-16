@@ -42,7 +42,7 @@ void Arret()
     digitalWrite(PIN_BIN1, LOW);  // Désactiver le moteur B dans le sens avant
     digitalWrite(PIN_BIN2, LOW);  // Désactiver le moteur B dans le sens arrière
 }
-void loop(int ultrasonAvant, int ultrasonGauche, int ultrasonArriere, int ultrasonDroite) // Boucle principale
+void mainDroite(int ultrasonAvant, int ultrasonGauche, int ultrasonArriere, int ultrasonDroite) // Boucle principale
 {
     bool fin; // Variable pour contrôler la boucle infinie
     if(colorDetecte[0] == 0 && colorDetecte[1] == 255 && colorDetecte[2] == 0) // Vérifier si le bouton est pressé

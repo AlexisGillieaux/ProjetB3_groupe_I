@@ -11,5 +11,5 @@ extern float colorDetecte[3]; // Tableau pour stocker les valeurs RGB détectée
 void EnAvant();
 void TournerDroite();
 void TournerGauche();
-void loop(int ultrasonAvant, int ultrasonGauche, int ultrasonArriere, int ultrasonDroite); // Boucle principale
+void mainDroite(int ultrasonAvant, int ultrasonGauche, int ultrasonArriere, int ultrasonDroite); // Boucle principale
 void stop(); // Fonction pour arrêter le robot

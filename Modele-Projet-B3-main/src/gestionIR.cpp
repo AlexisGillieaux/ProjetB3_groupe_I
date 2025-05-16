@@ -1,115 +1,145 @@
 #include "config.h"
 #include "gestionIR.h"
-#include <IRremote.h>
-#include <string.h> // Pour utiliser strcpy
-
-// //Variables globales
-uint32_t signalEndingWith0 = 0;
-uint32_t signalEndingWith1 = 0;
-bool isSignalEndingWith0Valid = false;
-bool isSignalEndingWith1Valid = false;
  
-
-
+// Définition de la variable globale
+storedIRDataStruct sStoredIRData0;
+storedIRDataStruct sStoredIRData1;
+ 
 void setupIR() {
-    IrReceiver.begin(PIN_IR_RECV, DISABLE_LED_FEEDBACK);
-    Serial.begin(9600);
-    Serial.println(F("Réception infrarouge prête, protocole : "));
+    IrReceiver.begin(IR_RECV_PIN, ENABLE_LED_FEEDBACK);
+    Serial.print(F("Ready to receive IR signals of protocols: "));
     printActiveIRProtocols(&Serial);
-    Serial.println();
+ 
+    IrSender.begin(); // Start with IR_SEND_PIN -which is defined in PinDefinitionsAndMore.h- as send pin and enable feedback LED at default feedback LED pin
+    Serial.print(IR_SEND_PIN);
+    Serial.println(F(" is pressed."));
+}
+ 
+void storeCode0() {
+   
+    // Vérifier si l'adresse est 0
+    if (IrReceiver.decodedIRData.address != 0) {
+        // Copie des données reçues dans la structure
+        sStoredIRData0.receivedIRData = IrReceiver.decodedIRData;
+        return;
+    }
+ 
+   
+ 
+    if (sStoredIRData0.receivedIRData.protocol == UNKNOWN) {
+        sStoredIRData0.rawCodeLength = IrReceiver.decodedIRData.rawDataPtr->rawlen - 1;
+        IrReceiver.compensateAndStoreIRResultInArray(sStoredIRData0.rawCode);
+        Serial.println(F("Données brutes stockées (adresse 0)."));
+    } else {
+        Serial.println(F("Données IR décodées et stockées (adresse 0)."));
+    }
 }
  
 void printReceivedIR() {
     if (IrReceiver.decode()) {
-        unsigned long currentSignalTime = millis(); // Temps actuel
+        Serial.println();
+        IrReceiver.printIRResultShort(&Serial);
  
-        Serial.println("Signal IR reçu !");
-       
-        // Vérifier si le signal contient exactement 32 bits
-        if (IrReceiver.decodedIRData.numberOfBits != 32) {
-            Serial.print("Signal ignoré : nombre de bits incorrect (");
-            Serial.print(IrReceiver.decodedIRData.numberOfBits);
-            Serial.println(" bits reçus, attendu : 32 bits)");
-            IrReceiver.resume(); // Préparer pour le prochain signal
-            return; // Sortir de la fonction
-        }
+        // Appeler la fonction pour stocker les données
+        storeCode0();
+        storeCode1();
  
-        // Stocker la valeur IR reçue
-        uint32_t receivedValue = IrReceiver.decodedIRData.decodedRawData;
- 
-        // Vérifier si le signal se termine par 0 ou 1
-        if (receivedValue & 0x1) {
-            // Signal se terminant par 1
-            signalEndingWith1 = receivedValue;
-            isSignalEndingWith1Valid = true;
-            Serial.print("Signal se terminant par 1 stocké : 0x");
-            Serial.println(signalEndingWith1, HEX);
- 
-            // Calculer le temps entre le dernier 0 et ce 1
-            if (lastSignalTime0 != 0) {
-                timeBetween0And1 = currentSignalTime - lastSignalTime0;
-                Serial.print("Temps entre 0 et 1 : ");
-                Serial.print(timeBetween0And1);
-                Serial.println(" ms");
-            }
- 
-            lastSignalTime1 = currentSignalTime; // Mettre à jour le temps du dernier signal se terminant par 1
-        } else {
-            // Signal se terminant par 0
-            signalEndingWith0 = receivedValue;
-            isSignalEndingWith0Valid = true;
-            Serial.print("Signal se terminant par 0 stocké : 0x");
-            Serial.println(signalEndingWith0, HEX);
- 
-            // Calculer le temps entre le dernier 1 et ce 0
-            if (lastSignalTime1 != 0) {
-                timeBetween1And0 = currentSignalTime - lastSignalTime1;
-                Serial.print("Temps entre 1 et 0 : ");
-                Serial.print(timeBetween1And0);
-                Serial.println(" ms");
-            }
- 
-            lastSignalTime0 = currentSignalTime; // Mettre à jour le temps du dernier signal se terminant par 0
-        }
- 
-        // Réinitialiser le récepteur pour le prochain signal
-        IrReceiver.resume();
+        IrReceiver.resume();  // Enable receiving of the next value
     }
-}// Déclarations externes des variables globales
-
- 
-#define IR_SEND_PIN 8
- 
-void setupIR_upload() {
-    IrSender.begin(IR_SEND_PIN);
-    Serial.println(F("Envoi infrarouge prêt, protocole : "));
-    printActiveIRProtocols(&Serial);
-    Serial.println();
 }
  
-void IR_upload() {
-    // Réémettre le signal se terminant par 0
-    if (isSignalEndingWith0Valid) {
-        Serial.print(F("Réémission du signal se terminant par 0 : 0x"));
-        Serial.println(signalEndingWith0, HEX);
-        IrSender.sendNEC(signalEndingWith0, 32, 0); // Réémettre le signal
+void sendCode0(storedIRDataStruct *aIRDataToSend) {
+    if (aIRDataToSend->receivedIRData.protocol == UNKNOWN) {
+        Serial.println(F("Envoi des données brutes :"));
+        for (uint8_t i = 0; i < aIRDataToSend->rawCodeLength; i++) {
+            Serial.print(aIRDataToSend->rawCode[i]);
+            Serial.print(F(" "));
+        }
+        Serial.println();
+        IrSender.sendRaw(aIRDataToSend->rawCode, aIRDataToSend->rawCodeLength, 38);
+        Serial.println(F("Données brutes envoyées."));
+    } else {
+        Serial.println(F("Envoi des données IR décodées :"));
+        Serial.print(F("Protocole : "));
+        Serial.println(aIRDataToSend->receivedIRData.protocol);
+        Serial.print(F("Adresse : "));
+        Serial.println(aIRDataToSend->receivedIRData.address, HEX);
+        Serial.print(F("Commande : "));
+        Serial.println(aIRDataToSend->receivedIRData.command, HEX);
+        IrSender.write(&aIRDataToSend->receivedIRData);
+        Serial.println(F("Données IR envoyées."));
+    }
+}
  
-        delay(100); // Pause avant d'envoyer le prochain signal
+void sendCode1(storedIRDataStruct *aIRDataToSend) {
+    if (aIRDataToSend->receivedIRData.protocol == UNKNOWN) {
+        Serial.println(F("Envoi des données brutes :"));
+        for (uint8_t i = 0; i < aIRDataToSend->rawCodeLength; i++) {
+            Serial.print(aIRDataToSend->rawCode[i]);
+            Serial.print(F(" "));
+        }
+        Serial.println();
+        IrSender.sendRaw(aIRDataToSend->rawCode, aIRDataToSend->rawCodeLength, 38);
+        Serial.println(F("Données brutes envoyées."));
+    } else {
+        Serial.println(F("Envoi des données IR décodées :"));
+        Serial.print(F("Protocole : "));
+        Serial.println(aIRDataToSend->receivedIRData.protocol);
+        Serial.print(F("Adresse : "));
+        Serial.println(aIRDataToSend->receivedIRData.address, HEX);
+        Serial.print(F("Commande : "));
+        Serial.println(aIRDataToSend->receivedIRData.command, HEX);
+        IrSender.write(&aIRDataToSend->receivedIRData);
+        Serial.println(F("Données IR envoyées."));
+    }
+}
+void storeCode1() {
+    if (IrReceiver.decodedIRData.rawDataPtr->rawlen < 4) {
+        return;
     }
  
-    // Réémettre le signal se terminant par 1
-    if (isSignalEndingWith1Valid) {
-        Serial.print(F("Réémission du signal se terminant par 1 : 0x"));
-        Serial.println(signalEndingWith1, HEX);
-        IrSender.sendNEC(signalEndingWith1, 32, 0); // Réémettre le signal
+    if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT) {
+        return;
+    }
  
-        delay(50); // Pause avant d'envoyer le prochain signal
+    // Vérifier si l'adresse est 1
+    if (IrReceiver.decodedIRData.address != 1) {
+         // Copie des données reçues dans la structure
+        sStoredIRData1.receivedIRData = IrReceiver.decodedIRData;
+        return;
     }
  
    
-   
+    if (sStoredIRData1.receivedIRData.protocol == UNKNOWN) {
+        sStoredIRData1.rawCodeLength = IrReceiver.decodedIRData.rawDataPtr->rawlen - 1;
+        IrReceiver.compensateAndStoreIRResultInArray(sStoredIRData1.rawCode);
+        Serial.println(F("Données brutes stockées (adresse 1)."));
+    } else {
+        Serial.println(F("Données IR décodées et stockées (adresse 1)."));
+    }
 }
 
+void encoieReceiv()
+{
+    // Vérifier et stocker les signaux reçus
+    printReceivedIR();
+   
+    // Envoyer les données IR uniquement si elles sont valides
+    if (sStoredIRData0.receivedIRData.protocol != UNKNOWN) {
+        Serial.println(F("Envoi des données IR stockées..."));
+        sendCode0(&sStoredIRData0);
+    delay(100);
+    }
+   
+    delay(500);
+    if(sStoredIRData1.receivedIRData.protocol != UNKNOWN) {
+        Serial.println(F("Envoi des données IR stockées..."));
+        sendCode1(&sStoredIRData1);
+    }
+    delay(100);
+   
+   
+}
 
 
 
