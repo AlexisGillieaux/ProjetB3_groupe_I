@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "Modele-Projet-B3-main",
+			"path": "."
+		},
+		{
+			"name": "Voiture_autonome_EquipeC",
+			"path": "../../../../../../Downloads/Voiture_autonome_EquipeC-1/Voiture_autonome_EquipeC"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"new": "cpp"
+		}
+	}
+}
