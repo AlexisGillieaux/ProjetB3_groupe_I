@@ -5,7 +5,7 @@
 #define CONFIG_H 
 #define DECODE_NEC 
 #define EXCLUDE_EXOTIC_PROTOCOLS
-#define RAW_BUFFER_LENGTH  20
+// #define RAW_BUFFER_LENGTH  20
 
 
 #include <Arduino.h>
@@ -38,8 +38,8 @@
 // Définition des broches infrarouges
 #define IR_SEND_PIN 32
 #define IR_RECV_PIN 33
-#define PIN_SS 49
-#define PIN_RST 53
+#define SS_PIN 49
+#define RST_PIN 53
 #define PIN_BUZZER 42
 
 // Définition des broches ultrason
@@ -76,18 +76,12 @@
 #define DELAI_ACTION 5000   // 5 secondes
 #define DELAI_BOUCLE_MS 10 // 10 millisecondes par boucle
 
-// Définition des broches RFID
-#define PIN_RFID_SS 53    // Pin for the SS of the MFRC522
-#define PIN_RFID_RST 49    // Pin for the RST of the MFRC522
-#define PIN_RFID_MOSI 51    // Pin for the RST of the MFRC522
-#define PIN_RFID_MISO 50    // Pin for the RST of the MFRC522
-#define PIN_RFID_SCK 52    // Pin for the RST of the MFRC522
 
 // Infrarouge
 // protocole NEC uniquement pour ce projet
 #define DECODE_NEC
 #define EXCLUDE_EXOTIC_PROTOCOLS
-#define RAW_BUFFER_LENGTH  750
+// #define RAW_BUFFER_LENGTH  750
 
 
 // Déclaration des variables globales (définies dans main.cpp)
@@ -117,7 +111,10 @@ extern unsigned long lastSignalTime1; // Temps du dernier signal se terminant pa
 extern unsigned long timeBetween0And1; // Temps entre un signal se terminant par 0 et un signal se terminant par 1
 extern unsigned long timeBetween1And0; // Temps entre un signal se terminant par 1 et un signal se terminant par 0
 
-
+extern int labyrinthe[13][13];
+extern int data[169];
+extern bool test;
+extern int* pointdata;
 
 
 
