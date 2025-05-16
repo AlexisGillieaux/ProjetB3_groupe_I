@@ -1,8 +1,8 @@
 #include  "config.h"
 #include  "gestionMoteur.h"
 
-double speed1 = 80;
-double speed2 = 40;
+double speed1 = 100;
+double speed2 = 80;
 void setupMoteur() 
 {
     pinMode(PIN_AIN1, OUTPUT); // Configurer la broche AIN1 comme sortie
@@ -15,11 +15,12 @@ void setupMoteur()
     analogWrite(PIN_BIN2, 0); // Initialiser la broche BIN2 à 0
 }
 void Avancer() 
-{       
-    analogWrite(PIN_AIN1, speed1); // Vitesse du moteur avant
-    analogWrite(PIN_AIN2, 0); // Vitesse du moteur avant
+{  
+    analogWrite(PIN_AIN1, 0); // Vitesse du moteur avant
+    analogWrite(PIN_AIN2, speed2); // Vitesse du moteur avant
     analogWrite(PIN_BIN1, speed1); // Vitesse du moteur avant
-    analogWrite(PIN_BIN2, 0); // Vitesse du moteur avant
+    analogWrite(PIN_BIN2, 0); // Vitesse du moteur avant     
+    
     // // Avancer à une vitesse de 300
     // moteur.setSpeedA(speed1); // Vitesse du moteur avant
     // moteur.setSpeedB(speed2); // Vitesse du moteur avant
@@ -29,10 +30,11 @@ void Avancer()
 }
 void Reculer() 
 {
-    analogWrite(PIN_AIN1, 0); // Vitesse du moteur reculer
-    analogWrite(PIN_AIN2, speed2); // Vitesse du moteur reculer
-    analogWrite(PIN_BIN1, 0); // Vitesse du moteur reculer
-    analogWrite(PIN_BIN2, speed2); // Vitesse du moteur reculer
+   
+    analogWrite(PIN_AIN1, speed1); // Vitesse du moteur avant
+    analogWrite(PIN_AIN2, 0); // Vitesse du moteur avant
+    analogWrite(PIN_BIN1, 0); // Vitesse du moteur avant
+    analogWrite(PIN_BIN2, speed2); // Vitesse du moteur avant
     // Reculer à une vitesse de 50
     // moteur.setSpeedA(speed1); // Vitesse du moteur reculer
     // moteur.backwardA(); // Reculer
@@ -43,9 +45,9 @@ void Reculer()
 }
 void tournerGauche() 
 {
-    analogWrite(PIN_AIN1, 0); // Vitesse du moteur avant
-    analogWrite(PIN_AIN2, speed1); // Vitesse du moteur avant
-    analogWrite(PIN_BIN1, speed2); // Vitesse du moteur avant
+    analogWrite(PIN_AIN1, speed1); // Vitesse du moteur avant
+    analogWrite(PIN_AIN2, 0); // Vitesse du moteur avant
+    analogWrite(PIN_BIN1, speed1); // Vitesse du moteur avant
     analogWrite(PIN_BIN2, 0); // Vitesse du moteur avant
     // Tourner à gauche à une vitesse de 300
     // moteur.setSpeedA(speed1); // Vitesse du moteur avant
@@ -56,10 +58,10 @@ void tournerGauche()
 }
 void tournerDroite() 
 {
-    analogWrite(PIN_AIN1, speed1); // Vitesse du moteur avant
-    analogWrite(PIN_AIN2, 0); // Vitesse du moteur avant
-    analogWrite(PIN_BIN1, 0); // Vitesse du moteur avant
-    analogWrite(PIN_BIN2, speed2); // Vitesse du moteur avant
+     analogWrite(PIN_AIN1, 0); // Vitesse du moteur reculer
+    analogWrite(PIN_AIN2, speed2); // Vitesse du moteur reculer
+    analogWrite(PIN_BIN1, 0); // Vitesse du moteur reculer
+    analogWrite(PIN_BIN2, speed2); // Vitesse du moteur reculer
     // Tourner à droite à une vitesse de 300
     // moteur.setSpeedA(speed1); // Vitesse du moteur avant
     // moteur.backwardA();// Tourner à droite

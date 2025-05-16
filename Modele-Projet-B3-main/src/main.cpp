@@ -30,9 +30,9 @@ UltraSonicDistanceSensor ultrasonicSensor3(PIN_TRIGGER_3, PIN_ECHO_3);
 UltraSonicDistanceSensor ultrasonicSensor4(PIN_TRIGGER_4, PIN_ECHO_4);
 DFRobot_TCS34725 tcs(&Wire, ADDRESS_TCS34725, TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X);
 L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
-int* matriceNonDecode = (int*)malloc(13 * 13 * sizeof(int)); 
-char matriceNonDecodeChar[] = "1111111111111112010041000111101011101011010100000101101011111110110100000000011011111111101100000001003110101111101311010100000121101110111110110000000000011111111111111";
-int** nodes = (int**)malloc(36*sizeof(int*));
+//int* matriceNonDecode = (int*)malloc(13 * 13 * sizeof(int)); 
+//char matriceNonDecodeChar[] = "1111111111111112010041000111101011101011010100000101101011111110110100000000011011111111101100000001003110101111101311010100000121101110111110110000000000011111111111111";
+//int** nodes = (int**)malloc(36*sizeof(int*));
 int jklm = 0;
 
 
@@ -43,12 +43,12 @@ State* etatInitial = machine.addState(&EtatInitial);
 State* etatAttente = machine.addState(&EtatAttente);
 State* etatAction = machine.addState(&EtatAction);
 State* etatFinal = machine.addState(&EtatFinal);
-
+int f=0;
 void setup() 
 {
   // Initialisation de la communication série
   Serial.begin(9600);
-    SetTunings(2, 0, 2); // Initialisation des paramètres PID
+    SetTunings(30, 0, 1); // Initialisation des paramètres PID
   //  SPI.begin();
   // mfrc522.PCD_Init();
   // connexion();
@@ -77,153 +77,34 @@ void setup()
 }
 
 void loop() {
-    speed1=10;
-    speed2=10;
-   //Compute(ultrasonicSensor2.measureDistanceCm(), speed1); // Appel de la fonction Compute avec la distance mesurée
-   //Compute(ultrasonicSensor3.measureDistanceCm(), speed2); // Appel de la fonction Compute avec la distance mesurée
-   Avancer();
-    machine.run();
-   //mainDroite(ultrasonicSensor1.measureDistanceCm(), ultrasonicSensor2.measureDistanceCm(), ultrasonicSensor3.measureDistanceCm(), ultrasonicSensor4.measureDistanceCm());
-    //getDistance1();
-    //EnAvant();
-    // Vérifier et stocker les signaux reçus
-    // printReceivedIR();
-    //EnAvant();
-    // Activer IR_upload uniquement si les deux mémoires contiennent des valeurs valides
-    // if (isSignalEndingWith0Valid && isSignalEndingWith1Valid) 
-    // {
-    //     IR_upload();
-    // }
-
-    //Serial.println("Initialisation du capteur de couleur");
-
-    //rfidddd();
-    // Mettre à jour la machine d'état
-    
-    // if (i ==0){
-    //   Serial.println("Matrice non traitée :");
-    //   for (int j = 0; j < 169; j++)
-    //   {
-    //       matriceNonDecode[j] = matriceNonDecodeChar[j] - '0';
-    //   }
-    //   for (size_t i = 0; i < 169; i++)
-    //   {
-    //     Serial.print(matriceNonDecode[i]);
-    //   }
-    //   Serial.println();
-      
-    //   int** matriceDecode = processMatrix(matriceNonDecode);
-    //   Serial.println("Matrice traitée :");
-    //   for (int j = 0; j < 13; j++) {
-    //     for (int k = 0; k < 13; k++) {
-    //       Serial.print(matriceDecode[j][k]);
-    //       Serial.print(" ");
-    //     }
-    //     Serial.println();
-    //   }
-    //   // Serial.println("Listes des noeuds :");
-    //   nodes = matrixToNodes(matriceDecode);
-    //   for (int j = 0; j < 36; j++){
-    //     Serial.print("Noeud ");
-    //     Serial.print(nodes[j][0]);
-    //     Serial.print(" : ");
-    //     Serial.print(nodes[j][1]);
-    //     Serial.print(" ");
-    //     Serial.print(nodes[j][2]);
-    //     Serial.print(" ");
-    //     Serial.print(nodes[j][3]);
-    //     Serial.print(" ");
-    //     Serial.print(nodes[j][4]);
-    //     Serial.print(" ");
-    //     Serial.print(nodes[j][5]);
-    //     Serial.print(" ");
-    //     Serial.print(nodes[j][6]);
-    //     Serial.print(" ");
-    //     Serial.println(nodes[j][7]);
-    //   }
-    //   // Définir les noeuds de départ et d'arrivée
-    //   int startNode[7] = {0, 0, 0, 0, 0, 0, 0}; // Initialiser avec des valeurs par défaut
-    //   int goalNode[7] =  {0, 0, 0, 0, 0, 0, 0};  // Initialiser avec des valeurs par défaut
-
-  //   // Trouver les coordonnées des noeuds de départ et d'arrivée
-  //   for (int j = 0; j < 36; j++) {
-  //     if (nodes[j][3] == 1) { // Noeud de départ
-  //       startNode[0] = nodes[j][0];
-  //       startNode[1] = nodes[j][1];
-  //       startNode[2] = nodes[j][2];
-  //       startNode[3] = nodes[j][3];
-  //       startNode[4] = nodes[j][4];
-  //       startNode[5] = nodes[j][5];
-  //       startNode[6] = nodes[j][6];
-  //       // Serial.print("Noeud de depart ");
-  //       // Serial.print(nodes[j][0]);
-  //       // Serial.print(" : ");
-  //       // Serial.print(nodes[j][1]);
-  //       // Serial.print(" ");
-  //       // Serial.print(nodes[j][2]);
-  //       // Serial.print(" ");
-  //       // Serial.print(nodes[j][3]);
-  //       // Serial.print(" ");
-  //       // Serial.print(nodes[j][4]);
-  //       // Serial.print(" ");
-  //       // Serial.print(nodes[j][5]);
-  //       // Serial.print(" ");
-  //       // Serial.print(nodes[j][6]);
-  //       // Serial.print(" ");
-  //       // Serial.println(nodes[j][7]);
-  //     }
-  //     if (nodes[j][3] == 2) { // Noeud d'arrivée
-  //       goalNode[0] = nodes[j][0];
-  //       goalNode[1] = nodes[j][1];
-  //       goalNode[2] = nodes[j][2];
-  //       goalNode[3] = nodes[j][3];
-  //       goalNode[4] = nodes[j][4];
-  //       goalNode[5] = nodes[j][5];
-  //       goalNode[6] = nodes[j][6];
-  //       // Serial.print("Noeud d'arriver ");
-  //       // Serial.print(nodes[j][0]);
-  //       // Serial.print(" : ");
-  //       // Serial.print(nodes[j][1]);
-  //       // Serial.print(" ");
-  //       // Serial.print(nodes[j][2]);
-  //       // Serial.print(" ");
-  //       // Serial.print(nodes[j][3]);
-  //       // Serial.print(" ");
-  //       // Serial.print(nodes[j][4]);
-  //       // Serial.print(" ");
-  //       // Serial.print(nodes[j][5]);
-  //       // Serial.print(" ");
-  //       // Serial.print(nodes[j][6]);
-  //       // Serial.print(" ");
-  //       // Serial.println(nodes[j][7]);
-  //     }
-  //   }
-        
-  // //   // Appeler la fonction A* et afficher les résultats
-  // //   //int** chemin = aStar(matriceDecode, startNode, goalNode);
-  // //   // Reconstruire et afficher le chemin parcouru
-
-  //   int* cheminReconstruit = path( dijkstra(nodes, startNode), startNode, goalNode);
-  //   int* dijkstraph = dijkstra(nodes, startNode);
-  //   Serial.println("Liste d'antecedants :");
-  //   for (int j = 0; j < 36; j++) {
-      
-  //     Serial.print(dijkstraph[j]);
-  //     Serial.print(" ");
-  //   }
-  //   Serial.println(" ");
-  //   Serial.println(" ");
-  //   Serial.println(" ");
-  //   Serial.println(" ");
-    // int* pathdijk = path(dijkstraph,goalNode,startNode);
-    // for (int j = 0; j < 36; j++) {
-    //   Serial.print(pathdijk[j]);
-    //   Serial.print(" ");
-    // }
-    // free(nodes);
-    // free(matriceDecode);
-  // } 
+  Avancer();
+   delay(1000);
+   Arreter(); 
+   delay(5000);
+  //mainDroite(ultrasonicSensor1.measureDistanceCm(), ultrasonicSensor2.measureDistanceCm(), ultrasonicSensor3.measureDistanceCm());
+  // if(ultrasonicSensor1.measureDistanceCm() < 30)
+  // {
+  //   Serial.println("Obstacle détecté");
+  //   Arreter();
+  //   //delay(5000); // Tourner à gauche pendant 5 secondes
+  // }
+  // else
+  // {
+  //   Serial.println("Pas d'obstacle détecté");
+  //   Avancer();
+  // }
+ 
+  // Compute(ultrasonicSensor2.measureDistanceCm(),speed1,10);
+  // Compute(ultrasonicSensor3.measureDistanceCm(),speed2,10);
   
-  // Petit délai pour éviter une utilisation excessive du CPU
-  delay(DELAI_BOUCLE_MS);
+  // Serial.println(setSpeed1(speed1));
+  // Serial.println(setSpeed2(speed2));
+  // Avancer();
+  //delay(3000);
+  // Serial.println( ultrasonicSensor3.measureDistanceCm());
+  // delay(3000);
+  // tournerGauche();
+  //delay(5000); // Tourner à gauche pendant 5 seconde
+
+  
 }

@@ -277,18 +277,22 @@ int* dijkstra(int** nodes, int start[]) {
     //     Serial.print(" ");
     //     Serial.println(nodes[j][7]);
     //   }
-    while (true){
+    while (true)
+    {
         // Serial.print("rentrée dans la boucle");
         int isPriorityQueueEmpty = 1;
-        for (int i = 0; i < 36; i++){
-            if (priorityQueue[i] != 256){
+        for (int i = 0; i < 36; i++)
+        {
+            if (priorityQueue[i] != 256)
+            {
                 isPriorityQueueEmpty = 0;
                 break;
             }
         }
 
         
-        if (isPriorityQueueEmpty == 1){
+        if (isPriorityQueueEmpty == 1)
+        {
             // Serial.print("Prev :");
             // for (int i = 0; i < 36; i++){
             //     Serial.print(prev[i]);

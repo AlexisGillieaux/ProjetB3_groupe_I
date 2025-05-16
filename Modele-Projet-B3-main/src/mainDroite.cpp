@@ -42,7 +42,7 @@ void Arret()
     digitalWrite(PIN_BIN1, LOW);  // Désactiver le moteur B dans le sens avant
     digitalWrite(PIN_BIN2, LOW);  // Désactiver le moteur B dans le sens arrière
 }
-void mainDroite(int ultrasonAvant, int ultrasonGauche, int ultrasonArriere, int ultrasonDroite) // Boucle principale
+void mainDroite(int ultrasonAvant, int ultrasonGauche, int ultrasonDroite) // Boucle principale
 {
     bool fin; // Variable pour contrôler la boucle infinie
     if(colorDetecte[0] == 0 && colorDetecte[1] == 255 && colorDetecte[2] == 0) // Vérifier si le bouton est pressé
@@ -55,19 +55,19 @@ void mainDroite(int ultrasonAvant, int ultrasonGauche, int ultrasonArriere, int 
     }
     while (fin == false) // Boucle infinie jusqu'à ce que fin soit vrai
     {
-        if(ultrasonDroite<20) // Vérifier si le bouton est pressé
+        if(ultrasonDroite<10) // Vérifier si le bouton est pressé
         {
             EnAvant(); // Appeler la fonction pour avancer en avant
             delay(DELAI_BOUCLE_MS); // Attendre un certain temps avant de répéter la boucle
             stop(); // Appeler la fonction pour arrêter le robot )
         }
-        if (ultrasonDroite>20)
+        if (ultrasonDroite>10)
         {
             TournerDroite(); // Appeler la fonction pour tourner à droite
             delay(DELAI_BOUCLE_MS); // Attendre un certain temps avant de répéter la boucle
             stop(); // Appeler la fonction pour arrêter le robot
         }
-        if(ultrasonDroite>20 && ultrasonAvant>20)
+        if(ultrasonDroite>10 && ultrasonAvant>10)
         {
             TournerGauche(); // Appeler la fonction pour tourner à gauche
             delay(DELAI_BOUCLE_MS); // Attendre un certain temps avant de répéter la boucle

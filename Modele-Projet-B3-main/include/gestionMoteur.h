@@ -15,3 +15,6 @@ void Reculer();
 void Arreter();
 void tournerGauche();
 void tournerDroite();
+void setupMoteur();
+double setSpeed1(double speed);
+double setSpeed2(double speed);
