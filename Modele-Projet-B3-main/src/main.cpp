@@ -74,12 +74,16 @@ void setup()
 }
 
 void loop() {
-    speed1=10;
-    speed2=10;
+
+  rfidddd();
+  Serial.println("test");
+
+    // speed1=10;
+    // speed2=10;
    //Compute(ultrasonicSensor2.measureDistanceCm(), speed1); // Appel de la fonction Compute avec la distance mesurée
    //Compute(ultrasonicSensor3.measureDistanceCm(), speed2); // Appel de la fonction Compute avec la distance mesurée
-   Avancer();
-    machine.run();
+    //Avancer();
+  //machine.run();
    //mainDroite(ultrasonicSensor1.measureDistanceCm(), ultrasonicSensor2.measureDistanceCm(), ultrasonicSensor3.measureDistanceCm(), ultrasonicSensor4.measureDistanceCm());
     //getDistance1();
     //EnAvant();
