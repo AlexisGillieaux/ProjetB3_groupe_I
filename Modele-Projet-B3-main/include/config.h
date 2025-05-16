@@ -63,6 +63,13 @@
 #define PIN_BIN1 6    // Pin for the IN1 of the motor B
 #define PIN_BIN2 7    // Pin for the IN2 of the motor B
 
+// Définition des broches du moteur (GROUPE J)
+#define PIN_MOTEURJ_A1 33    // Pin for the IN1 of the motor A
+#define PIN_MOTEURJ_A2 34    // Pin for the IN2 of the motor A
+#define PIN_MOTEURJ_ENA 13  // Pin for the ENA of the motor A
+#define PIN_MOTEURJ_B1 32   // Pin for the IN1 of the motor B
+#define PIN_MOTEURJ_B2 6   // Pin for the IN2 of the motor B
+#define PIN_MOTEURJ_ENB 5  // Pin for the ENB of the motor B
 
 // Définition des délais
 #define DELAI_ATTENTE 3000  // 3 secondes
