@@ -1,4 +1,4 @@
-#include "gestionRFID.h"
+#include "RFID.h"
 
 
 /**
@@ -8,7 +8,7 @@
  * @return code_matrice
  */
 
-MFRC522 mfrc522(PIN_SS, PIN_RST);
+MFRC522 mfrc522(SS_PIN, RST_PIN);
 // Clé par défaut (valeurs d’usine)
 MFRC522::MIFARE_Key key;
 
@@ -28,14 +28,17 @@ int* pointdata = (int*)malloc(169*sizeof(int));
 //Fonction de base
 void rfidddd() 
 {
+  Serial.println("test 1");
 
   // Attente d’une carte RFID
   if ( ! mfrc522.PICC_IsNewCardPresent()) {
-  return;
+    Serial.println("test 2");
+    return;
   }
   // Récupération des informations de la carte RFID
   if ( ! mfrc522.PICC_ReadCardSerial()) {
-  return;
+    Serial.println("test 3");
+    return;
   }
   int tampon[169];
   int labyrinthe[13][13];
@@ -513,3 +516,43 @@ int* antecedant(int* prev, int goal[], int start[]) {
 
 
 
+
+
+// 0
+// 0 
+// 8 
+// 2 
+// 5 
+// 11 
+// 12 
+// 1 
+// 9 
+// 10 
+// 4 
+// 17 
+// 18 
+// 7 
+// 13 
+// 14 
+// 15 
+// 16 
+// 24 
+// 18 
+// 19 
+// 20 
+// 23 
+// 17 
+// 30 
+// 19 
+// 27 
+// 28 
+// 22 
+// 23 
+// 31 
+// 32 
+// 26 
+// 34 
+// 35 
+// 29
+
+// 29-23-17-16-15-14-13-7-1-0
