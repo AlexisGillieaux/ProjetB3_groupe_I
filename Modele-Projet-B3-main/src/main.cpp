@@ -13,6 +13,9 @@
 #include <gestionIR.h>
 #include "mainDroite.h"
 #include "pid_controller.h"
+#include "gestionMoteur.h"
+
+
 
 
 // Définition des variables globales
@@ -45,6 +48,7 @@ void setup()
 {
   // Initialisation de la communication série
   Serial.begin(9600);
+    SetTunings(2, 0, 2); // Initialisation des paramètres PID
   //  SPI.begin();
   // mfrc522.PCD_Init();
   // connexion();

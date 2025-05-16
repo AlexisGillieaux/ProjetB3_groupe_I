@@ -8,7 +8,7 @@ double errSum, lastErr;
 double kp, ki, kd;
 
 // Function to compute the PID output
-void Compute() {
+void Compute(double input, double Output) {
     // How long since we last calculated
     unsigned long now = millis();
     double timeChange = (double)(now - lastTime);
@@ -31,4 +31,5 @@ void SetTunings(double Kp, double Ki, double Kd) {
     kp = Kp;
     ki = Ki;
     kd = Kd;
+    Setpoint = 0;
 }
