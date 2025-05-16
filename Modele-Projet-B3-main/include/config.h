@@ -36,8 +36,8 @@
 #define PIN_BOUTON 2
 
 // Définition des broches infrarouges
-#define PIN_IR_SEND 32
-#define PIN_IR_RECV 33
+#define IR_SEND_PIN 32
+#define IR_RECV_PIN 33
 #define PIN_SS 49
 #define PIN_RST 53
 #define PIN_BUZZER 42
@@ -83,6 +83,13 @@
 #define PIN_RFID_MISO 50    // Pin for the RST of the MFRC522
 #define PIN_RFID_SCK 52    // Pin for the RST of the MFRC522
 
+// Infrarouge
+// protocole NEC uniquement pour ce projet
+#define DECODE_NEC
+#define EXCLUDE_EXOTIC_PROTOCOLS
+#define RAW_BUFFER_LENGTH  750
+
+
 // Déclaration des variables globales (définies dans main.cpp)
 extern StateMachine machine;
 extern Button bouton;
@@ -95,5 +102,23 @@ extern UltraSonicDistanceSensor ultrasonicSensor4;
 extern DFRobot_TCS34725 tcs;
 extern L298NX2 moteur;
 extern byte *RFID;
+// Variables globales
+extern uint32_t signalEndingWith0;
+extern uint32_t signalEndingWith1; // Signal se terminant par 1
+extern bool isSignalEndingWith0Valid;
+extern bool isSignalEndingWith1Valid;
+extern uint32_t signalEndingWith0;
+extern uint32_t signalEndingWith1;
+extern bool isSignalEndingWith0Valid;
+extern bool isSignalEndingWith1Valid;
+ 
+extern unsigned long lastSignalTime0; // Temps du dernier signal se terminant par 0
+extern unsigned long lastSignalTime1; // Temps du dernier signal se terminant par 1
+extern unsigned long timeBetween0And1; // Temps entre un signal se terminant par 0 et un signal se terminant par 1
+extern unsigned long timeBetween1And0; // Temps entre un signal se terminant par 1 et un signal se terminant par 0
+
+
+
+
 
 #endif

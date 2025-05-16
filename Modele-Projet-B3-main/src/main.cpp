@@ -3,13 +3,15 @@
 #include "etatAttente.h"
 #include "etatAction.h"
 #include "etatFinal.h"
-#include "matrice.h"
-#include "algo.h"
+
 #include "gestionRGB.h"
 #include <IRremote.hpp>
 #include "IR.h"
 #include "gestionRFID.h"
-#include "MoteurGroupeJ.h"
+
+#include <gestionIR.h>
+#include "mainDroite.h"
+#include "pid_controller.h"
 
 
 // Définition des variables globales
@@ -30,19 +32,23 @@ int** nodes = (int**)malloc(36*sizeof(int*));
 
 
 
+
+
 // Création des états
 State* etatInitial = machine.addState(&EtatInitial);
 State* etatAttente = machine.addState(&EtatAttente);
 State* etatAction = machine.addState(&EtatAction);
 State* etatFinal = machine.addState(&EtatFinal);
 
-void setup() {
+void setup() 
+{
   // Initialisation de la communication série
-  Serial.begin(9600);
-  // SPI.begin();
+    Serial.begin(9600);
+  //  SPI.begin();
   // mfrc522.PCD_Init();
-  //connexion();
+  // connexion();
   // rfid_init();
+  //SetTunings(2, 0, 1); // Initialisation des paramètres PID
   
   
 
@@ -50,14 +56,9 @@ void setup() {
   
   // Configuration des broches
   pinMode(PIN_LED, OUTPUT);
-  pinMode(PIN_MOTEURJ_A1, OUTPUT);
-  pinMode(PIN_MOTEURJ_A2, OUTPUT);
-  pinMode(PIN_MOTEURJ_ENA, OUTPUT);
-  pinMode(PIN_MOTEURJ_B1, OUTPUT);
-  pinMode(PIN_MOTEURJ_B2, OUTPUT);
-  pinMode(PIN_MOTEURJ_ENB, OUTPUT);
-  // Pas besoin de configurer PIN_BOUTON car la librairie Button s'en charge
-  
+  // setupIR_upload();
+  // setupIR();
+  //   setupIR_upload();
   // Configuration des transitions
   etatInitial->addTransition(&transition_Initial_Attente, etatAttente);
   etatAttente->addTransition(&transition_Attente_Action, etatAction);
@@ -69,76 +70,78 @@ void setup() {
 }
 
 void loop() {
+   mainDroite(ultrasonicSensor1.measureDistanceCm(), ultrasonicSensor2.measureDistanceCm(), ultrasonicSensor3.measureDistanceCm(), ultrasonicSensor4.measureDistanceCm());
+  //getDistance1();
+  //EnAvant();
+  // Vérifier et stocker les signaux reçus
+    // printReceivedIR();
+    //EnAvant();
+    // Activer IR_upload uniquement si les deux mémoires contiennent des valeurs valides
+    // if (isSignalEndingWith0Valid && isSignalEndingWith1Valid) 
+    // {
+    //     IR_upload();
+    // }
+
   //Serial.println("Initialisation du capteur de couleur");
-  //
-  // rfidddd();
+
+  //rfidddd();
   // Mettre à jour la machine d'état
   //machine.run();
-  // Serial.println("testMoteurGroupeJ");
-  // testMoteurAStopGroupeJ();
-  // testMoteurBStopGroupeJ();
-  // delay(1000);
-  // testMoteurAAvancerGroupeJ();
-  // testMoteurBAvancerGroupeJ();
-  // delay(1000);
-  if (i ==0){
-    // testMoteurAAvancerGroupeJ();
-    // testMoteurBAvancerGroupeJ();
-    // delay(1000);
-    Serial.println("Matrice non traitée :");
-    for (int j = 0; j < 169; j++)
-    {
-        matriceNonDecode[j] = matriceNonDecodeChar[j] - '0';
-    }
-    for (size_t i = 0; i < 169; i++)
-    {
-      Serial.print(matriceNonDecode[i]);
-    }
-    Serial.println();
+  // if (i ==0){
+  //   Serial.println("Matrice non traitée :");
+  //   for (int j = 0; j < 169; j++)
+  //   {
+  //       matriceNonDecode[j] = matriceNonDecodeChar[j] - '0';
+  //   }
+  //   for (size_t i = 0; i < 169; i++)
+  //   {
+  //     Serial.print(matriceNonDecode[i]);
+  //   }
+  //   Serial.println();
     
-    int** matriceDecode = processMatrix(matriceNonDecode);
-    Serial.println("Matrice traitée :");
-    for (int j = 0; j < 13; j++) {
-      for (int k = 0; k < 13; k++) {
-        Serial.print(matriceDecode[j][k]);
-        Serial.print(" ");
-      }
-      Serial.println();
-    }
-    // Serial.println("Listes des noeuds :");
-    nodes = matrixToNodes(matriceDecode);
-    for (int j = 0; j < 36; j++){
-      Serial.print("Noeud ");
-      Serial.print(nodes[j][0]);
-      Serial.print(" : ");
-      Serial.print(nodes[j][1]);
-      Serial.print(" ");
-      Serial.print(nodes[j][2]);
-      Serial.print(" ");
-      Serial.print(nodes[j][3]);
-      Serial.print(" ");
-      Serial.print(nodes[j][4]);
-      Serial.print(" ");
-      Serial.print(nodes[j][5]);
-      Serial.print(" ");
-      Serial.print(nodes[j][6]);
-      Serial.print(" ");
-      Serial.println(nodes[j][7]);
-    }
-    // Définir les noeuds de départ et d'arrivée
-    int startNode[7] = {0, 0, 0, 0, 0, 0, 0}; // Initialiser avec des valeurs par défaut
-    int goalNode[7] =  {0, 0, 0, 0, 0, 0, 0};  // Initialiser avec des valeurs par défaut
+  //   int** matriceDecode = processMatrix(matriceNonDecode);
+  //   Serial.println("Matrice traitée :");
+  //   for (int j = 0; j < 13; j++) {
+  //     for (int k = 0; k < 13; k++) {
+  //       Serial.print(matriceDecode[j][k]);
+  //       Serial.print(" ");
+  //     }
+  //     Serial.println();
+  //   }
+  //   // Serial.println("Listes des noeuds :");
+  //   nodes = matrixToNodes(matriceDecode);
+  //   for (int j = 0; j < 36; j++){
+  //     Serial.print("Noeud ");
+  //     Serial.print(nodes[j][0]);
+  //     Serial.print(" : ");
+  //     Serial.print(nodes[j][1]);
+  //     Serial.print(" ");
+  //     Serial.print(nodes[j][2]);
+  //     Serial.print(" ");
+  //     Serial.print(nodes[j][3]);
+  //     Serial.print(" ");
+  //     Serial.print(nodes[j][4]);
+  //     Serial.print(" ");
+  //     Serial.print(nodes[j][5]);
+  //     Serial.print(" ");
+  //     Serial.print(nodes[j][6]);
+  //     Serial.print(" ");
+  //     Serial.println(nodes[j][7]);
+  //   }
+  //   // Définir les noeuds de départ et d'arrivée
+  //   int startNode[7] = {0, 0, 0, 0, 0, 0, 0}; // Initialiser avec des valeurs par défaut
+  //   int goalNode[7] =  {0, 0, 0, 0, 0, 0, 0};  // Initialiser avec des valeurs par défaut
 
   //   // Trouver les coordonnées des noeuds de départ et d'arrivée
-    for (int j = 0; j < 36; j++) {
-      if (nodes[j][3] == 1) { // Noeud de départ
-        startNode[0] = nodes[j][0];
-        startNode[1] = nodes[j][1];
-        startNode[2] = nodes[j][2];
-        startNode[3] = nodes[j][3];
-        startNode[4] = nodes[j][4];
-        startNode[5] = nodes[j][5];
-        startNode[6] = nodes[j][6];
+  //   for (int j = 0; j < 36; j++) {
+  //     if (nodes[j][3] == 1) { // Noeud de départ
+  //       startNode[0] = nodes[j][0];
+  //       startNode[1] = nodes[j][1];
+  //       startNode[2] = nodes[j][2];
+  //       startNode[3] = nodes[j][3];
+  //       startNode[4] = nodes[j][4];
+  //       startNode[5] = nodes[j][5];
+  //       startNode[6] = nodes[j][6];
   //       // Serial.print("Noeud de depart ");
   //       // Serial.print(nodes[j][0]);
   //       // Serial.print(" : ");
@@ -155,63 +158,61 @@ void loop() {
   //       // Serial.print(nodes[j][6]);
   //       // Serial.print(" ");
   //       // Serial.println(nodes[j][7]);
-      }
-      if (nodes[j][3] == 2) { // Noeud d'arrivée
-        goalNode[0] = nodes[j][0];
-        goalNode[1] = nodes[j][1];
-        goalNode[2] = nodes[j][2];
-        goalNode[3] = nodes[j][3];
-        goalNode[4] = nodes[j][4];
-        goalNode[5] = nodes[j][5];
-        goalNode[6] = nodes[j][6];
-        // Serial.print("Noeud d'arriver ");
-        // Serial.print(nodes[j][0]);
-        // Serial.print(" : ");
-        // Serial.print(nodes[j][1]);
-        // Serial.print(" ");
-        // Serial.print(nodes[j][2]);
-        // Serial.print(" ");
-        // Serial.print(nodes[j][3]);
-        // Serial.print(" ");
-        // Serial.print(nodes[j][4]);
-        // Serial.print(" ");
-        // Serial.print(nodes[j][5]);
-        // Serial.print(" ");
-        // Serial.print(nodes[j][6]);
-        // Serial.print(" ");
-        // Serial.println(nodes[j][7]);
-      }
-    }
+  //     }
+  //     if (nodes[j][3] == 2) { // Noeud d'arrivée
+  //       goalNode[0] = nodes[j][0];
+  //       goalNode[1] = nodes[j][1];
+  //       goalNode[2] = nodes[j][2];
+  //       goalNode[3] = nodes[j][3];
+  //       goalNode[4] = nodes[j][4];
+  //       goalNode[5] = nodes[j][5];
+  //       goalNode[6] = nodes[j][6];
+  //       // Serial.print("Noeud d'arriver ");
+  //       // Serial.print(nodes[j][0]);
+  //       // Serial.print(" : ");
+  //       // Serial.print(nodes[j][1]);
+  //       // Serial.print(" ");
+  //       // Serial.print(nodes[j][2]);
+  //       // Serial.print(" ");
+  //       // Serial.print(nodes[j][3]);
+  //       // Serial.print(" ");
+  //       // Serial.print(nodes[j][4]);
+  //       // Serial.print(" ");
+  //       // Serial.print(nodes[j][5]);
+  //       // Serial.print(" ");
+  //       // Serial.print(nodes[j][6]);
+  //       // Serial.print(" ");
+  //       // Serial.println(nodes[j][7]);
+  //     }
+  //   }
         
-  //   // Appeler la fonction A* et afficher les résultats
-  //   //int** chemin = aStar(matriceDecode, startNode, goalNode);
-  //   // Reconstruire et afficher le chemin parcouru
-    int* dijkstraph = dijkstra(nodes, startNode);
-    int* cheminReconstruit = antecedant( dijkstraph, goalNode, startNode);
+
+
+    // int* dijkstraph = dijkstra(nodes, startNode);
+    // int* cheminReconstruit = antecedant( dijkstraph, goalNode, startNode);
     
-    Serial.println("Liste d'antecedants :");
-    for (int j = 0; j < 36; j++) {
-      Serial.print(dijkstraph[j]);
-      Serial.print(" ");
-    }
-    Serial.println("Chemin reconstruit :");
-    for (int j = 0; j < 36; j++) {
-      Serial.print(cheminReconstruit[j]);
-      Serial.print(" ");
-    }
+  //   Serial.println("Liste d'antecedants :");
+  //   for (int j = 0; j < 36; j++) {
+  //     Serial.print(dijkstraph[j]);
+  //     Serial.print(" ");
+  //   }
+  //   Serial.println("Chemin reconstruit :");
+  //   for (int j = 0; j < 36; j++) {
+  //     Serial.print(cheminReconstruit[j]);
+  //     Serial.print(" ");
+  //   }
 
+  //   // Libérer la mémoire allouée pour le chemin reconstruit
+  //   free(cheminReconstruit);
 
-    // Libérer la mémoire allouée pour le chemin reconstruit
-    free(cheminReconstruit);
-
-    // Libérer la mémoire allouée pour le chemin
-    //free(chemin);
-    free(nodes); // Libérer la mémoire allouée
-    i++;
+  //   // Libérer la mémoire allouée pour le chemin
+  //   //free(chemin);
+  //   free(nodes); // Libérer la mémoire allouée
+  //   free(matriceDecode); // Libérer la mémoire allouée
+  //   i++;
   //   //viewColor();
-  }
-
+  // }
   
   // Petit délai pour éviter une utilisation excessive du CPU
-  delay(DELAI_BOUCLE_MS);
+  //delay(DELAI_BOUCLE_MS);
 }
