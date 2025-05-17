@@ -85,7 +85,7 @@ double setSpeed1(double speed)
 {
     // Définir la vitesse du moteur avant
     speed1 = speed; // Vitesse du moteur avant
-    Serial.print("Vitesse du moteur avant : ");
+    Serial.print("speed1 : ");
     Serial.println(speed1); // Afficher la vitesse du moteur avant dans le moniteur série
     return speed1;
 }
@@ -94,7 +94,7 @@ double setSpeed2(double speed)
 {
     // Définir la vitesse du moteur reculer
     speed2 = speed; // Vitesse du moteur reculer
-    Serial.print("Vitesse du moteur reculer : ");
+    Serial.print("speed2 : ");
     Serial.println(speed2); // Afficher la vitesse du moteur reculer dans le moniteur série
     return speed2;
 }

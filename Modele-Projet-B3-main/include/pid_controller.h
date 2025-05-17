@@ -5,7 +5,7 @@
 // PID Controller Header File
 
 // Function prototypes
-void Compute(float input, double Output, double Setpoint);
+double Compute(double Input, double Setpoint);
 void SetTunings(double Kp, double Ki, double Kd);
 
 // External variables
