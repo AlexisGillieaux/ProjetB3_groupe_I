@@ -111,7 +111,6 @@ extern unsigned long lastSignalTime1; // Temps du dernier signal se terminant pa
 extern unsigned long timeBetween0And1; // Temps entre un signal se terminant par 0 et un signal se terminant par 1
 extern unsigned long timeBetween1And0; // Temps entre un signal se terminant par 1 et un signal se terminant par 0
 
-extern int labyrinthe[13][13];
 extern int data[169];
 extern bool test;
 extern int* pointdata;
