@@ -1,12 +1,26 @@
 #include "config.h"
+#include "etatInitial.h"
+#include "etatAttente.h"
+#include "etatAction.h"
+#include "etatFinal.h"
+
+#include "gestionRGB.h"
+#include <IRremote.hpp>
+#include "IR.h"
 #include "RFID.h"
-/*#include "RGB.h"
-#include "Buzzer.h"
-#include "Fin_course.h"
-#include "SuiveurLine.h"
-#include "multiplexeur_Tof.h"
-#include "Moteur.h"
-#include "IR_emeteur.h"*/
+
+#include <gestionIR.h>
+#include "mainDroite.h"
+#include "pid_controller.h"
+#include "gestionMoteur.h"
+#include "gestionUltrason.h"
+#include "gestionRGB.h"
+#include "MainDroite2.h"
+
+
+
+
+// Définition des variables globales
 bool i = true;
 StateMachine machine = StateMachine();
 Button bouton(PIN_BOUTON);
@@ -18,13 +32,10 @@ UltraSonicDistanceSensor ultrasonicSensor3(PIN_TRIGGER_3, PIN_ECHO_3);
 UltraSonicDistanceSensor ultrasonicSensor4(PIN_TRIGGER_4, PIN_ECHO_4);
 DFRobot_TCS34725 tcs(&Wire, ADDRESS_TCS34725, TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X);
 L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
-double vitesse1=0;
-double vitesse2=0;
-double distance1 = 0;
-double distance2 = 0;
-
-
-
+//int* matriceNonDecode = (int*)malloc(13 * 13 * sizeof(int)); 
+//char matriceNonDecodeChar[] = "1111111111111112010041000111101011101011010100000101101011111110110100000000011011111111101100000001003110101111101311010100000121101110111110110000000000011111111111111";
+//int** nodes = (int**)malloc(36*sizeof(int*));
+int jklm = 0;
 
 
 
@@ -39,15 +50,14 @@ void setup()
 {
   // Initialisation de la communication série
   Serial.begin(9600);
-    SetTunings(2, 0, 5); // Initialisation des paramètres PID
+  setupMainDroite2(); // Configurer les moteurs
+    // SetTunings(30, 0, 1); // Initialisation des paramètres PID
   //  SPI.begin();
   // mfrc522.PCD_Init();
   // connexion();
   // rfid_init();
   //SetTunings(2, 0, 1); // Initialisation des paramètres PID
-  rfid_init();
-  speed1 = 120;
-  speed2 = 120;
+  // rfid_init();
   
 
   // Serial.println("Démarrage de la machine d'état");
@@ -69,69 +79,19 @@ void setup()
 
 }
 
-void loop()
- {
-  rfidddd();
-
-//   distance1= ultrasonicSensor1.measureDistanceCm();
-//   distance2= ultrasonicSensor2.measureDistanceCm();
-//  vitesse2 = Compute(distance2,20);
-//  vitesse1 = Compute(distance1,20);
-//   Serial.print("vitesse1 : ");
-//   Serial.println(vitesse1);
-//   Serial.print("vitesse2 : ");
-//   Serial.println(vitesse2);
-
-//   if(vitesse1<=38)
-//   {
-//     Serial.print("speed1 : ");
-//     Serial.print(speed1);
-//     speed1 = 38;
-//     Serial.print("et ");
-//     Serial.print(speed1);
-
-//   }
-//   if(vitesse1>=100)
-//   {
-//     Serial.print("speed1 : ");
-//     Serial.println(speed1);
-//     speed1 = 60;
-//      Serial.print("et ");
-//     Serial.print(speed1);
-
-//   }
-//   if (vitesse2<=30)
-//   {
-//     Serial.print("speed2 : ");
-//     Serial.println(speed2);
-//     speed2 = 38;
-//      Serial.print("et ");
-//     Serial.println(speed2);
-//   }
-//   if(vitesse2>=100)
-//   {
-//     Serial.print("speed2 : ");
-//     Serial.println(speed2);
-//     speed2 = 68;
-//      Serial.print("et ");
-//     Serial.println(speed2);
-//   }
-
-//   setSpeed1(vitesse1);
-//   setSpeed2(vitesse2);
-//   Avancer();
-
-//   speed1 = 110;
-//   speed2 = 120;
-//   setSpeed1(speed1);
-//   setSpeed2(speed2);
-//   Avancer();
-//   delay(2000);
-//  Arreter();
-  // Avancer();
-  //  delay(1000);
-  //  Arreter(); 
-  //  delay(5000);
+void loop() {
+  //mainDroite2();
+  // regulerVitesse();
+  // Serial.print("Distance 1: ");
+  // Serial.print(getDistance1());
+  // Serial.print("     ");
+  // Serial.print("Distance 2: ");
+  // Serial.print(getDistance2());
+  // Serial.print("     ");
+  // Serial.print("Distance 3: ");
+  // Serial.println(getDistance3());  
+  rfidddd(); 
+  
   //mainDroite(ultrasonicSensor1.measureDistanceCm(), ultrasonicSensor2.measureDistanceCm(), ultrasonicSensor3.measureDistanceCm());
   // if(ultrasonicSensor1.measureDistanceCm() < 30)
   // {
