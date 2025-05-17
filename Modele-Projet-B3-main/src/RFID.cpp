@@ -40,8 +40,7 @@ void rfidddd()
     Serial.println("test 3");
     return;
   }
-  int tampon[169];
-  int labyrinthe[13][13];
+
 
   
   //   Read bloc 0 1 2
@@ -90,7 +89,6 @@ bool rfid1Block(byte block ) {
       return true;
     }
 		// Read block
-		byte byteCount = sizeof(buf);
     status = mfrc522.MIFARE_Read(block, buf, &size);
 
 

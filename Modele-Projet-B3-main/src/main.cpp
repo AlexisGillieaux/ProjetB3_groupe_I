@@ -7,7 +7,6 @@
 #include "gestionRGB.h"
 #include <IRremote.hpp>
 #include "IR.h"
-// #include "gestionRFID.h"
 #include "RFID.h"
 
 #include <gestionIR.h>
@@ -79,7 +78,7 @@ void setup()
 void loop() {
   
   Serial.print(jklm);
-  jklm++;
+
 
   rfidddd();
   
