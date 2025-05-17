@@ -90,32 +90,5 @@ void loop() {
   // Serial.print("     ");
   // Serial.print("Distance 3: ");
   // Serial.println(getDistance3());  
-  rfidddd(); 
+  rfidddd(); }
   
-  //mainDroite(ultrasonicSensor1.measureDistanceCm(), ultrasonicSensor2.measureDistanceCm(), ultrasonicSensor3.measureDistanceCm());
-  // if(ultrasonicSensor1.measureDistanceCm() < 30)
-  // {
-  //   Serial.println("Obstacle détecté");
-  //   Arreter();
-  //   //delay(5000); // Tourner à gauche pendant 5 secondes
-  // }
-  // else
-  // {
-  //   Serial.println("Pas d'obstacle détecté");
-  //   Avancer();
-  // }
- 
-  // Compute(ultrasonicSensor2.measureDistanceCm(),speed1,10);
-  // Compute(ultrasonicSensor3.measureDistanceCm(),speed2,10);
-  
-  // Serial.println(setSpeed1(speed1));
-  // Serial.println(setSpeed2(speed2));
-  // Avancer();
-  //delay(3000);
-  // Serial.println( ultrasonicSensor3.measureDistanceCm());
-  // delay(3000);
-  // tournerGauche();
-  //delay(5000); // Tourner à gauche pendant 5 seconde
-
-  
-}
