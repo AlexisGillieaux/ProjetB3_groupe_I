@@ -23,6 +23,7 @@ void EtatAction() {
 }
 
 // Après 5 secondes, passer à l'état final
-bool transition_Action_Final(){
+bool transition_Action_Final()
+{
   return (millis() - tempsDebut >= DELAI_ACTION);
 }

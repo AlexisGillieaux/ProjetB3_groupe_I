@@ -22,7 +22,7 @@ void rfid_init() {
       }
 } 
 
-bool flagfin;
+//bool flagfin;
 bool dataComplete = false;
 int* pointdata = (int*)malloc(169*sizeof(int));
 //Fonction de base
@@ -40,7 +40,8 @@ void rfidddd()
     Serial.println("test 3");
     return;
   }
-
+  int tampon[169];
+  int labyrinthe[13][13];
 
   
   //   Read bloc 0 1 2
@@ -89,6 +90,7 @@ bool rfid1Block(byte block ) {
       return true;
     }
 		// Read block
+		byte byteCount = sizeof(buf);
     status = mfrc522.MIFARE_Read(block, buf, &size);
 
 
@@ -470,28 +472,28 @@ int** matrixToNodes(int** matrix){
   return nodes;
 }
 
-int* path (int* prev,int goal[], int start[]){
-    int reversedPath[36];
-    int pathSize = 0;
-    for (int i = 0; i < 36; i++)
-    {
-        reversedPath[i] = -1; // Initialiser le tableau de chemin inversé
-    }
-    reversedPath[0]= prev[goal[0]]; // Marquer le noeud de but comme visité
-    for (int i = 1; i < 36; i++){
-        if(reversedPath[i] == -1 || reversedPath[i] == start[0]){
-            break;
-        }
-        reversedPath[i] = prev[reversedPath[i-1]]; // Marquer le noeud de but comme visité
-        pathSize++;
-    }
-    int* path = (int*)malloc((pathSize + 1) * sizeof(int)); // Allouer de la mémoire pour le chemin
-    for (int i = 0; i < pathSize; i++){
-        path[i] = reversedPath[pathSize - i - 1]; // Inverser le chemin
-    } 
-    free(prev); // Libérer la mémoire allouée pour le tableau de noeuds précédents  
-    return path; // Retourner le chemin
-}
+// int* path (int* prev,int goal[], int start[]){
+//     int reversedPath[36];
+//     int pathSize = 0;
+//     for (int i = 0; i < 36; i++)
+//     {
+//         reversedPath[i] = -1; // Initialiser le tableau de chemin inversé
+//     }
+//     reversedPath[0]= prev[goal[0]]; // Marquer le noeud de but comme visité
+//     for (int i = 1; i < 36; i++){
+//         if(reversedPath[i] == -1 || reversedPath[i] == start[0]){
+//             break;
+//         }
+//         reversedPath[i] = prev[reversedPath[i-1]]; // Marquer le noeud de but comme visité
+//         pathSize++;
+//     }
+//     int* path = (int*)malloc((pathSize + 1) * sizeof(int)); // Allouer de la mémoire pour le chemin
+//     for (int i = 0; i < pathSize; i++){
+//         path[i] = reversedPath[pathSize - i - 1]; // Inverser le chemin
+//     } 
+//     free(prev); // Libérer la mémoire allouée pour le tableau de noeuds précédents  
+//     return path; // Retourner le chemin
+// }
 int* antecedant(int* prev, int goal[], int start[]) {
     int* revpath = (int*)malloc(36 * sizeof(int));
 
