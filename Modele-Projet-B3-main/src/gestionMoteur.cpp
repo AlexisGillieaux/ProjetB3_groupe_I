@@ -15,12 +15,37 @@ void setupMoteur()
     analogWrite(PIN_BIN2, 0); // Initialiser la broche BIN2 à 0
 }
 void Avancer() 
-{  
-    analogWrite(PIN_AIN1, 0); // Vitesse du moteur avant
-    analogWrite(PIN_AIN2, speed2); // Vitesse du moteur avant
-    analogWrite(PIN_BIN1, speed1); // Vitesse du moteur avant
-    analogWrite(PIN_BIN2, 0); // Vitesse du moteur avant     
+{   
+    if(speed1 >= 0 && speed2 >= 0)
+    {
+        analogWrite(PIN_AIN1, 0); // Vitesse du moteur avant
+        analogWrite(PIN_AIN2, speed2); // Vitesse du moteur avant
+        analogWrite(PIN_BIN2, 0); // Vitesse du moteur avant     
+        analogWrite(PIN_BIN1, speed1); // Vitesse du moteur avant
+    }
+    if (speed1 < 0 && speed2 < 0)
+    {
+        analogWrite(PIN_AIN1, -1*speed2); // Vitesse du moteur avant
+        analogWrite(PIN_AIN2, 0); // Vitesse du moteur avant
+        analogWrite(PIN_BIN2, -1*speed1); // Vitesse du moteur avant     
+        analogWrite(PIN_BIN1, 0); // Vitesse du moteur avant
+    }
+    if (speed1 >= 0  && speed2 < 0)
+    {
+        analogWrite(PIN_AIN1, -1*speed2); // Vitesse du moteur avant
+        analogWrite(PIN_AIN2, 0); // Vitesse du moteur avant
+        analogWrite(PIN_BIN2, 0); // Vitesse du moteur avant     
+        analogWrite(PIN_BIN1, speed1); // Vitesse du moteur avant
+    }
+    if(speed1 < 0 && speed2 >= 0)
+    {
+        analogWrite(PIN_AIN1, 0); // Vitesse du moteur avant
+        analogWrite(PIN_AIN2, speed2); // Vitesse du moteur avant
+        analogWrite(PIN_BIN2, -1*speed1); // Vitesse du moteur avant     
+        analogWrite(PIN_BIN1, 0); // Vitesse du moteur avant
+    }
     
+
     // // Avancer à une vitesse de 300
     // moteur.setSpeedA(speed1); // Vitesse du moteur avant
     // moteur.setSpeedB(speed2); // Vitesse du moteur avant
@@ -33,8 +58,9 @@ void Reculer()
    
     analogWrite(PIN_AIN1, speed1); // Vitesse du moteur avant
     analogWrite(PIN_AIN2, 0); // Vitesse du moteur avant
-    analogWrite(PIN_BIN1, 0); // Vitesse du moteur avant
     analogWrite(PIN_BIN2, speed2); // Vitesse du moteur avant
+    analogWrite(PIN_BIN1, 0); // Vitesse du moteur avant
+
     // Reculer à une vitesse de 50
     // moteur.setSpeedA(speed1); // Vitesse du moteur reculer
     // moteur.backwardA(); // Reculer
@@ -58,7 +84,7 @@ void tournerGauche()
 }
 void tournerDroite() 
 {
-     analogWrite(PIN_AIN1, 0); // Vitesse du moteur reculer
+    analogWrite(PIN_AIN1, 0); // Vitesse du moteur reculer
     analogWrite(PIN_AIN2, speed2); // Vitesse du moteur reculer
     analogWrite(PIN_BIN1, 0); // Vitesse du moteur reculer
     analogWrite(PIN_BIN2, speed2); // Vitesse du moteur reculer
@@ -85,8 +111,8 @@ double setSpeed1(double speed)
 {
     // Définir la vitesse du moteur avant
     speed1 = speed; // Vitesse du moteur avant
-    Serial.print("Vitesse du moteur avant : ");
-    Serial.println(speed1); // Afficher la vitesse du moteur avant dans le moniteur série
+    // Serial.print("Vitesse du moteur avant : ");
+    // Serial.println(speed1); // Afficher la vitesse du moteur avant dans le moniteur série
     return speed1;
 }
 
@@ -94,7 +120,7 @@ double setSpeed2(double speed)
 {
     // Définir la vitesse du moteur reculer
     speed2 = speed; // Vitesse du moteur reculer
-    Serial.print("Vitesse du moteur reculer : ");
-    Serial.println(speed2); // Afficher la vitesse du moteur reculer dans le moniteur série
+    // Serial.print("Vitesse du moteur reculer : ");
+    // Serial.println(speed2); // Afficher la vitesse du moteur reculer dans le moniteur série
     return speed2;
 }

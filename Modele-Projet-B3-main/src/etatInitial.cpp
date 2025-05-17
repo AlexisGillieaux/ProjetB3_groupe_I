@@ -1,5 +1,6 @@
 #include "etatInitial.h"
-#include "gestionIR.h"
+#include "config.h"
+#include "RFID.h"
 
 /**
  * Fonction exécutée pendant l'état initial
@@ -10,12 +11,11 @@
 void EtatInitial() {
   if(machine.executeOnce) {
     Serial.println("Entrée dans l'ÉTAT INITIAL");
-    digitalWrite(PIN_LED, LOW);
   }
   
-  // Mettre à jour l'état du bouton
-  //printReceivedIR();
-  bouton.read();
+  rfidddd();
+  
+
 }
  
 /**
@@ -23,6 +23,6 @@ void EtatInitial() {
  * @param aucun
  * @return true si le bouton est pressé, false sinon
  */
-bool transition_Initial_Attente() {
-  return bouton.pressed();
+bool transition_Initial_Decodage() {
+  return dataComplete;
 }

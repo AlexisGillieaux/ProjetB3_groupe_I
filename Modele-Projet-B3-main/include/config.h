@@ -88,14 +88,14 @@
 extern StateMachine machine;
 extern Button bouton;
 extern unsigned long tempsDebut;
-extern MFRC522 mfrc522;
+
 extern UltraSonicDistanceSensor ultrasonicSensor1;
 extern UltraSonicDistanceSensor ultrasonicSensor2;
 extern UltraSonicDistanceSensor ultrasonicSensor3;
 extern UltraSonicDistanceSensor ultrasonicSensor4;
 extern DFRobot_TCS34725 tcs;
 extern L298NX2 moteur;
-extern byte *RFID;
+
 // Variables globales
 extern uint32_t signalEndingWith0;
 extern uint32_t signalEndingWith1; // Signal se terminant par 1
@@ -112,9 +112,16 @@ extern unsigned long timeBetween0And1; // Temps entre un signal se terminant par
 extern unsigned long timeBetween1And0; // Temps entre un signal se terminant par 1 et un signal se terminant par 0
 
 extern int data[169];
-extern bool test;
+extern bool dataComplete;
 extern int* pointdata;
-
+extern int** nodes;
+extern int  startNode[7]; // Initialiser avec des valeurs par défaut
+extern int  goalNode[7];  // Initialiser avec des valeurs par défaut
+extern int  fauteuilNode[7]; // Initialiser avec des valeurs par défaut
+extern int* pathdijk1;
+extern int* pathdijk2;
+extern bool pathComplete;
+extern int currentNodeMatrix;
 
 
 #endif

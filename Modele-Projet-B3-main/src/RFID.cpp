@@ -23,7 +23,7 @@ void rfid_init() {
 } 
 
 bool flagfin;
-bool test = false;
+bool dataComplete = false;
 int* pointdata = (int*)malloc(169*sizeof(int));
 //Fonction de base
 void rfidddd() 
@@ -58,7 +58,7 @@ void rfidddd()
   Serial.print(rfid1Block(17));
   // Affichage des informations de la carte RFID.
   //mfrc522.PICC_DumpToSerial(&(mfrc522.uid));
-  test = true;
+  dataComplete = true;
   // pointdata = data
 }
 
