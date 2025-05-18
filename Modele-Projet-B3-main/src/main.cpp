@@ -16,6 +16,12 @@
 #include "gestionUltrason.h"
 #include "gestionRGB.h"
 #include "MainDroite2.h"
+#include "etatAction.h"
+#include "etatDecodage.h"
+#include "etatRGB.h"
+#include "etatMainDroiteFauteuil.h"
+#include "etatMainDroiteFinal.h"
+
 
 
 
@@ -45,6 +51,11 @@ State* etatInitial = machine.addState(&EtatInitial);
 State* etatAttente = machine.addState(&EtatAttente);
 State* etatAction = machine.addState(&EtatAction);
 State* etatFinal = machine.addState(&EtatFinal);
+State* etatRGB = machine.addState(&EtatRGB);
+State* etatDecodage = machine.addState(&EtatDecodage);
+State* etatMainDroite = machine.addState(&EtatMainDroiteFauteuil);
+State* etatMainDroite2 = machine.addState(&EtatMainDroiteFinal);
+
 int f=0;
 void setup() 
 {
@@ -79,16 +90,47 @@ void setup()
 
 }
 
-void loop() {
-  //mainDroite2();
-  // regulerVitesse();
-  // Serial.print("Distance 1: ");
-  // Serial.print(getDistance1());
-  // Serial.print("     ");
-  // Serial.print("Distance 2: ");
-  // Serial.print(getDistance2());
-  // Serial.print("     ");
-  // Serial.print("Distance 3: ");
-  // Serial.println(getDistance3());  
-  rfidddd(); }
+void loop() 
+{
+  setSpeed1(109);
+  setSpeed2(112);
+  Avancer();
+  delay(750);
+  Arreter();
+  delay(3000);
+  // digitalWrite(PIN_BUZZER, HIGH); // Activer le buzzer
+  // delay(1000); // Attendre 1 seconde
+  // digitalWrite(PIN_BUZZER, LOW); // Désactiver le buzzer
+  // Serial.print("ultrason gauche : ");
+  // Serial.println(ultrasonicSensor2.measureDistanceCm());
+  // delay(5000);
+  // Serial.print("ultrason droite : ");
+  // Serial.println(ultrasonicSensor3.measureDistanceCm());
+  // delay(5000);
+  // if(ultrasonicSensor3.measureDistanceCm() < 13)
+  // {
+    
+  //   setSpeed1(109);
+  //  setSpeed2(120);
+  //  Avancer();
+  // }
+  // else if(ultrasonicSensor2.measureDistanceCm() < 13)
+  // {
+  //   setSpeed1(120);
+  //   setSpeed2(120);
+  //   Avancer();
+  // }
+  // else
+  // {
+  //    setSpeed1(109);
+  //   setSpeed2(114);
+  //   Avancer();
+  // }
+ 
+  // delay(1000);
+  // Arreter();
+  // delay(3000);
+   
+
+}
   
