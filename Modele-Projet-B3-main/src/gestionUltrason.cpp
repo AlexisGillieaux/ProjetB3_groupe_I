@@ -79,7 +79,7 @@ double getDistance4()
 {
     // Mesurer la distance avec le capteur ultrason 4
     double distance4 = ultrasonicSensor4.measureDistanceCm();
-    Serial.print("Distance 4: ");
-    Serial.println(distance4);
+    // Serial.print("Distance 4: ");
+    // Serial.println(distance4);
     return distance4;
 }

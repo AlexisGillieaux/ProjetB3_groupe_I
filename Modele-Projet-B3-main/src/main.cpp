@@ -21,6 +21,7 @@
 #include "etatRGB.h"
 #include "etatMainDroiteFauteuil.h"
 #include "etatMainDroiteFinal.h"
+#include "regulationPON.h"
 
 
 
@@ -42,31 +43,35 @@ L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
 //char matriceNonDecodeChar[] = "1111111111111112010041000111101011101011010100000101101011111110110100000000011011111111101100000001003110101111101311010100000121101110111110110000000000011111111111111";
 //int** nodes = (int**)malloc(36*sizeof(int*));
 int jklm = 0;
-
+double commande=0;
+bool changementDeMur=false;
+bool first= true;
 
 
 
 // Création des états
-State* etatInitial = machine.addState(&EtatInitial);
-State* etatAttente = machine.addState(&EtatAttente);
-State* etatAction = machine.addState(&EtatAction);
-State* etatFinal = machine.addState(&EtatFinal);
-State* etatRGB = machine.addState(&EtatRGB);
-State* etatDecodage = machine.addState(&EtatDecodage);
-State* etatMainDroite = machine.addState(&EtatMainDroiteFauteuil);
-State* etatMainDroite2 = machine.addState(&EtatMainDroiteFinal);
+// State* etatInitial = machine.addState(&EtatInitial);
+// State* etatAttente = machine.addState(&EtatAttente);
+// State* etatAction = machine.addState(&EtatAction);
+// State* etatFinal = machine.addState(&EtatFinal);
+// State* etatRGB = machine.addState(&EtatRGB);
+// State* etatDecodage = machine.addState(&EtatDecodage);
+// State* etatMainDroite = machine.addState(&EtatMainDroiteFauteuil);
+// State* etatMainDroite2 = machine.addState(&EtatMainDroiteFinal);
 
 int f=0;
 void setup() 
 {
   // Initialisation de la communication série
   Serial.begin(9600);
-  setupMainDroite2(); // Configurer les moteurs
-    // SetTunings(30, 0, 1); // Initialisation des paramètres PID
+  //setupMainDroite2(); // Configurer les moteurs
+  SetTunings(2, 0, 2); // Initialisation des paramètres PID
+  //setupRegulationPON();
+  
   //  SPI.begin();
-  // mfrc522.PCD_Init();
+  //mfrc522.PCD_Init();
   // connexion();
-  // rfid_init();
+  rfid_init();
   //SetTunings(2, 0, 1); // Initialisation des paramètres PID
   // rfid_init();
   
@@ -91,46 +96,100 @@ void setup()
 }
 
 void loop() 
-{
-  setSpeed1(109);
-  setSpeed2(112);
-  Avancer();
-  delay(750);
-  Arreter();
-  delay(3000);
-  // digitalWrite(PIN_BUZZER, HIGH); // Activer le buzzer
-  // delay(1000); // Attendre 1 seconde
-  // digitalWrite(PIN_BUZZER, LOW); // Désactiver le buzzer
-  // Serial.print("ultrason gauche : ");
-  // Serial.println(ultrasonicSensor2.measureDistanceCm());
-  // delay(5000);
-  // Serial.print("ultrason droite : ");
-  // Serial.println(ultrasonicSensor3.measureDistanceCm());
-  // delay(5000);
-  // if(ultrasonicSensor3.measureDistanceCm() < 13)
-  // {
-    
-  //   setSpeed1(109);
-  //  setSpeed2(120);
+{ 
+  
+  double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
+  double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
+  double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
+  double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
+  // Serial.print("ultrason derrière : ");
+  // Serial.println(ultrasonArriere);
+  // if(first==true)
+  // {   
+  // setSpeed1(-120);
+  //  setSpeed2(-120);
   //  Avancer();
+  //   first=false;  
+  //  delay(5000);
   // }
-  // else if(ultrasonicSensor2.measureDistanceCm() < 13)
+
+
+  // setSpeed1(-120);
+  // setSpeed2(-120);
+  // Avancer();
+  // if(ultrasonArriere < 20 && ultrasonGauche < 20)
   // {
-  //   setSpeed1(120);
+  //   setSpeed1(-120);
   //   setSpeed2(120);
   //   Avancer();
+  //   delay(200);
   // }
-  // else
+  // else if(ultrasonArriere > 20 && ultrasonGauche > 20)
   // {
-  //    setSpeed1(109);
-  //   setSpeed2(114);
+  //   setSpeed1(120);
+  //   setSpeed2(-120);
   //   Avancer();
+  //   delay(200);
+    
   // }
- 
-  // delay(1000);
-  // Arreter();
-  // delay(3000);
-   
+  // else if(ultrasonArriere < 20 && ultrasonGauche > 20)
+  // {
+  //   setSpeed1(-120);
+  //   setSpeed2(120);
+  //   Avancer();
+  //   delay(200);
+    
+  // }
+  // else if(ultrasonArriere < 20 && ultrasonGauche > 20)
+  // {
+  //   setSpeed1(120);
+  //   setSpeed2(-120);
+  //   Avancer();
+  //   delay(500);
+    
+  // }
+  // Serial.print("ultrason Arrieere : ");
+  // Serial.println(ultrasonArriere);
+  if(ultrasonArriere<25.0  && ultrasonGauche<25.0)
+  {
+    // Arreter();
+    // delay(2000);
+     setSpeed1(-150);
+     setSpeed2(100);
+     Avancer();
 
+  }
+  else if(ultrasonArriere<25.0 && ultrasonDroite<25.0 )
+  {// Arreter();
+    // delay(2000);
+     setSpeed1(100);
+     setSpeed2(-150);
+     Avancer();
+
+  }
+  // regulation correcte
+else if (ultrasonGauche < 40)
+{ 
+commande = Compute(ultrasonGauche, 15.0);
+
+  setSpeed1(-70- commande);
+  setSpeed2(-70 + commande);
+  
+}
+else if (ultrasonDroite < 40)
+{
+  commande = Compute(ultrasonDroite, 15.0);
+  setSpeed1(-70 + commande);
+  setSpeed2(-70 - commande);
+  
+}
+else
+{
+  setSpeed1(-70);
+  setSpeed2(-90);
+  
+  
+}
+Avancer();
 }
   
