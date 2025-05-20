@@ -4,7 +4,7 @@
 // Working variables
 unsigned long lastTime;
 double Input, Output, Setpoint;
-double errSum, lastErr;
+double errSum, lastErr, error;
 double kp, ki, kd;
 
 // pid_controller.cpp
@@ -12,7 +12,7 @@ double Compute(double Input, double Setpoint) {
     unsigned long now = millis();
     double timeChange = (double)(now - lastTime);
 
-    double error = Setpoint - Input;
+    error = Setpoint - Input;
     errSum += (error * timeChange);
     double dErr = (error - lastErr) / timeChange;
 
@@ -29,4 +29,8 @@ void SetTunings(double Kp, double Ki, double Kd) {
     ki = Ki;
     kd = Kd;
     Setpoint = 0;
+}
+double getError()
+{
+    return error;
 }

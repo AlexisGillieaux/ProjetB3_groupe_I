@@ -18,3 +18,5 @@ void tournerDroite();
 void setupMoteur();
 double setSpeed1(double speed);
 double setSpeed2(double speed);
+double getSpeed1();
+double getSpeed2();

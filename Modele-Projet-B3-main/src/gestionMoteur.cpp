@@ -73,7 +73,7 @@ void tournerGauche()
 {
     analogWrite(PIN_AIN1, speed1); // Vitesse du moteur avant
     analogWrite(PIN_AIN2, 0); // Vitesse du moteur avant
-    analogWrite(PIN_BIN1, speed1); // Vitesse du moteur avant
+    analogWrite(PIN_BIN1, speed2); // Vitesse du moteur avant
     analogWrite(PIN_BIN2, 0); // Vitesse du moteur avant
     // Tourner à gauche à une vitesse de 300
     // moteur.setSpeedA(speed1); // Vitesse du moteur avant
@@ -123,4 +123,13 @@ double setSpeed2(double speed)
     // Serial.print("Vitesse du moteur reculer : ");
     // Serial.println(speed2); // Afficher la vitesse du moteur reculer dans le moniteur série
     return speed2;
+}
+
+double getSpeed1() 
+{
+    return speed1; // Retourner la vitesse du moteur avant
+}
+double getSpeed2() 
+{
+    return speed2; // Retourner la vitesse du moteur reculer
 }

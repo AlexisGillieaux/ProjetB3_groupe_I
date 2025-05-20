@@ -7,6 +7,7 @@
 // Function prototypes
 double Compute(double Input, double Setpoint);
 void SetTunings(double Kp, double Ki, double Kd);
+double getError();
 
 // External variables
 extern unsigned long lastTime;
