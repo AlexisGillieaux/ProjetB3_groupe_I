@@ -8,6 +8,7 @@
 double Compute(double Input, double Setpoint);
 void SetTunings(double Kp, double Ki, double Kd);
 double getError();
+void AvancementRegule(double ultrasonGauche, double ultrasonDroite, double ultrasonArriere, double ultrasonAvant);
 
 // External variables
 extern unsigned long lastTime;

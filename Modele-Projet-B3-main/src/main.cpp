@@ -109,11 +109,33 @@ void loop()
   // Serial.print(ultrasonGauche);
   // Serial.print("   ");
   viewColor();
-  delay(5000);
+  
    if(colorDetecte[0]>140.0)
   { 
     setSpeed1(-165);
     setSpeed2(-175);
+    Avancer();
+    delay(500);
+  }
+  else if(colorDetecte[1]>100.0)
+  { 
+    //RecepteurIR();
+  }
+  else if(colorDetecte[2]<140.0)
+  {
+    //EmmeteurIR();
+  }
+  else if(colorDetecte[2]>140.0)
+  { 
+    setSpeed1(-175);
+    setSpeed2(-175);
+    Avancer();
+    delay(500);
+  }
+  else if(ultrasonAvant<15.0 && ultrasonGauche<20.0 && ultrasonDroite>35.0 && first==false)
+  {
+    setSpeed1(120);
+    setSpeed2(-120);
     Avancer();
     delay(500);
   }
@@ -178,28 +200,7 @@ else if(ultrasonArriere<15.0 && ultrasonDroite<20.0 && first==false)
   first=true;
 
 }
-else if (ultrasonGauche < 40)
-{ 
-commande = Compute(ultrasonGauche, 10);
+AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonAvant);
 
-  setSpeed1(-70 - commande);
-  setSpeed2(-70 + commande);
-  first=false;
-}
-else if (ultrasonDroite < 40)
-{
-  commande = Compute(ultrasonDroite, 30);
-  setSpeed1(-70 + commande);
-  setSpeed2(-70 - commande);
-  first=false;
-}
-else
-{
-  setSpeed1(-70);
-  setSpeed2(-70);
-  first=false;
-  
-}
-Avancer();
 }
   
