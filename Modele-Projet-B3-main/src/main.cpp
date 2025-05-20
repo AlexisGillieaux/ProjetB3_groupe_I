@@ -65,7 +65,7 @@ State* etatDecodage = machine.addState(&EtatDecodage);
 State* etatMainDroite2 = machine.addState(&EtatMainDroiteFinal);
 State* etatMainDroiteFauteuil = machine.addState(&EtatMainDroiteFauteuil);
 State* etatMainDroiteFinal = machine.addState(&EtatMainDroiteFinal);
-//State* etatPorte = machine.addState(&EtatPorte);
+State* etatPorte = machine.addState(&EtatPorte);
 
 
 int f=0;
@@ -111,57 +111,116 @@ void loop()
   double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
   double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
   double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
+  if(ultrasonDroite==-1)
+  {
+    ultrasonDroite = 1;
+  }
+  if(ultrasonGauche==-1)
+  {
+    ultrasonGauche = 1;
+  }
+  if(ultrasonDevant==-1)
+  {
+    ultrasonDevant = 1;
+  }
+  if(ultrasonArriere==-1)
+  {
+    ultrasonArriere = 1;
+  }
 
 
-  viewColor();
+   viewColor();
+  // Serial.print(ultrasonGauche);
 
   if(colorDetecte[0]>140.0)
   { 
     setSpeed1(255);
     setSpeed2(255);
     Avancer();
-    delay(750);
-  }
-  else if(colorDetecte[1]>100.0)
-  { 
-    //RecepteurIR();
-  }
-  else if(colorDetecte[2]>140.0)
-  {
-    //EmmeteurIR();
-  }
-  // cul-de-sac : demi-tour si bloqué devant, à droite et à gauche, et peu de place derrière
-  else if(ultrasonDevant > 30.0 && ultrasonDroite < 30.0 && ultrasonGauche < 30.0 && ultrasonArriere < 15.0)
-  {
-    setSpeed1(-120); // gauche arrière
-    setSpeed2(120);  // droite avant
-    Avancer();
-    delay(1000); // 1 seconde pour le demi-tour
-  }
-  // tourner à gauche (marche arrière, donc droite <-> gauche)
-  else if(ultrasonArriere > 15.0 && ultrasonDroite > 30.0 && ultrasonGauche < 30.0 )
-  {
-    setSpeed1(120);  // gauche avant
-    setSpeed2(-120); // droite arrière
+    delay(1000);
+    setSpeed1(0);
+    setSpeed2(-80);
     Avancer();
     delay(500);
   }
-  // tourner à droite si devant et gauche bloqué mais droite libre (marche arrière)
-  else if(ultrasonArriere > 15.0 && ultrasonGauche < 30.0 && ultrasonDroite > 30.0 )
+  // if(colorDetecte[1]>100.0)
+  // { 
+  //   //RecepteurIR();
+  // }
+  // if(colorDetecte[2]>140.0)
+  // {
+  //   //EmmeteurIR();
+  // }
+  // if(ultrasonArriere<30)
+  // {
+  //   setSpeed1(0);
+  //   setSpeed2(0);
+  //   Avancer();
+  //   delay(1000);
+  // }
+  // if(ultrasonArriere<20)
+  // {
+  //   digitalWrite(PIN_BUZZER, HIGH);
+  //   delay(2000);
+  //   digitalWrite(PIN_BUZZER, LOW);
+  // }
+  // cul-de-sac
+  // else if ((ultrasonArriere<15 && ultrasonGauche<20 && ultrasonDroite<20)||(ultrasonArriere<20 && ultrasonGauche<10 && ultrasonDroite<30) || (ultrasonArriere<20 && ultrasonDroite<30 && ultrasonDroite<10))
+  // {
+  //  setSpeed1(0);
+  //   setSpeed2(0);
+  //   delay(1000);
+  //   setSpeed1(-120);
+  //   setSpeed2(120);
+  //   Avancer();
+  //   delay(1000);
+  //   setSpeed1(-80);
+  //   setSpeed2(-90);
+  //   Avancer();
+  //   delay(500);
+  // }
+    if(ultrasonArriere<15 && ultrasonGauche<30)
   {
-    setSpeed1(-120); // gauche arrière
-    setSpeed2(120);  // droite avant
+     delay(350);
+     setSpeed1(-100);
+     setSpeed2(100);
+     Avancer();
+      delay(500);
+      setSpeed1(-80);
+    setSpeed2(-80);
+    Avancer();
+    delay(400);
+     
+  }
+  else if (ultrasonGauche>40 )
+  {
+   
+    delay(350);
+    setSpeed1(100);
+    setSpeed2(-100);
     Avancer();
     delay(500);
-  }
-  // tourner à gauche si devant et droite bloqué mais gauche libre (marche arrière)
-  else if(ultrasonArriere < 30.0 && ultrasonDroite < 30.0 && ultrasonGauche > 30.0 )
-  {
-    setSpeed1(120);  // gauche avant
-    setSpeed2(-120); // droite arrière
+    setSpeed1(-80);
+    setSpeed2(-80);
     Avancer();
-    delay(500);
+    delay(400);
+    
+
   }
+
+  // obstacle devant/libre gauche et droite
+
+  // obstacle gauche et devant
+  // else if (ultrasonGauche>35 && ultrasonDroite<30.0 && ultrasonArriere>35.0)
+  // {
+  //   setSpeed1(-80);
+  //   setSpeed2(90);
+  //   delay(500);
+  // }
+  // obstacle droite et devant
+
+  //obstacle gauche et devant
+
   else
   {
       AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonDevant);

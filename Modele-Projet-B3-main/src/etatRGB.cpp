@@ -1,27 +1,22 @@
-#include "etatPorte.h"
-#include "config.h"
-#include "RFID.h"
+#include "etatRGB.h"
 
-
-
-void EtatPorte() 
-{
-    // À compléter : logique de l'état Porte
+void EtatRGB() {
+    // À compléter : logique de l'état RGB
 }
 
-bool transition_Porte_Haut() {
+bool transition_RGB_MainDroite() {
     // À compléter : condition de transition
     return false;
 }
-bool transition_Porte_Bas() {
+bool transition_RGB_Fauteuil() {
     // À compléter : condition de transition
     return false;
 }
-bool transition_Porte_Gauche() {
+bool transition_RGB_Porte() {
     // À compléter : condition de transition
     return false;
 }
-bool transition_Porte_Droite() {
+bool transition_RGB_Final() {
     // À compléter : condition de transition
     return false;
 }

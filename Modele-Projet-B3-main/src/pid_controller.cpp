@@ -43,21 +43,21 @@ void AvancementRegule(double ultrasonGauche, double ultrasonDroite, double ultra
   { 
   commande = Compute(ultrasonGauche, 10);
 
-  setSpeed1(-70 - commande);
-  setSpeed2(-70 + commande);
+  setSpeed1(-65 - commande);
+  setSpeed2(-65 + commande);
   
  }
 else if (ultrasonDroite < 40)
  {
   commande = Compute(ultrasonDroite, 30);
-  setSpeed1(-70 + commande);
-  setSpeed2(-70 - commande);
+  setSpeed1(-65 + commande);
+  setSpeed2(-65 - commande);
   
     }
  else
  {
-  setSpeed1(-70);
-  setSpeed2(-85); 
+  setSpeed1(-60);
+  setSpeed2(-75); 
  }
 Avancer();
 }
