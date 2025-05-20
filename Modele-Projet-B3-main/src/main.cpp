@@ -65,7 +65,7 @@ void setup()
   // Initialisation de la communication série
   Serial.begin(9600);
   //setupMainDroite2(); // Configurer les moteurs
-  SetTunings(2, 0, 2); // Initialisation des paramètres PID
+  // SetTunings(2, 0, 2); // Initialisation des paramètres PID
   //setupRegulationPON();
   
   //  SPI.begin();
@@ -98,10 +98,10 @@ void setup()
 void loop() 
 { 
   
-  double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
-  double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
-  double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
-  double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
+  // double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
+  // double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
+  // double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
+  // double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
   // Serial.print("ultrason derrière : ");
   // Serial.println(ultrasonArriere);
   // if(first==true)
@@ -112,7 +112,7 @@ void loop()
   //   first=false;  
   //  delay(5000);
   // }
-
+  rfidddd();
 
   // setSpeed1(-120);
   // setSpeed2(-120);
