@@ -28,7 +28,7 @@ void SetTunings(double Kp, double Ki, double Kd) {
     kp = Kp;
     ki = Ki;
     kd = Kd;
-    Setpoint = 0;
+    Setpoint = 15;
 }
 double getError()
 {

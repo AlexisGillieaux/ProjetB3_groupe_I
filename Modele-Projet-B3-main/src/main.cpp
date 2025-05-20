@@ -45,7 +45,7 @@ L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
 int jklm = 0;
 double commande=0;
 bool changementDeMur=false;
-bool first= true;
+bool first= false;
 
 
 
@@ -150,44 +150,112 @@ void loop()
   // }
   // Serial.print("ultrason Arrieere : ");
   // Serial.println(ultrasonArriere);
-  if(ultrasonArriere<25.0  && ultrasonGauche<25.0)
-  {
-    // Arreter();
-    // delay(2000);
-     setSpeed1(-150);
-     setSpeed2(100);
-     Avancer();
+  // if(ultrasonArriere<25.0  && ultrasonGauche<25.0)
+  // {
+  //   // Arreter();
+  //   // delay(2000);
+  //    setSpeed1(-150);
+  //    setSpeed2(100);
+  //    Avancer();
 
-  }
-  else if(ultrasonArriere<25.0 && ultrasonDroite<25.0 )
-  {// Arreter();
-    // delay(2000);
-     setSpeed1(100);
-     setSpeed2(-150);
-     Avancer();
+  // }
+  // else if(ultrasonArriere<25.0 && ultrasonDroite<25.0 )
+  // {// Arreter();
+  //   // delay(2000);
+  //    setSpeed1(100);
+  //    setSpeed2(-150);
+  //    Avancer();
 
-  }
+  // }
   // regulation correcte
-else if (ultrasonGauche < 40)
-{ 
-commande = Compute(ultrasonGauche, 15.0);
 
-  setSpeed1(-70- commande);
-  setSpeed2(-70 + commande);
-  
-}
-else if (ultrasonDroite < 40)
+   if(ultrasonGauche<20.0 && ultrasonDroite<20.0 && ultrasonAvant<20.0 && ultrasonArriere<20.0 && first==false)
+  { 
+    setSpeed1(-90);
+    setSpeed2(-90);
+    Avancer();
+    delay(500);
+  }
+  else if(ultrasonGauche<20.0 && ultrasonDroite<20.0 && first==false)
+  { 
+    setSpeed1(-90);
+    setSpeed2(-90);
+    Avancer();
+    delay(500);
+  }
+   else if(ultrasonArriere<20.0 && ultrasonGauche<20.0 && ultrasonDroite<20.0 && first==false)
+  {setSpeed1(0);
+  setSpeed2(120);
+  Avancer();
+    delay(500);
+  setSpeed1(-120);
+  setSpeed2(120);
+  Avancer();
+  delay(1000);
+  setSpeed1(-90);
+  setSpeed2(-90);
+  Avancer();
+  delay(400);
+
+  }
+ else if(ultrasonArriere<20.0 && ultrasonGauche>35.0 && ultrasonDroite>35.0 && first==false)
 {
-  commande = Compute(ultrasonDroite, 15.0);
+   setSpeed1(120);
+  setSpeed2(-120);
+  Avancer();
+  delay(500);
+  setSpeed1(-90);
+  setSpeed2(-90);
+  Avancer();
+  delay(400);
+  first=true;
+}
+else if(ultrasonArriere<20.0 && ultrasonGauche<20.0 && first==false)
+{
+  setSpeed1(-120);
+  setSpeed2(120);
+  Avancer();
+  delay(500);
+  setSpeed1(-90);
+  setSpeed2(-90);
+  Avancer();
+  delay(400);
+  first=true;
+
+}
+else if(ultrasonArriere<20.0 && ultrasonDroite<20.0 && first==false)
+{
+  setSpeed1(120);
+  setSpeed2(-120);
+  Avancer();
+  delay(500);
+  setSpeed1(-90);
+  setSpeed2(-90);
+  Avancer();
+  delay(400);
+  first=true;
+
+}
+else if (ultrasonGauche < 35)
+{ 
+commande = Compute(ultrasonGauche, 5.0);
+
+  setSpeed1(-70 - commande);
+  setSpeed2(-70 + commande);
+  first=false;
+}
+else if (ultrasonDroite < 35)
+{
+  commande = Compute(ultrasonDroite, 5.0);
   setSpeed1(-70 + commande);
   setSpeed2(-70 - commande);
-  
+  first=false;
 }
 else
 {
   setSpeed1(-70);
-  setSpeed2(-90);
-  
+  setSpeed2(-75);
+  first=false;
   
 }
 Avancer();
