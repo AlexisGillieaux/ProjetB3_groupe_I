@@ -57,7 +57,9 @@ else if (ultrasonDroite < 40)
  else
  {
   setSpeed1(-70);
-  setSpeed2(-70); 
+  setSpeed2(-85); 
  }
 Avancer();
 }
+
+

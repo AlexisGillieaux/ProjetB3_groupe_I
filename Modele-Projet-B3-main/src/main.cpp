@@ -22,6 +22,12 @@
 #include "etatMainDroiteFauteuil.h"
 #include "etatMainDroiteFinal.h"
 #include "regulationPON.h"
+#include "etatPorte.h"
+
+
+
+
+
 
 
 
@@ -45,19 +51,22 @@ L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
 int jklm = 0;
 double commande=0;
 bool changementDeMur=false;
-bool first= false;
+
 
 
 
 // Création des états
-// State* etatInitial = machine.addState(&EtatInitial);
-// State* etatAttente = machine.addState(&EtatAttente);
-// State* etatAction = machine.addState(&EtatAction);
-// State* etatFinal = machine.addState(&EtatFinal);
-// State* etatRGB = machine.addState(&EtatRGB);
-// State* etatDecodage = machine.addState(&EtatDecodage);
-// State* etatMainDroite = machine.addState(&EtatMainDroiteFauteuil);
-// State* etatMainDroite2 = machine.addState(&EtatMainDroiteFinal);
+State* etatInitial = machine.addState(&EtatInitial);
+State* etatAttente = machine.addState(&EtatAttente);
+State* etatAction = machine.addState(&EtatAction);
+State* etatFinal = machine.addState(&EtatFinal);
+State* etatRGB = machine.addState(&EtatRGB);
+State* etatDecodage = machine.addState(&EtatDecodage);
+State* etatMainDroite2 = machine.addState(&EtatMainDroiteFinal);
+State* etatMainDroiteFauteuil = machine.addState(&EtatMainDroiteFauteuil);
+State* etatMainDroiteFinal = machine.addState(&EtatMainDroiteFinal);
+//State* etatPorte = machine.addState(&EtatPorte);
+
 
 int f=0;
 void setup() 
@@ -98,109 +107,64 @@ void setup()
 
 void loop() 
 { 
-  
   double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
   double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
   double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
   double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
-  
-  // regulation correcte
-  // Serial.print("Ultrason gauche: ");
-  // Serial.print(ultrasonGauche);
-  // Serial.print("   ");
+
+
   viewColor();
-  
-   if(colorDetecte[0]>140.0)
+
+  if(colorDetecte[0]>140.0)
   { 
-    setSpeed1(-165);
-    setSpeed2(-175);
+    setSpeed1(255);
+    setSpeed2(255);
     Avancer();
-    delay(500);
+    delay(750);
   }
   else if(colorDetecte[1]>100.0)
   { 
     //RecepteurIR();
   }
-  else if(colorDetecte[2]<140.0)
+  else if(colorDetecte[2]>140.0)
   {
     //EmmeteurIR();
   }
-  else if(colorDetecte[2]>140.0)
-  { 
-    setSpeed1(-175);
-    setSpeed2(-175);
-    Avancer();
-    delay(500);
-  }
-  else if(ultrasonAvant<15.0 && ultrasonGauche<20.0 && ultrasonDroite>35.0 && first==false)
+  // cul-de-sac : demi-tour si bloqué devant, à droite et à gauche, et peu de place derrière
+  else if(ultrasonDevant > 30.0 && ultrasonDroite < 30.0 && ultrasonGauche < 30.0 && ultrasonArriere < 15.0)
   {
-    setSpeed1(120);
-    setSpeed2(-120);
+    setSpeed1(-120); // gauche arrière
+    setSpeed2(120);  // droite avant
     Avancer();
-    delay(500);
+    delay(1000); // 1 seconde pour le demi-tour
   }
-  else if(ultrasonGauche<20.0 && ultrasonDroite<20.0 && first==false)
-  { 
-    setSpeed1(-80);
-    setSpeed2(-100);
-    Avancer();
-    delay(500);
-  }
-   else if(ultrasonArriere<15.0 && ultrasonGauche<20.0 && ultrasonDroite<20.0 && ultrasonAvant<40.0 && first==false)
+  // tourner à gauche (marche arrière, donc droite <-> gauche)
+  else if(ultrasonArriere > 15.0 && ultrasonDroite > 30.0 && ultrasonGauche < 30.0 )
   {
-    setSpeed1(0);
-  setSpeed2(120);
-  Avancer();
+    setSpeed1(120);  // gauche avant
+    setSpeed2(-120); // droite arrière
+    Avancer();
     delay(500);
-  setSpeed1(-120);
-  setSpeed2(120);
-  Avancer();
-  delay(1200);
-  setSpeed1(-80);
-  setSpeed2(-100);
-  Avancer();
-  delay(200);
-
   }
- else if(ultrasonArriere<15.0 && ultrasonGauche>35.0 && ultrasonDroite>35.0 && first==false)
-{
-   setSpeed1(120);
-  setSpeed2(-120);
-  Avancer();
-  delay(500);
-  setSpeed1(-80);
-  setSpeed2(-100);
-  Avancer();
-  delay(200);
-  first=true;
+  // tourner à droite si devant et gauche bloqué mais droite libre (marche arrière)
+  else if(ultrasonArriere > 15.0 && ultrasonGauche < 30.0 && ultrasonDroite > 30.0 )
+  {
+    setSpeed1(-120); // gauche arrière
+    setSpeed2(120);  // droite avant
+    Avancer();
+    delay(500);
+  }
+  // tourner à gauche si devant et droite bloqué mais gauche libre (marche arrière)
+  else if(ultrasonArriere < 30.0 && ultrasonDroite < 30.0 && ultrasonGauche > 30.0 )
+  {
+    setSpeed1(120);  // gauche avant
+    setSpeed2(-120); // droite arrière
+    Avancer();
+    delay(500);
+  }
+  else
+  {
+      AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonDevant);
+  }
 }
-else if(ultrasonArriere<15.0 && ultrasonGauche<20.0 && first==false)
-{
-  setSpeed1(-120);
-  setSpeed2(120);
-  Avancer();
-  delay(500);
-  setSpeed1(-80);
-  setSpeed2(-100);
-  Avancer();
-  delay(100);
-  first=true;
 
-}
-else if(ultrasonArriere<15.0 && ultrasonDroite<20.0 && first==false)
-{
-  setSpeed1(120);
-  setSpeed2(-120);
-  Avancer();
-  delay(500);
-  setSpeed1(-80);
-  setSpeed2(-100);
-  Avancer();
-  delay(100);
-  first=true;
-
-}
-AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonAvant);
-
-}
-  

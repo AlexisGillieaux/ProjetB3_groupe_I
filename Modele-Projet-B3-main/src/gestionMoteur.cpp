@@ -106,22 +106,20 @@ void Arreter()
     // moteur.stop(); // Arrêter le moteur
     // Serial.println("Arrêter"); // Afficher "Arrêter" dans le moniteur série
 }
-
+// moteur gauche
 double setSpeed1(double speed) 
 {
-    // Définir la vitesse du moteur avant
-    speed1 = speed; // Vitesse du moteur avant
-    // Serial.print("Vitesse du moteur avant : ");
-    // Serial.println(speed1); // Afficher la vitesse du moteur avant dans le moniteur série
+   
+    speed1 = speed; 
+   
     return speed1;
 }
-
+//moteur droite
 double setSpeed2(double speed) 
 {
-    // Définir la vitesse du moteur reculer
+  
     speed2 = speed; // Vitesse du moteur reculer
-    // Serial.print("Vitesse du moteur reculer : ");
-    // Serial.println(speed2); // Afficher la vitesse du moteur reculer dans le moniteur série
+
     return speed2;
 }
 
