@@ -3,8 +3,6 @@
 // ces lignes permettent d'éviter les inclusions multiples
 #ifndef CONFIG_H
 #define CONFIG_H 
-#define DECODE_NEC 
-#define EXCLUDE_EXOTIC_PROTOCOLS
 // #define RAW_BUFFER_LENGTH  20
 
 
@@ -18,7 +16,7 @@
 #include <math.h> // Pour utiliser les fonctions mathématiques
 #include <HCSR04.h> // Librairie pour le capteur ultrason
 #include <SPI.h> // Librairie pour la communication SPI
-#include <MFRC522.h>        // Librairie pour le module RFID MFRC522
+#include <mfrc522.h>        // Librairie pour le module RFID MFRC522
 #include <DFRobot_TCS34725.h>   // Librairie pour le capteur de couleur TCS34725
 #include <L298N.h>      // Librairie pour le module de contrôle de moteur L298N
 #include <L298NX2.h>    // Librairie pour le module de contrôle de moteur L298N (version 2 moteurs)
@@ -38,8 +36,8 @@
 // Définition des broches infrarouges
 #define IR_SEND_PIN 32
 #define IR_RECV_PIN 33
-#define SS_PIN 49
-#define RST_PIN 53
+#define SS_PIN 53
+#define RST_PIN 49
 #define PIN_BUZZER 42
 
 // Définition des broches ultrason
@@ -63,13 +61,6 @@
 #define PIN_BIN1 6    // Pin for the IN1 of the motor B
 #define PIN_BIN2 7    // Pin for the IN2 of the motor B
 
-// Définition des broches du moteur (GROUPE J)
-#define PIN_MOTEURJ_A1 33    // Pin for the IN1 of the motor A
-#define PIN_MOTEURJ_A2 34    // Pin for the IN2 of the motor A
-#define PIN_MOTEURJ_ENA 13  // Pin for the ENA of the motor A
-#define PIN_MOTEURJ_B1 32   // Pin for the IN1 of the motor B
-#define PIN_MOTEURJ_B2 6   // Pin for the IN2 of the motor B
-#define PIN_MOTEURJ_ENB 5  // Pin for the ENB of the motor B
 
 // Définition des délais
 #define DELAI_ATTENTE 3000  // 3 secondes
@@ -111,7 +102,6 @@ extern unsigned long lastSignalTime1; // Temps du dernier signal se terminant pa
 extern unsigned long timeBetween0And1; // Temps entre un signal se terminant par 0 et un signal se terminant par 1
 extern unsigned long timeBetween1And0; // Temps entre un signal se terminant par 1 et un signal se terminant par 0
 
-extern int data[169];
 extern bool dataComplete;
 extern int* pointdata;
 extern int** nodes;
