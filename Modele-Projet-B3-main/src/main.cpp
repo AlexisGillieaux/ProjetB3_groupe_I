@@ -45,7 +45,7 @@ L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
 int jklm = 0;
 double commande=0;
 bool changementDeMur=false;
-bool first= true;
+bool first= false;
 
 
 
@@ -65,7 +65,8 @@ void setup()
   // Initialisation de la communication série
   Serial.begin(9600);
   //setupMainDroite2(); // Configurer les moteurs
-  // SetTunings(2, 0, 2); // Initialisation des paramètres PID
+  SetTunings(2, 0, 2); // Initialisation des paramètres PID
+  connexion();
   //setupRegulationPON();
   
   //  SPI.begin();
@@ -98,98 +99,108 @@ void setup()
 void loop() 
 { 
   
-  // double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
-  // double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
-  // double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
-  // double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
-  // Serial.print("ultrason derrière : ");
-  // Serial.println(ultrasonArriere);
-  // if(first==true)
-  // {   
-  // setSpeed1(-120);
-  //  setSpeed2(-120);
-  //  Avancer();
-  //   first=false;  
-  //  delay(5000);
-  // }
-  rfidddd();
-
-  // setSpeed1(-120);
-  // setSpeed2(-120);
-  // Avancer();
-  // if(ultrasonArriere < 20 && ultrasonGauche < 20)
-  // {
-  //   setSpeed1(-120);
-  //   setSpeed2(120);
-  //   Avancer();
-  //   delay(200);
-  // }
-  // else if(ultrasonArriere > 20 && ultrasonGauche > 20)
-  // {
-  //   setSpeed1(120);
-  //   setSpeed2(-120);
-  //   Avancer();
-  //   delay(200);
-    
-  // }
-  // else if(ultrasonArriere < 20 && ultrasonGauche > 20)
-  // {
-  //   setSpeed1(-120);
-  //   setSpeed2(120);
-  //   Avancer();
-  //   delay(200);
-    
-  // }
-  // else if(ultrasonArriere < 20 && ultrasonGauche > 20)
-  // {
-  //   setSpeed1(120);
-  //   setSpeed2(-120);
-  //   Avancer();
-  //   delay(500);
-    
-  // }
-  // Serial.print("ultrason Arrieere : ");
-  // Serial.println(ultrasonArriere);
-  if(ultrasonArriere<25.0  && ultrasonGauche<25.0)
-  {
-    // Arreter();
-    // delay(2000);
-     setSpeed1(-150);
-     setSpeed2(100);
-     Avancer();
-
-  }
-  else if(ultrasonArriere<25.0 && ultrasonDroite<25.0 )
-  {// Arreter();
-    // delay(2000);
-     setSpeed1(100);
-     setSpeed2(-150);
-     Avancer();
-
-  }
+  double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
+  double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
+  double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
+  double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
+  
   // regulation correcte
-else if (ultrasonGauche < 40)
-{ 
-commande = Compute(ultrasonGauche, 15.0);
+  // Serial.print("Ultrason gauche: ");
+  // Serial.print(ultrasonGauche);
+  // Serial.print("   ");
+  viewColor();
+  
+   if(colorDetecte[0]>140.0)
+  { 
+    setSpeed1(-165);
+    setSpeed2(-175);
+    Avancer();
+    delay(500);
+  }
+  else if(colorDetecte[1]>100.0)
+  { 
+    //RecepteurIR();
+  }
+  else if(colorDetecte[2]<140.0)
+  {
+    //EmmeteurIR();
+  }
+  else if(colorDetecte[2]>140.0)
+  { 
+    setSpeed1(-175);
+    setSpeed2(-175);
+    Avancer();
+    delay(500);
+  }
+  else if(ultrasonAvant<15.0 && ultrasonGauche<20.0 && ultrasonDroite>35.0 && first==false)
+  {
+    setSpeed1(120);
+    setSpeed2(-120);
+    Avancer();
+    delay(500);
+  }
+  else if(ultrasonGauche<20.0 && ultrasonDroite<20.0 && first==false)
+  { 
+    setSpeed1(-80);
+    setSpeed2(-100);
+    Avancer();
+    delay(500);
+  }
+   else if(ultrasonArriere<15.0 && ultrasonGauche<20.0 && ultrasonDroite<20.0 && ultrasonAvant<40.0 && first==false)
+  {
+    setSpeed1(0);
+  setSpeed2(120);
+  Avancer();
+    delay(500);
+  setSpeed1(-120);
+  setSpeed2(120);
+  Avancer();
+  delay(1200);
+  setSpeed1(-80);
+  setSpeed2(-100);
+  Avancer();
+  delay(200);
 
-  setSpeed1(-70- commande);
-  setSpeed2(-70 + commande);
-  
-}
-else if (ultrasonDroite < 40)
+  }
+ else if(ultrasonArriere<15.0 && ultrasonGauche>35.0 && ultrasonDroite>35.0 && first==false)
 {
-  commande = Compute(ultrasonDroite, 15.0);
-  setSpeed1(-70 + commande);
-  setSpeed2(-70 - commande);
-  
+   setSpeed1(120);
+  setSpeed2(-120);
+  Avancer();
+  delay(500);
+  setSpeed1(-80);
+  setSpeed2(-100);
+  Avancer();
+  delay(200);
+  first=true;
 }
-else
+else if(ultrasonArriere<15.0 && ultrasonGauche<20.0 && first==false)
 {
-  setSpeed1(-70);
-  setSpeed2(-90);
-  
-  
+  setSpeed1(-120);
+  setSpeed2(120);
+  Avancer();
+  delay(500);
+  setSpeed1(-80);
+  setSpeed2(-100);
+  Avancer();
+  delay(100);
+  first=true;
+
 }
-Avancer();
+else if(ultrasonArriere<15.0 && ultrasonDroite<20.0 && first==false)
+{
+  setSpeed1(120);
+  setSpeed2(-120);
+  Avancer();
+  delay(500);
+  setSpeed1(-80);
+  setSpeed2(-100);
+  Avancer();
+  delay(100);
+  first=true;
+
+}
+AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonAvant);
+
 }
   
