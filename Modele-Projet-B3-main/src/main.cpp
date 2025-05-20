@@ -66,6 +66,7 @@ void setup()
   Serial.begin(9600);
   //setupMainDroite2(); // Configurer les moteurs
   SetTunings(2, 0, 2); // Initialisation des paramètres PID
+  connexion();
   //setupRegulationPON();
   
   //  SPI.begin();
@@ -102,151 +103,92 @@ void loop()
   double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
   double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
   double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
-  // Serial.print("ultrason derrière : ");
-  // Serial.println(ultrasonArriere);
-  // if(first==true)
-  // {   
-  // setSpeed1(-120);
-  //  setSpeed2(-120);
-  //  Avancer();
-  //   first=false;  
-  //  delay(5000);
-  // }
-
-
-  // setSpeed1(-120);
-  // setSpeed2(-120);
-  // Avancer();
-  // if(ultrasonArriere < 20 && ultrasonGauche < 20)
-  // {
-  //   setSpeed1(-120);
-  //   setSpeed2(120);
-  //   Avancer();
-  //   delay(200);
-  // }
-  // else if(ultrasonArriere > 20 && ultrasonGauche > 20)
-  // {
-  //   setSpeed1(120);
-  //   setSpeed2(-120);
-  //   Avancer();
-  //   delay(200);
-    
-  // }
-  // else if(ultrasonArriere < 20 && ultrasonGauche > 20)
-  // {
-  //   setSpeed1(-120);
-  //   setSpeed2(120);
-  //   Avancer();
-  //   delay(200);
-    
-  // }
-  // else if(ultrasonArriere < 20 && ultrasonGauche > 20)
-  // {
-  //   setSpeed1(120);
-  //   setSpeed2(-120);
-  //   Avancer();
-  //   delay(500);
-    
-  // }
-  // Serial.print("ultrason Arrieere : ");
-  // Serial.println(ultrasonArriere);
-  // if(ultrasonArriere<25.0  && ultrasonGauche<25.0)
-  // {
-  //   // Arreter();
-  //   // delay(2000);
-  //    setSpeed1(-150);
-  //    setSpeed2(100);
-  //    Avancer();
-
-  // }
-  // else if(ultrasonArriere<25.0 && ultrasonDroite<25.0 )
-  // {// Arreter();
-  //   // delay(2000);
-  //    setSpeed1(100);
-  //    setSpeed2(-150);
-  //    Avancer();
-
-  // }
+  
   // regulation correcte
-
-   if(ultrasonGauche<20.0 && ultrasonDroite<20.0 && ultrasonAvant<20.0 && ultrasonArriere<20.0 && first==false)
+  // Serial.print("Ultrason gauche: ");
+  // Serial.print(ultrasonGauche);
+  // Serial.print("   ");
+  viewColor();
+  delay(5000);
+   if(colorDetecte[0]>140.0)
   { 
-    setSpeed1(-90);
-    setSpeed2(-90);
+    setSpeed1(-165);
+    setSpeed2(-175);
     Avancer();
     delay(500);
   }
   else if(ultrasonGauche<20.0 && ultrasonDroite<20.0 && first==false)
   { 
-    setSpeed1(-90);
-    setSpeed2(-90);
+    setSpeed1(-80);
+    setSpeed2(-100);
     Avancer();
     delay(500);
   }
-   else if(ultrasonArriere<20.0 && ultrasonGauche<20.0 && ultrasonDroite<20.0 && first==false)
-  {setSpeed1(0);
+   else if(ultrasonArriere<15.0 && ultrasonGauche<20.0 && ultrasonDroite<20.0 && ultrasonAvant<40.0 && first==false)
+  {
+    setSpeed1(0);
   setSpeed2(120);
   Avancer();
     delay(500);
   setSpeed1(-120);
   setSpeed2(120);
   Avancer();
-  delay(1000);
-  setSpeed1(-90);
-  setSpeed2(-90);
+  delay(1200);
+  setSpeed1(-80);
+  setSpeed2(-100);
   Avancer();
-  delay(400);
+  delay(200);
 
   }
- else if(ultrasonArriere<20.0 && ultrasonGauche>35.0 && ultrasonDroite>35.0 && first==false)
+ else if(ultrasonArriere<15.0 && ultrasonGauche>35.0 && ultrasonDroite>35.0 && first==false)
 {
    setSpeed1(120);
   setSpeed2(-120);
   Avancer();
   delay(500);
-  setSpeed1(-90);
-  setSpeed2(-90);
+  setSpeed1(-80);
+  setSpeed2(-100);
   Avancer();
-  delay(400);
+  delay(200);
   first=true;
 }
-else if(ultrasonArriere<20.0 && ultrasonGauche<20.0 && first==false)
+else if(ultrasonArriere<15.0 && ultrasonGauche<20.0 && first==false)
 {
   setSpeed1(-120);
   setSpeed2(120);
   Avancer();
   delay(500);
-  setSpeed1(-90);
-  setSpeed2(-90);
+  setSpeed1(-80);
+  setSpeed2(-100);
   Avancer();
-  delay(400);
+  delay(100);
   first=true;
 
 }
-else if(ultrasonArriere<20.0 && ultrasonDroite<20.0 && first==false)
+else if(ultrasonArriere<15.0 && ultrasonDroite<20.0 && first==false)
 {
   setSpeed1(120);
   setSpeed2(-120);
   Avancer();
   delay(500);
-  setSpeed1(-90);
-  setSpeed2(-90);
+  setSpeed1(-80);
+  setSpeed2(-100);
   Avancer();
-  delay(400);
+  delay(100);
   first=true;
 
 }
-else if (ultrasonGauche < 35)
+else if (ultrasonGauche < 40)
 { 
-commande = Compute(ultrasonGauche, 5.0);
+commande = Compute(ultrasonGauche, 10);
 
   setSpeed1(-70 - commande);
   setSpeed2(-70 + commande);
   first=false;
 }
-else if (ultrasonDroite < 35)
+else if (ultrasonDroite < 40)
 {
-  commande = Compute(ultrasonDroite, 5.0);
+  commande = Compute(ultrasonDroite, 30);
   setSpeed1(-70 + commande);
   setSpeed2(-70 - commande);
   first=false;
@@ -254,7 +196,7 @@ else if (ultrasonDroite < 35)
 else
 {
   setSpeed1(-70);
-  setSpeed2(-75);
+  setSpeed2(-70);
   first=false;
   
 }

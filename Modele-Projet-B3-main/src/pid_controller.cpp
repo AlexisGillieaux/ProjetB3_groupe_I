@@ -1,5 +1,6 @@
 // PID Controller Implementation
 #include "pid_controller.h"
+#include "gestionMoteur.h"
 #include <Arduino.h>
 // Working variables
 unsigned long lastTime;
@@ -33,4 +34,32 @@ void SetTunings(double Kp, double Ki, double Kd) {
 double getError()
 {
     return error;
+}
+
+void AvancementRegule(double ultrasonGauche, double ultrasonDroite, double ultrasonArriere, double ultrasonAvant)
+{
+    double commande;
+if (ultrasonGauche < 40)
+{ 
+commande = Compute(ultrasonGauche, 10);
+
+  setSpeed1(-70 - commande);
+  setSpeed2(-70 + commande);
+  
+}
+else if (ultrasonDroite < 40)
+{
+  commande = Compute(ultrasonDroite, 30);
+  setSpeed1(-70 + commande);
+  setSpeed2(-70 - commande);
+  
+}
+else
+{
+  setSpeed1(-70);
+  setSpeed2(-70);
+  
+  
+}
+Avancer();
 }
