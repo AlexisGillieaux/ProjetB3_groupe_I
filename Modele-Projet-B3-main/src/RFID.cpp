@@ -28,20 +28,15 @@ int* pointdata = (int*)malloc(169*sizeof(int));
 //Fonction de base
 void rfidddd() 
 {
-  //Serial.println("test 1");
-  Serial.print("test 1");
+
   // Attente d’une carte RFID
   if ( ! mfrc522.PICC_IsNewCardPresent()) {
-    //Serial.println("test 2");
     return;
   }
   // Récupération des informations de la carte RFID
   if ( ! mfrc522.PICC_ReadCardSerial()) {
-    Serial.println("test 3");
     return;
   }
-  int tampon[169];
-  int labyrinthe[13][13];
 
   
   //   Read bloc 0 1 2
