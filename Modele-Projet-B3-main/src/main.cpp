@@ -116,76 +116,80 @@ void setup()
 
 void loop() 
 { 
-  machine.run();
+  if(PIN_MAIN_DROITE== LOW)
+  {
+     machine.run();
+  }
+  
 
 
-  // double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
-  // double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
-  // double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
-  // double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
-  // if(ultrasonDroite==-1)
-  // {
-  //   ultrasonDroite = 1;
-  // }
-  // if(ultrasonGauche==-1)
-  // {
-  //   ultrasonGauche = 1;
-  // }
-  // if(ultrasonDevant==-1)
-  // {
-  //   ultrasonDevant = 1;
-  // }
-  // if(ultrasonArriere==-1)
-  // {
-  //   ultrasonArriere = 1;
-  // }
+  double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
+  double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
+  double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
+  double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
+  if(ultrasonDroite==-1)
+  {
+    ultrasonDroite = 1;
+  }
+  if(ultrasonGauche==-1)
+  {
+    ultrasonGauche = 1;
+  }
+  if(ultrasonDevant==-1)
+  {
+    ultrasonDevant = 1;
+  }
+  if(ultrasonArriere==-1)
+  {
+    ultrasonArriere = 1;
+  }
 
 
-  //  viewColor();
+    viewColor();
   // // Serial.print(ultrasonGauche);
 
-  // if(colorDetecte[0]>140.0)
-  // { 
-  //   setSpeed1(255);
-  //   setSpeed2(255);
-  //   Avancer();
-  //   delay(1000);
-  //   setSpeed1(0);
-  //   setSpeed2(-80);
-  //   Avancer();
-  //   delay(500);
-  // }
-  //   if(ultrasonArriere<15 && ultrasonGauche<30)
-  // {
-  //    delay(350);
-  //    setSpeed1(-100);
-  //    setSpeed2(100);
-  //    Avancer();
-  //     delay(500);
-  //     setSpeed1(-80);
-  //   setSpeed2(-80);
-  //   Avancer();
-  //   delay(400);
+  if(colorDetecte[0]>140.0)
+  { 
+    setSpeed1(255);
+    setSpeed2(255);
+    Avancer();
+    delay(1000);
+    setSpeed1(0);
+    setSpeed2(-80);
+    Avancer();
+    delay(500);
+  }
+    if(ultrasonArriere<15 && ultrasonGauche<30)
+  {
+     delay(350);
+     setSpeed1(-100);
+     setSpeed2(100);
+     Avancer();
+      delay(500);
+      setSpeed1(-80);
+    setSpeed2(-80);
+    Avancer();
+    delay(400);
      
-  // }
-  // else if (ultrasonGauche>40 )
-  // {
+  }
+  else if (ultrasonGauche>40 )
+  {
    
-  //   delay(350);
-  //   setSpeed1(100);
-  //   setSpeed2(-100);
-  //   Avancer();
-  //   delay(500);
-  //   setSpeed1(-80);
-  //   setSpeed2(-80);
-  //   Avancer();
-  //   delay(400);
+    delay(350);
+    setSpeed1(100);
+    setSpeed2(-100);
+    Avancer();
+    delay(500);
+    setSpeed1(-80);
+    setSpeed2(-80);
+    Avancer();
+    delay(400);
     
 
-  // }
-  // else
-  // {
-  //     AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonDevant);
-  // }
+  }
+  else
+  {
+      AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonDevant);
+  }
 }
 
