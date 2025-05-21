@@ -115,6 +115,11 @@ extern int* pathdijk1;
 extern int* pathdijk2;
 extern bool pathComplete;
 extern int currentNodeMatrix;
+extern int shortNode[7]; // Initialiser avec des valeurs par défaut
+extern int* instruction1;
+extern int* instruction2;
+extern int* instruction3;
+extern int* pathdijk3;
 
 
 #endif
