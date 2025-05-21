@@ -83,10 +83,10 @@ void setup()
   // Transitions classiques
   etatInitial->addTransition(&transition_Initial_Decodage, etatDecodage);
   etatDecodage->addTransition(&transition_Decodage_Porte, etatPorte);
-  etatPorte->addTransition(&transition_Porte_Haut, etatMainDroiteFauteuil);
-  etatPorte->addTransition(&transition_Porte_Bas, etatMainDroiteFinal);
-  etatPorte->addTransition(&transition_Porte_Gauche, etatRGB);
-  etatPorte->addTransition(&transition_Porte_Droite, etatFinal);
+  // etatPorte->addTransition(&transition_Porte_Haut, etatMainDroiteFauteuil);
+  // etatPorte->addTransition(&transition_Porte_Bas, etatMainDroiteFinal);
+  // etatPorte->addTransition(&transition_Porte_Gauche, etatRGB);
+  //etatPorte->addTransition(&transition_Porte_Droite, etatFinal);
 
   etatMainDroiteFauteuil->addTransition(&transition_MainDroiteFauteuil_Fauteuil, etatFauteuil);
   etatMainDroiteFinal->addTransition(&transition_MainDroiteFinal_Final, etatFinal);
@@ -104,7 +104,7 @@ void setup()
   // etatAction->addTransition(&transition_Action_MainDroiteFauteuil, etatMainDroiteFauteuil);
   etatFinal->addTransition(&transition_Final_MainDroiteFauteuil, etatMainDroiteFauteuil);
   etatDecodage->addTransition(&transition_Decodage_MainDroiteFauteuil, etatMainDroiteFauteuil);
-  etatPorte->addTransition(&transition_Porte_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  //etatPorte->addTransition(&transition_Porte_MainDroiteFauteuil, etatMainDroiteFauteuil);
   etatFauteuil->addTransition(&transition_Fauteuil_MainDroiteFauteuil, etatMainDroiteFauteuil);
   etatRGB->addTransition(&transition_RGB_MainDroiteFauteuil, etatMainDroiteFauteuil);
   etatMainDroiteFinal->addTransition(&transition_MainDroiteFinal_MainDroiteFauteuil, etatMainDroiteFauteuil);
@@ -200,8 +200,8 @@ void loop()
      setSpeed2(100);
      Avancer();
       delay(500);
-      setSpeed1(-85);
-    setSpeed2(-70);
+      setSpeed1(-75);
+    setSpeed2(-75);
     Avancer();
     delay(700);
      
@@ -222,8 +222,8 @@ void loop()
     Avancer();
     delay(800);
     }
-    else{setSpeed1(-85);
-    setSpeed2(-70);
+    else{setSpeed1(-75);
+    setSpeed2(-75);
     Avancer();
     delay(600);
   }
