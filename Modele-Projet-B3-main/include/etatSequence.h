@@ -3,10 +3,10 @@
 
 #include "config.h"
 
-// Déclaration des fonctions
 void EtatSequence();
-bool transition_Initial_Attente();
-bool transition_Initial_Decodage();
-bool transition_Initial_MainDroiteFauteuil();
+bool transition_Sequence_Shortcut();
+bool transition_Sequence_Fauteuil();
+bool transition_Sequence_Final();
+
 
 #endif
