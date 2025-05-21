@@ -1,6 +1,10 @@
 #include "etatMainDroiteFinal.h"
 #include "config.h"
 #include "mainDroite.h"
+#include "gestionMoteur.h"
+#include "gestionUltrason.h"
+#include "gestionRGB.h"
+#include "pid_controller.h"
 
 /**
  * @brief Gère la logique de l'état final de la main droite.
@@ -13,7 +17,54 @@
 void EtatMainDroiteFinal() 
 {
     // À compléter : logique de l'état MainDroiteFinal
-   mainDroiteFonctionnel();
+       double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
+   double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
+   double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
+   double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
+
+   if(ultrasonArriere<13 && ultrasonGauche<30)
+  {
+     //delay(200);
+     setSpeed1(-100);
+     setSpeed2(100);
+     Avancer();
+      delay(500);
+      setSpeed1(-75);
+    setSpeed2(-75);
+    Avancer();
+    delay(700);
+     
+  }
+  else if (ultrasonGauche>40 )
+  {
+   
+    //delay(200);
+    
+    setSpeed1(100);
+    setSpeed2(-100);
+    Avancer();
+    delay(500);
+    if(ultrasonDroite>30)
+    {
+    setSpeed1(-85);
+    setSpeed2(-70);
+    Avancer();
+    delay(800);
+    }
+    else{setSpeed1(-75);
+    setSpeed2(-75);
+    Avancer();
+    delay(600);
+  }
+    
+    
+    
+
+  }
+  else
+  {
+      AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonDevant);
+  }
 }
 
 /**
@@ -33,18 +84,4 @@ bool transition_MainDroiteFinal_Final()
     }
     return false;
 }
-/**
- * @brief Vérifie la transition de l'état MainDroiteFinal vers MainDroiteFauteuil.
- * 
- * Cette fonction teste si la condition de transition est remplie en lisant l'état du capteur PIN_MAIN_DROITE.
- * 
- * @param PIN_MAIN_DROITE L'état du capteur de la main droite (HIGH ou LOW).
- * @return true si la transition doit avoir lieu (PIN_MAIN_DROITE == HIGH), false sinon.
- */
-bool transition_MainDroiteFinal_MainDroiteFauteuil() 
-{
-    if(PIN_MAIN_DROITE== HIGH)
-    {
-        return true;
-    }
-}
+

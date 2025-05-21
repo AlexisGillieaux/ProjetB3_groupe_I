@@ -4,6 +4,6 @@
 
 // Déclaration des fonctions
 void EtatFauteuil();
-bool transition_Fauteuil_MainDroite();
-bool transition_Fauteuil_MainDroiteFauteuil();
+bool transition_Fauteuil_MainDroiteFinal();
+
 
