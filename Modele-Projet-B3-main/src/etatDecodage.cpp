@@ -1,13 +1,17 @@
+
 #include "etatDecodage.h"
 #include "config.h"
 #include "RFID.h"
 
 
 /**
- * Fonction exécutée pendant l'état initial
- * éteint la LED et passe à l'état ATTENTE sur appui du bouton
- * @param aucun
- * @return aucun
+ * Fonction exécutée pendant l'état de décodage.
+ * Cette fonction traite les données de points, décode la matrice, extrait les noeuds de départ, d'arrivée et du fauteuil,
+ * puis calcule les chemins optimaux à l'aide de l'algorithme de Dijkstra.
+ * Elle libère également la mémoire allouée dynamiquement pour éviter les fuites.
+ * 
+ * @param Aucun paramètre n'est requis pour cette fonction.
+ * @return Aucun retour de valeur, la fonction effectue des traitements internes.
  */
 void EtatDecodage() {
   if(machine.executeOnce) {
@@ -21,6 +25,7 @@ void EtatDecodage() {
   int startNode[7] = {0, 0, 0, 0, 0, 0, 0}; // Initialiser avec des valeurs par défaut
   int goalNode[7] =  {0, 0, 0, 0, 0, 0, 0};  // Initialiser avec des valeurs par défaut
   int fauteuilNode[7] = {0, 0, 0, 0, 0, 0, 0}; // Initialiser avec des valeurs par défaut
+  int shortNode[7] = {0, 0, 0, 0, 0, 0, 0}; // Initialiser avec des valeurs par défaut
   for (int j = 0; j < 36; j++) {
 
     if (nodes[j][3] == 1) { // Noeud de départ
@@ -53,13 +58,29 @@ void EtatDecodage() {
       fauteuilNode[5] = nodes[j][5];
       fauteuilNode[6] = nodes[j][6];
     }
+    if(nodes[j][3] == 3) { // Noeud court
+
+      shortNode[0] = nodes[j][0];
+      shortNode[1] = nodes[j][1];
+      shortNode[2] = nodes[j][2];
+      shortNode[3] = nodes[j][3];
+      shortNode[4] = nodes[j][4];
+      shortNode[5] = nodes[j][5];
+      shortNode[6] = nodes[j][6];
+    }
   }
   int* dijkstraph1 = dijkstra(nodes, startNode);
-  int* pathdijk1 = antecedant(dijkstraph1,fauteuilNode,startNode);
+  int* pathdijk1 = antecedant(dijkstraph1,shortNode,startNode);
+  int* instruction1 = seqInstruct2(pathdijk1,startNode);
   free(dijkstraph1); // Libérer la mémoire allouée pour le tableau de noeuds précédents
-  int* dijkstraph2 = dijkstra(nodes, fauteuilNode);
-  int* pathdijk2 = antecedant(dijkstraph2,goalNode,fauteuilNode);
+  int* dijkstraph2 = dijkstra(nodes, shortNode);
+  int* pathdijk2 = antecedant(dijkstraph2,fauteuilNode,shortNode);
+  int* instruction2 = seqInstruct2(pathdijk2,shortNode);
   free(dijkstraph2); // Libérer la mémoire allouée pour le tableau de noeuds précédents
+  int* diijkstraph3 = dijkstra(nodes, fauteuilNode);
+  int* pathdijk3 = antecedant(diijkstraph3,goalNode,fauteuilNode);
+  int* instruction3 = seqInstruct2(pathdijk3,fauteuilNode);
+  free(diijkstraph3); // Libérer la mémoire allouée pour le tableau de noeuds précédents
 
   bool pathComplete = true;
   
@@ -67,9 +88,11 @@ void EtatDecodage() {
 }
  
 /**
- * Fonction de transition de l'état décodage vers l'état de passage de porte
- * @param aucun
- * @return true une fois que les differents chemins sont créé, false sinon
+ * Fonction de transition de l'état décodage vers l'état de passage de porte.
+ * Vérifie si les différents chemins ont été créés pour permettre la transition.
+ * 
+ * @param Aucun paramètre n'est requis pour cette fonction.
+ * @return true si les chemins sont créés et la transition peut avoir lieu, false sinon.
  */
 bool transition_Decodage_Porte() 
 {
@@ -78,6 +101,13 @@ bool transition_Decodage_Porte()
   
   return true;
 }
+/**
+ * Fonction de transition de l'état décodage vers l'état main droite.
+ * Vérifie si les différents chemins ont été créés pour permettre la transition.
+ * 
+ * @param Aucun paramètre n'est requis pour cette fonction.
+ * @return true si le bouton mainDroite et la transition peut avoir lieu, false sinon.
+ */
 bool transition_Decodage_MainDroiteFauteuil() 
 {
     if(PIN_MAIN_DROITE== HIGH)

@@ -1,17 +1,26 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+//--Co-programme réalisée en colaboration avec DOUNY Tristan (équipe H) et GILLIEAUX Alexis (équipe I)--//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::://
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include "RFID.h"
 
-
-/**
- * Fonction exécutée pendant l'état initial
- * éteint la LED et passe à l'état ATTENTE sur appui du bouton
- * @param aucun
- * @return code_matrice
- */
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 // Clé par défaut (valeurs d’usine)
 MFRC522::MIFARE_Key key;
 
+/**
+ * @brief Initialise le module RFID et le bus SPI pour la lecture des cartes.
+ *
+ * Cette fonction initialise la communication SPI, configure le module MFRC522,
+ * affiche un message sur le port série pour indiquer que le système est prêt à scanner,
+ * et initialise la clé d'authentification par défaut à 0xFF pour chaque octet.
+ *
+ * @param Aucun paramètre.
+ * @return Ne retourne aucune valeur.
+ */
 void rfid_init() {
     SPI.begin(); // Initialisation du bus SPI
     mfrc522.PCD_Init(); //
@@ -26,6 +35,16 @@ void rfid_init() {
 bool dataComplete = false;
 int* pointdata = (int*)malloc(169*sizeof(int));
 //Fonction de base
+/**
+ * @brief Attend la présence d'une nouvelle carte RFID, lit son numéro de série et affiche des blocs spécifiques.
+ *
+ * Cette fonction vérifie d'abord si une nouvelle carte RFID est présente. Si c'est le cas, elle tente de lire le numéro de série de la carte.
+ * Ensuite, elle lit et affiche le contenu de plusieurs blocs de données de la carte via la fonction rfid1Block().
+ * Enfin, elle indique que les données sont complètes en mettant à jour la variable dataComplete.
+ *
+ * @param Aucun paramètre d'entrée.
+ * @return void Cette fonction ne retourne aucune valeur.
+ */
 void rfidddd() 
 {
 
@@ -63,6 +82,15 @@ int j=0;
 int data[169];
 
 
+/**
+ * @brief Reads a specific block from an RFID card using the MFRC522 module and processes the data.
+ *
+ * Authenticates access to the specified block, reads its contents, and stores the data in a global array.
+ * If enough data is read, it prints the contents of the data array in a formatted way for debugging.
+ *
+ * @param block The block number to read from the RFID card.
+ * @return true if the block was successfully read and processed, false otherwise.
+ */
 bool rfid1Block(byte block ) {
   
   bool flagnfc = false;
@@ -239,8 +267,17 @@ bool rfid1Block(byte block ) {
   }
   return true;
 }
+/**
+ * @brief Calcule le plus court chemin depuis un noeud de départ vers tous les autres noeuds à l'aide de l'algorithme de Dijkstra.
+ *
+ * Cette fonction utilise une représentation en matrice d'adjacence pour déterminer les distances minimales entre le noeud de départ et tous les autres noeuds du graphe.
+ * Les noeuds inaccessibles sont pris en compte selon les valeurs dans la matrice nodes.
+ *
+ * @param nodes Matrice d'adjacence représentant le graphe, où chaque ligne correspond à un noeud et contient des informations sur ses voisins et son accessibilité.
+ * @param start Tableau contenant l'indice du noeud de départ (start[0]).
+ * @return Un pointeur vers un tableau d'entiers contenant, pour chaque noeud, l'indice du noeud précédent sur le plus court chemin depuis le noeud de départ.
+ */
 int* dijkstra(int** nodes, int start[]) {
-    Serial.print("test dijkstra");
     int dist[36]; // Tableau pour stocker les distances
     int* prev = (int*)malloc(36 * sizeof(int)); // Tableau pour stocker les noeuds précédents
     int priorityQueue[36]; // File de priorité pour les noeuds à explorer
@@ -387,6 +424,17 @@ int* dijkstra(int** nodes, int start[]) {
         }
     }
 }
+/**
+ * @brief Convertit un tableau 1D représentant une matrice 13x13 en une matrice 2D allouée dynamiquement.
+ *
+ * Cette fonction prend un pointeur vers un tableau 1D d'entiers (attendu de taille 169),
+ * alloue dynamiquement une matrice 2D de taille 13x13, copie les valeurs du tableau 1D dans la matrice 2D,
+ * libère le tableau 1D d'origine et retourne le pointeur vers la matrice 2D.
+ *
+ * @param matriceNonDecode Pointeur vers un tableau 1D d'entiers alloué dynamiquement représentant une matrice 13x13.
+ *                        Le tableau doit contenir au moins 169 éléments.
+ * @return int** Pointeur vers la nouvelle matrice 2D allouée (13x13). Retourne NULL si le pointeur d'entrée est NULL.
+ */
 int** processMatrix(int* matriceNonDecode)
 {
     int** matriceDecode = (int**)malloc(13 * sizeof(int*));
@@ -405,6 +453,18 @@ int** processMatrix(int* matriceNonDecode)
     free(matriceNonDecode); 
     return matriceDecode;
 }
+/**
+ * @brief Convertit une matrice 13x13 en une liste de noeuds avec leurs propriétés.
+ *
+ * Cette fonction prend en entrée une matrice carrée (13x13) représentant une grille,
+ * puis extrait pour chaque noeud (36 au total) ses coordonnées, son type et les valeurs
+ * de ses voisins (gauche, droite, haut, bas). Chaque noeud est représenté par un tableau
+ * de 8 entiers contenant respectivement : l'identifiant du noeud, la coordonnée x, la coordonnée y,
+ * le type, la valeur à gauche, la valeur à droite, la valeur en haut, la valeur en bas.
+ *
+ * @param matrix Matrice d'entiers 13x13 représentant la grille à traiter.
+ * @return Un tableau de 36 pointeurs vers des tableaux d'entiers (8 éléments chacun), représentant les noeuds extraits.
+ */
 int** matrixToNodes(int** matrix){
     Serial.println("Matrice traitée :");
     for (int j = 0; j < 13; j++) {
@@ -489,6 +549,17 @@ int** matrixToNodes(int** matrix){
 //     free(prev); // Libérer la mémoire allouée pour le tableau de noeuds précédents  
 //     return path; // Retourner le chemin
 // }
+/**
+ * @brief Reconstruit le chemin antécédent depuis le noeud de but jusqu'au noeud de départ.
+ *
+ * Cette fonction utilise un tableau de antécédents pour remonter le chemin depuis le noeud de but (goal)
+ * jusqu'au noeud de départ (start), et retourne ce chemin sous forme de tableau d'entiers.
+ *
+ * @param prev Tableau d'entiers représentant pour chaque noeud son prédécesseur dans le chemin.
+ * @param goal Tableau contenant le noeud de but (seul goal[0] est utilisé).
+ * @param start Tableau contenant le noeud de départ (seul start[0] est utilisé).
+ * @return int* Pointeur vers un tableau d'entiers représentant le chemin du but au départ (chemin inversé).
+ */
 int* antecedant(int* prev, int goal[], int start[]) {
     int* revpath = (int*)malloc(36 * sizeof(int));
 
@@ -512,7 +583,222 @@ int* antecedant(int* prev, int goal[], int start[]) {
 
     return revpath;
 }
+/**
+ * Détermine la direction à partir du tableau startNode.
+ *
+ * @param startNode Tableau d'entiers représentant l'état des directions (indices 4 à 7).
+ *                 - startNode[4] : Ouest
+ *                 - startNode[5] : Est
+ *                 - startNode[6] : Nord
+ *                 - startNode[7] : Sud
+ *                 La valeur 2 indique la direction active.
+ * @return Un caractère représentant la direction :
+ *         'G' pour Ouest, 'D' pour Est, 'H' pour Nord, 'B' pour Sud.
+ */
+char deterDir(int startNode[])
+{
 
+  if(startNode[4] == 2)
+  {
+    Serial.println("Oeust");
+    return 'G'; //direction ouest
+  }
+  
+  if(startNode[5] == 2)
+  {
+    Serial.println("Est");
+    return 'D'; //direction est
+  }
+
+  if(startNode[6] == 2)
+  {
+    Serial.println("Nord");
+    return 'H'; //direction nord
+  }
+
+  if(startNode[7] == 2)
+  {
+    Serial.println("Sud");
+    return 'B'; //direction sud
+  }
+
+
+}
+/**
+ * @brief Trouve l'indice du dernier élément valide dans un tableau de chemins, où -1 marque la fin du chemin.
+ * 
+ * @param pathdijk1 Pointeur vers un tableau d'entiers représentant un chemin, terminé par la valeur -1.
+ * @return L'indice du dernier élément valide (avant -1) dans le tableau.
+ */
+int indicePath(int* pathdijk1)
+{
+  for (int i = 0; i < 36; i++)
+  {
+    if(pathdijk1[i] == -1)
+    {
+      return i-1;
+    }
+  }
+  
+}
+
+/**
+ * Génère une séquence d'instructions à partir d'un chemin donné et d'une direction de départ.
+ *
+ * @param pathdijk Tableau d'entiers représentant le chemin calculé (par exemple, par l'algorithme de Dijkstra).
+ * @param startNode Tableau d'entiers représentant le noeud de départ et sa direction initiale.
+ * @return Un pointeur vers un tableau d'entiers contenant la séquence d'instructions générée.
+ *         Chaque instruction est codée par un entier, -1 indiquant une case inutilisée.
+ *         Il est de la responsabilité de l'appelant de libérer la mémoire allouée.
+ */
+int* seqInstruct2(int* pathdijk, int startNode[]){
+  int* instruction = (int*)malloc(50*sizeof(int));
+  for(int j = 0; j < 50; j++){
+    instruction[j] = -1;
+  }
+
+  int indiceCurrentNode = indicePath(pathdijk);
+  char dirCurrent = deterDir(startNode);
+  int indiceNextNode = indiceCurrentNode - 1;
+  int indiceInstruction = 1;
+  instruction[0] = 0;
+  while(indiceCurrentNode != 0){
+    // Serial.print(dirCurrent);
+    // Serial.print("          ");
+    // Serial.print(indiceInstruction);
+    // Serial.print("          ");
+    // Serial.print(instruction[indiceInstruction]);
+    // Serial.print("          ");
+    // Serial.print(pathdijk[indiceCurrentNode]);
+    // Serial.print("          ");
+    // Serial.println(pathdijk[indiceNextNode]);
+
+    if(pathdijk[indiceCurrentNode] - 1 == pathdijk[indiceNextNode]){
+      if (dirCurrent == 'G')
+      {
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'G';
+      }
+      else if (dirCurrent == 'H')
+      {
+        instruction[indiceInstruction] = 1;
+        indiceInstruction++;
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'G';
+      }
+      else if (dirCurrent == 'B')
+      {
+        instruction[indiceInstruction] = 2;
+        indiceInstruction++;
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'G';
+
+      }
+    }
+  
+    else if(pathdijk[indiceCurrentNode] + 1 == pathdijk[indiceNextNode]){
+      if (dirCurrent == 'D')
+      {
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'D';
+      }
+      else if (dirCurrent == 'H')
+      {
+        instruction[indiceInstruction] = 2;
+        indiceInstruction++;
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'D';
+      }
+      else if (dirCurrent == 'B')
+      {
+        instruction[indiceInstruction] = 1;
+        indiceInstruction++;
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'D';
+
+      }
+  
+    }
+    else if(pathdijk[indiceCurrentNode] - 6 == pathdijk[indiceNextNode]){
+      if (dirCurrent == 'H')
+      {
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'H';
+      }
+      else if (dirCurrent == 'G')
+      {
+        instruction[indiceInstruction] = 2;
+        indiceInstruction++;
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'H';
+      }
+      else if (dirCurrent == 'D')
+      {
+        instruction[indiceInstruction] = 1;
+        indiceInstruction++;
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'H';
+
+      }
+  
+    }
+    else if(pathdijk[indiceCurrentNode] + 6 == pathdijk[indiceNextNode]){
+      if (dirCurrent == 'B')
+      {
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'B';
+      }
+      else if (dirCurrent == 'G')
+      {
+        instruction[indiceInstruction] = 1;
+        indiceInstruction++;
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'B';
+      }
+      else if (dirCurrent == 'D')
+      {
+        instruction[indiceInstruction] = 2;
+        indiceInstruction++;
+        instruction[indiceInstruction] = 0;
+        indiceInstruction++;
+        dirCurrent = 'B';
+
+      }
+    }
+    indiceCurrentNode--;
+    indiceNextNode--;
+  }
+  return instruction;
+  
+
+}
+
+/**
+ * @brief Checks if a specific node is present in the given path.
+ * 
+ * @param pathdijk Pointer to an array representing the path (expected size: 36).
+ * @param shortNode Array where the first element (shortNode[0]) is the node to search for.
+ * @return true if the node is found in the path, false otherwise.
+ */
+bool isNodeInPath(int* pathdijk, int shortNode[]){
+  for(int i = 0; i < 36; i++){
+    if(shortNode[0] == pathdijk[i]){
+      return 1;
+    }
+  }
+  return 0;
+}
 
 
 

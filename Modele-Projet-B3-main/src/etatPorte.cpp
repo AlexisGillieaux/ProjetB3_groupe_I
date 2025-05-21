@@ -10,22 +10,7 @@ void EtatPorte()
 
 
 }
-bool transition_Porte_Haut() {
+bool transition_Porte_Sequence() {
     // À compléter : condition de transition
     return false;
-}
-bool transition_Porte_Bas() {
-    // À compléter : condition de transition
-    return false;
-}
-bool transition_Porte_Gauche() {
-    // À compléter : condition de transition
-    return false;
-}
-bool transition_Porte_Droite() {
-    // À compléter : condition de transition
-    return false;
-}
-bool transition_Porte_MainDroiteFauteuil() {
-    return true;
 }

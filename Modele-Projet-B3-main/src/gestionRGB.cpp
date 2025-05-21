@@ -3,6 +3,15 @@
 
 
 // Constructeur par défaut
+/**
+ * @brief Initialise la connexion avec le capteur de couleur TCS34725.
+ *
+ * Cette fonction initialise la communication série (commentée ici) et tente d'établir la connexion avec le capteur TCS34725.
+ * Si le capteur n'est pas détecté, un message d'erreur est affiché et la tentative est répétée toutes les secondes.
+ *
+ * @param Aucun paramètre n'est requis pour cette fonction.
+ * @return Cette fonction ne retourne aucune valeur.
+ */
 void connexion() 
 {
   // Serial.begin(9600);
@@ -15,6 +24,19 @@ void connexion()
   }
 }
 
+/**
+ * @brief Reads RGB and clear values from the color sensor, normalizes the RGB values,
+ *        and stores the detected color in the global colorDetecte array. Also prints
+ *        the detected color values to the serial output.
+ *
+ * This function retrieves the red, green, blue, and clear channel values from the
+ * TCS color sensor, normalizes the RGB values based on the clear channel, scales them
+ * to the 0-255 range, and stores them in the colorDetecte array. The detected color
+ * values are then printed to the serial monitor.
+ *
+ * @param None
+ * @return void
+ */
 void viewColor() 
 {
   uint16_t clear, red, green, blue;
