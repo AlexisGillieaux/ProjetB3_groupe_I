@@ -18,7 +18,6 @@
 #include "MainDroite2.h"
 #include "etatAction.h"
 #include "etatDecodage.h"
-#include "etatRGB.h"
 #include "etatMainDroiteFauteuil.h"
 #include "etatMainDroiteFinal.h"
 #include "regulationPON.h"
@@ -63,7 +62,6 @@ State* etatInitial = machine.addState(&EtatInitial);
 State* etatAttente = machine.addState(&EtatAttente);
 State* etatAction = machine.addState(&EtatAction);
 State* etatFinal = machine.addState(&EtatFinal);
-State* etatRGB = machine.addState(&EtatRGB);
 State* etatDecodage = machine.addState(&EtatDecodage);
 State* etatMainDroite2 = machine.addState(&EtatMainDroiteFinal);
 State* etatMainDroiteFauteuil = machine.addState(&EtatMainDroiteFauteuil);
@@ -91,10 +89,7 @@ void setup()
   etatMainDroiteFauteuil->addTransition(&transition_MainDroiteFauteuil_Fauteuil, etatFauteuil);
   etatMainDroiteFinal->addTransition(&transition_MainDroiteFinal_Final, etatFinal);
 
-  etatRGB->addTransition(&transition_RGB_MainDroite, etatMainDroiteFinal);
-  etatRGB->addTransition(&transition_RGB_Fauteuil, etatFauteuil);
-  etatRGB->addTransition(&transition_RGB_Porte, etatPorte);
-  etatRGB->addTransition(&transition_RGB_Final, etatFinal);
+
 
   etatFinal->addTransition(&transition_Final_Initial, etatInitial);
 
@@ -106,7 +101,7 @@ void setup()
   etatDecodage->addTransition(&transition_Decodage_MainDroiteFauteuil, etatMainDroiteFauteuil);
   //etatPorte->addTransition(&transition_Porte_MainDroiteFauteuil, etatMainDroiteFauteuil);
   etatFauteuil->addTransition(&transition_Fauteuil_MainDroiteFauteuil, etatMainDroiteFauteuil);
-  etatRGB->addTransition(&transition_RGB_MainDroiteFauteuil, etatMainDroiteFauteuil);
+
   etatMainDroiteFinal->addTransition(&transition_MainDroiteFinal_MainDroiteFauteuil, etatMainDroiteFauteuil);
 
   // Démarrer la machine dans l'état initial

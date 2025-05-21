@@ -4,7 +4,7 @@
 #include "config.h"
 
 // Déclaration des fonctions
-void EtatInitial();
+void EtatSequence();
 bool transition_Initial_Attente();
 bool transition_Initial_Decodage();
 bool transition_Initial_MainDroiteFauteuil();

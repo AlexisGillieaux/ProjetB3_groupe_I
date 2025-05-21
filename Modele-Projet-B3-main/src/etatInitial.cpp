@@ -34,7 +34,12 @@ bool transition_Initial_Decodage() {
   return dataComplete;
 }
 
-bool transition_Initial_MainDroiteFauteuil() {
-    return true; // À personnaliser si besoin
+bool transition_Initial_Porte() {
+  if(PIN_MAIN_DROITE== HIGH)
+  {
+      return true;
+  }
+  return false;
 }
+
 
