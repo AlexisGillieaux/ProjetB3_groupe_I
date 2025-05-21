@@ -83,8 +83,10 @@ void setup()
   // Transitions classiques
   etatInitial->addTransition(&transition_Initial_Decodage, etatDecodage);
   etatDecodage->addTransition(&transition_Decodage_Porte, etatPorte);
-  //etatPorte->addTransition(&transition_Porte_Sequence, etatMainDroiteFauteuil);
-
+  etatPorte->addTransition(&transition_Porte_Haut, etatMainDroiteFauteuil);
+  etatPorte->addTransition(&transition_Porte_Bas, etatMainDroiteFinal);
+  etatPorte->addTransition(&transition_Porte_Gauche, etatRGB);
+  etatPorte->addTransition(&transition_Porte_Droite, etatFinal);
 
   etatMainDroiteFauteuil->addTransition(&transition_MainDroiteFauteuil_Fauteuil, etatFauteuil);
   etatMainDroiteFinal->addTransition(&transition_MainDroiteFinal_Final, etatFinal);
@@ -98,9 +100,11 @@ void setup()
 
   // Transitions vers MainDroiteFauteuil depuis chaque état
   etatInitial->addTransition(&transition_Initial_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  // etatAttente->addTransition(&transition_Attente_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  // etatAction->addTransition(&transition_Action_MainDroiteFauteuil, etatMainDroiteFauteuil);
   etatFinal->addTransition(&transition_Final_MainDroiteFauteuil, etatMainDroiteFauteuil);
   etatDecodage->addTransition(&transition_Decodage_MainDroiteFauteuil, etatMainDroiteFauteuil);
-  // etatPorte->addTransition(&transition_Porte_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  etatPorte->addTransition(&transition_Porte_MainDroiteFauteuil, etatMainDroiteFauteuil);
   etatFauteuil->addTransition(&transition_Fauteuil_MainDroiteFauteuil, etatMainDroiteFauteuil);
   etatRGB->addTransition(&transition_RGB_MainDroiteFauteuil, etatMainDroiteFauteuil);
   etatMainDroiteFinal->addTransition(&transition_MainDroiteFinal_MainDroiteFauteuil, etatMainDroiteFauteuil);
@@ -206,23 +210,25 @@ void loop()
   {
    
     //delay(200);
-    if(ultrasonDroite>25)
-    { 
-      setSpeed1(100);
-     setSpeed2(-100);
-     Avancer();
-     delay(750);
-  }
-  else{setSpeed1(100);
-     setSpeed2(-100);
-     Avancer();
-     delay(500);}
-   
     
+    setSpeed1(100);
+    setSpeed2(-100);
+    Avancer();
+    delay(500);
+    if(ultrasonDroite>30)
+    {
     setSpeed1(-85);
     setSpeed2(-70);
     Avancer();
-    delay(700);
+    delay(800);
+    }
+    else{setSpeed1(-85);
+    setSpeed2(-70);
+    Avancer();
+    delay(600);
+  }
+    
+    
     
 
   }
