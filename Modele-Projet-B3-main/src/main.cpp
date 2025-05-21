@@ -90,13 +90,9 @@ void setup()
   etatFinal->addTransition(&transition_Final_Initial, etatInitial);
 
   // Transitions vers MainDroiteFauteuil depuis chaque état utile
-  etatInitial->addTransition(&transition_Initial_MainDroiteFauteuil, etatMainDroiteFauteuil);
-  etatFinal->addTransition(&transition_Final_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  etatInitial->addTransition(&transition_Initial_Porte,EtatPorte);
   etatDecodage->addTransition(&transition_Decodage_MainDroiteFauteuil, etatMainDroiteFauteuil);
   //etatPorte->addTransition(&transition_Porte_MainDroiteFauteuil, etatMainDroiteFauteuil);
-
-  etatMainDroiteFinal->addTransition(&transition_MainDroiteFinal_MainDroiteFauteuil, etatMainDroiteFauteuil);
-
  
 
   delay(100);

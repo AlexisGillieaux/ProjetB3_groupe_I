@@ -1,4 +1,4 @@
-#include "etatFinal.h"
+#include "etatFinall.h"
 #include "gestionIR.h"
 
 /**
@@ -7,10 +7,10 @@
  * @param aucun
  * @return aucun
  */
-void EtatFinal() 
+void EtatFinall() 
 {
     // À compléter : logique de l'état Final
-    sendCode0(&sStoredIRData0);
+     sendCode0(&sStoredIRData0);
     sendCode1(&sStoredIRData1);
     digitalWrite(PIN_BUZZER, HIGH);
     delay(500);

@@ -4,8 +4,8 @@
 #include "config.h"
 
 // Déclaration des fonctions
-void EtatFinal();
-bool transition_Final_Initial();
-bool transition_Final_MainDroiteFauteuil();
+void EtatFinall();
+bool transition_Finall_Initial();
+
 
 #endif

@@ -31,7 +31,9 @@ void EtatInitial() {
  * @return true si le bouton est pressé, false sinon
  */
 bool transition_Initial_Decodage() {
-  return dataComplete;
+  if(dataComplete==true){
+  return true;}
+  else false;
 }
 
 bool transition_Initial_Porte() {
