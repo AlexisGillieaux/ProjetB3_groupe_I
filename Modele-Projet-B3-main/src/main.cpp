@@ -53,6 +53,7 @@ L298NX2 moteur(PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2);
 int jklm = 0;
 double commande=0;
 bool changementDeMur=false;
+int color = 0;
 
 
 
@@ -145,45 +146,87 @@ void loop()
   }
 
 
-    viewColor();
-  // // Serial.print(ultrasonGauche);
+   
+ 
+  viewColor();
 
   if(colorDetecte[0]>140.0)
   { 
-    setSpeed1(255);
-    setSpeed2(255);
+    setSpeed1(-200);
+    setSpeed2(-200);
     Avancer();
-    delay(1000);
+    delay(700);
     setSpeed1(0);
     setSpeed2(-80);
     Avancer();
     delay(500);
   }
-    if(ultrasonArriere<15 && ultrasonGauche<30)
+  else if(colorDetecte[1]>100.0 && color==1)
   {
-     delay(350);
+    Serial.println("Color detected: green");
+    setSpeed1(0);
+    setSpeed2(0);
+    Avancer();
+    delay(5000);
+    digitalWrite(PIN_BUZZER, HIGH);
+    delay(1000);
+    digitalWrite(PIN_BUZZER, LOW);
+    delay(1000);
+    digitalWrite(PIN_BUZZER, HIGH);
+    delay(1000);
+    digitalWrite(PIN_BUZZER, LOW);
+    //encoieReceiv();
+    color=0;
+    //delay(9999);
+  }
+  else if(colorDetecte[2]>140.0 && color==0)
+  {
+    Serial.println("Color detected: blue");
+    setSpeed1(0);
+    setSpeed2(0);
+    Avancer();
+    delay(5000);
+    digitalWrite(PIN_BUZZER, HIGH);
+    delay(1000);
+    digitalWrite(PIN_BUZZER, LOW);
+    
+    color=1;
+
+  }
+    if(ultrasonArriere<13 && ultrasonGauche<30)
+  {
+     //delay(200);
      setSpeed1(-100);
      setSpeed2(100);
      Avancer();
       delay(500);
-      setSpeed1(-80);
-    setSpeed2(-80);
+      setSpeed1(-85);
+    setSpeed2(-70);
     Avancer();
-    delay(400);
+    delay(700);
      
   }
   else if (ultrasonGauche>40 )
   {
    
-    delay(350);
-    setSpeed1(100);
-    setSpeed2(-100);
+    //delay(200);
+    if(ultrasonDroite>25)
+    { 
+      setSpeed1(100);
+     setSpeed2(-100);
+     Avancer();
+     delay(750);
+  }
+  else{setSpeed1(100);
+     setSpeed2(-100);
+     Avancer();
+     delay(500);}
+   
+    
+    setSpeed1(-85);
+    setSpeed2(-70);
     Avancer();
-    delay(500);
-    setSpeed1(-80);
-    setSpeed2(-80);
-    Avancer();
-    delay(400);
+    delay(700);
     
 
   }
