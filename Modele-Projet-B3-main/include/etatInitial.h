@@ -6,5 +6,7 @@
 // Déclaration des fonctions
 void EtatInitial();
 bool transition_Initial_Attente();
+bool transition_Initial_Decodage();
+bool transition_Initial_MainDroiteFauteuil();
 
 #endif

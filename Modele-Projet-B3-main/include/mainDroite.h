@@ -13,3 +13,4 @@ void TournerDroite();
 void TournerGauche();
 void mainDroite(int ultrasonAvant, int ultrasonGauche, int ultrasonDroite); // Boucle principale
 void stop(); // Fonction pour arrêter le robot
+void mainDroiteFonctionnel(); // Fonction principale pour le fonctionnement du robot

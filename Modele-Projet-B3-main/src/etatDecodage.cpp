@@ -71,6 +71,18 @@ void EtatDecodage() {
  * @param aucun
  * @return true une fois que les differents chemins sont créé, false sinon
  */
-bool transition_Decodage_Porte() {
-  return pathComplete;
+bool transition_Decodage_Porte() 
+{
+  if(pathComplete==true)
+  {return true;}
+  
+  return true;
+}
+bool transition_Decodage_MainDroiteFauteuil() 
+{
+    if(PIN_MAIN_DROITE== HIGH)
+    {
+        return true;
+    }
+    return false;
 }

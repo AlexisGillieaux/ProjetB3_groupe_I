@@ -61,6 +61,9 @@
 #define PIN_BIN1 6    // Pin for the IN1 of the motor B
 #define PIN_BIN2 7    // Pin for the IN2 of the motor B
 
+// Définition bouton
+#define PIN_MAIN_DROITE 23    // Pin for the button
+
 
 // Définition des délais
 #define DELAI_ATTENTE 3000  // 3 secondes

@@ -1,6 +1,8 @@
 #include "etatInitial.h"
 #include "config.h"
 #include "RFID.h"
+#include "gestionIR.h"
+#include "gestionRGB.h"
 
 /**
  * Fonction exécutée pendant l'état initial
@@ -9,10 +11,15 @@
  * @return aucun
  */
 void EtatInitial() {
+  
+  
+
   if(machine.executeOnce) {
     Serial.println("Entrée dans l'ÉTAT INITIAL");
   }
-  
+  setupIR();
+  connexion();
+  rfid_init();
   rfidddd();
   
 
@@ -26,3 +33,8 @@ void EtatInitial() {
 bool transition_Initial_Decodage() {
   return dataComplete;
 }
+
+bool transition_Initial_MainDroiteFauteuil() {
+    return true; // À personnaliser si besoin
+}
+

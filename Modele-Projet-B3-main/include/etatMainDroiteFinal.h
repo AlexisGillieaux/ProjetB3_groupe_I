@@ -6,5 +6,6 @@
 // Déclaration des fonctions
 void EtatMainDroiteFinal();
 bool transition_MainDroiteFinal_Final();
+bool transition_MainDroiteFinal_MainDroiteFauteuil();
 
 #endif

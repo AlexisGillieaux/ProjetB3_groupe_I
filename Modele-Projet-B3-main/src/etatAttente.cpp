@@ -1,4 +1,5 @@
 #include "etatAttente.h"
+#include "config.h"
 
 /**
  * Fonction exécutée pendant l'état d'attente
@@ -17,5 +18,14 @@ void EtatAttente() {
  */
 bool transition_Attente_Action() {
     // À compléter : condition de transition
+    return true;
+}
+
+bool transition_Attente_MainDroiteFauteuil() 
+{
+    if(PIN_MAIN_DROITE== HIGH)
+    {
+        return true;
+    }
     return false;
 }

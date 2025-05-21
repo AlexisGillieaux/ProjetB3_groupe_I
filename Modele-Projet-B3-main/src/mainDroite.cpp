@@ -1,11 +1,13 @@
 #include <mainDroite.h>
 #include <gestionUltrason.h>
 #include <gestionRGB.h> 
+#include <gestionMoteur.h>
+#include "pid_controller.h"
 
 
 int ultrasonDroite = 0;
 int ultrasonGauche = 0;
-int ultrasonAvant = 0;
+int ultrasonDevant = 0;
 int ultrasonArriere = 0;
 float colorReel[3] = {0};
 float colorDetecte[3] = {0};
@@ -80,4 +82,40 @@ void mainDroite(int ultrasonAvant, int ultrasonGauche, int ultrasonDroite) // Bo
     // Boucle principale
     
     stop(); // Appeler la fonction pour arrêter le robot
+}
+
+void mainDroiteFonctionnel()
+{
+if(ultrasonArriere<15 && ultrasonGauche<30)
+  {
+     delay(350);
+     setSpeed1(-100);
+     setSpeed2(100);
+     Avancer();
+      delay(500);
+      setSpeed1(-80);
+    setSpeed2(-80);
+    Avancer();
+    delay(400);
+     
+  }
+  else if (ultrasonGauche>40 )
+  {
+   
+    delay(350);
+    setSpeed1(100);
+    setSpeed2(-100);
+    Avancer();
+    delay(500);
+    setSpeed1(-80);
+    setSpeed2(-80);
+    Avancer();
+    delay(400);
+    
+
+  }
+  else
+  {
+      AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonDevant);
+  }
 }

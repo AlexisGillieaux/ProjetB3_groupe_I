@@ -9,5 +9,6 @@ bool transition_RGB_MainDroite();
 bool transition_RGB_Fauteuil();
 bool transition_RGB_Porte();
 bool transition_RGB_Final();
+bool transition_RGB_MainDroiteFauteuil();
 
 #endif

@@ -27,3 +27,7 @@ bool transition_Action_Final()
 {
   return (millis() - tempsDebut >= DELAI_ACTION);
 }
+
+bool transition_Action_MainDroiteFauteuil() {
+    return true;
+}

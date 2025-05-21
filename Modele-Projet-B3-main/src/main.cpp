@@ -23,6 +23,8 @@
 #include "etatMainDroiteFinal.h"
 #include "regulationPON.h"
 #include "etatPorte.h"
+#include "etatFauteuil.h"
+
 
 
 
@@ -66,164 +68,124 @@ State* etatMainDroite2 = machine.addState(&EtatMainDroiteFinal);
 State* etatMainDroiteFauteuil = machine.addState(&EtatMainDroiteFauteuil);
 State* etatMainDroiteFinal = machine.addState(&EtatMainDroiteFinal);
 State* etatPorte = machine.addState(&EtatPorte);
+State* etatFauteuil = machine.addState(&EtatFauteuil);
 
 
 int f=0;
 void setup() 
 {
-  // Initialisation de la communication série
   Serial.begin(9600);
-  //setupMainDroite2(); // Configurer les moteurs
   SetTunings(2, 0, 2); // Initialisation des paramètres PID
   connexion();
-  //setupRegulationPON();
-  
-  //  SPI.begin();
-  //mfrc522.PCD_Init();
-  // connexion();
   rfid_init();
-  //SetTunings(2, 0, 1); // Initialisation des paramètres PID
-  // rfid_init();
-  
 
-  // Serial.println("Démarrage de la machine d'état");
-  
-  // Configuration des broches
-  // pinMode(PIN_LED, OUTPUT);
-  // setupIR_upload();
-  // setupIR();
-  //   setupIR_upload();
-  // Configuration des transitions
-  // etatInitial->addTransition(&transition_Initial_Attente, etatAttente);
-  // etatAttente->addTransition(&transition_Attente_Action, etatAction);
-  // etatAction->addTransition(&transition_Action_Final, etatFinal);
-  // etatFinal->addTransition(&transition_Final_Initial, etatInitial);
+  // Transitions classiques
+  etatInitial->addTransition(&transition_Initial_Decodage, etatDecodage);
+  etatDecodage->addTransition(&transition_Decodage_Porte, etatPorte);
+  etatPorte->addTransition(&transition_Porte_Haut, etatMainDroiteFauteuil);
+  etatPorte->addTransition(&transition_Porte_Bas, etatMainDroiteFinal);
+  etatPorte->addTransition(&transition_Porte_Gauche, etatRGB);
+  etatPorte->addTransition(&transition_Porte_Droite, etatFinal);
+
+  etatMainDroiteFauteuil->addTransition(&transition_MainDroiteFauteuil_Fauteuil, etatFauteuil);
+  etatMainDroiteFinal->addTransition(&transition_MainDroiteFinal_Final, etatFinal);
+
+  etatRGB->addTransition(&transition_RGB_MainDroite, etatMainDroiteFinal);
+  etatRGB->addTransition(&transition_RGB_Fauteuil, etatFauteuil);
+  etatRGB->addTransition(&transition_RGB_Porte, etatPorte);
+  etatRGB->addTransition(&transition_RGB_Final, etatFinal);
+
+  etatFinal->addTransition(&transition_Final_Initial, etatInitial);
+
+  // Transitions vers MainDroiteFauteuil depuis chaque état
+  etatInitial->addTransition(&transition_Initial_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  etatAttente->addTransition(&transition_Attente_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  etatAction->addTransition(&transition_Action_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  etatFinal->addTransition(&transition_Final_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  etatDecodage->addTransition(&transition_Decodage_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  etatPorte->addTransition(&transition_Porte_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  etatFauteuil->addTransition(&transition_Fauteuil_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  etatRGB->addTransition(&transition_RGB_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  etatMainDroiteFinal->addTransition(&transition_MainDroiteFinal_MainDroiteFauteuil, etatMainDroiteFauteuil);
 
   // Démarrer la machine dans l'état initial
-  //machine.run();
-  delay(100);
+ 
 
+  delay(100);
 }
 
 void loop() 
 { 
-  double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
-  double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
-  double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
-  double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
-  if(ultrasonDroite==-1)
-  {
-    ultrasonDroite = 1;
-  }
-  if(ultrasonGauche==-1)
-  {
-    ultrasonGauche = 1;
-  }
-  if(ultrasonDevant==-1)
-  {
-    ultrasonDevant = 1;
-  }
-  if(ultrasonArriere==-1)
-  {
-    ultrasonArriere = 1;
-  }
+  machine.run();
 
 
-   viewColor();
-  // Serial.print(ultrasonGauche);
+  // double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
+  // double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
+  // double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
+  // double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
+  // if(ultrasonDroite==-1)
+  // {
+  //   ultrasonDroite = 1;
+  // }
+  // if(ultrasonGauche==-1)
+  // {
+  //   ultrasonGauche = 1;
+  // }
+  // if(ultrasonDevant==-1)
+  // {
+  //   ultrasonDevant = 1;
+  // }
+  // if(ultrasonArriere==-1)
+  // {
+  //   ultrasonArriere = 1;
+  // }
 
-  if(colorDetecte[0]>140.0)
-  { 
-    setSpeed1(255);
-    setSpeed2(255);
-    Avancer();
-    delay(1000);
-    setSpeed1(0);
-    setSpeed2(-80);
-    Avancer();
-    delay(500);
-  }
-  // if(colorDetecte[1]>100.0)
+
+  //  viewColor();
+  // // Serial.print(ultrasonGauche);
+
+  // if(colorDetecte[0]>140.0)
   // { 
-  //   //RecepteurIR();
-  // }
-  // if(colorDetecte[2]>140.0)
-  // {
-  //   //EmmeteurIR();
-  // }
-  // if(ultrasonArriere<30)
-  // {
+  //   setSpeed1(255);
+  //   setSpeed2(255);
+  //   Avancer();
+  //   delay(1000);
   //   setSpeed1(0);
-  //   setSpeed2(0);
-  //   Avancer();
-  //   delay(1000);
-  // }
-  // if(ultrasonArriere<20)
-  // {
-  //   digitalWrite(PIN_BUZZER, HIGH);
-  //   delay(2000);
-  //   digitalWrite(PIN_BUZZER, LOW);
-  // }
-  // cul-de-sac
-  // else if ((ultrasonArriere<15 && ultrasonGauche<20 && ultrasonDroite<20)||(ultrasonArriere<20 && ultrasonGauche<10 && ultrasonDroite<30) || (ultrasonArriere<20 && ultrasonDroite<30 && ultrasonDroite<10))
-  // {
-  //  setSpeed1(0);
-  //   setSpeed2(0);
-  //   delay(1000);
-  //   setSpeed1(-120);
-  //   setSpeed2(120);
-  //   Avancer();
-  //   delay(1000);
-  //   setSpeed1(-80);
-  //   setSpeed2(-90);
+  //   setSpeed2(-80);
   //   Avancer();
   //   delay(500);
   // }
-    if(ultrasonArriere<15 && ultrasonGauche<30)
-  {
-     delay(350);
-     setSpeed1(-100);
-     setSpeed2(100);
-     Avancer();
-      delay(500);
-      setSpeed1(-80);
-    setSpeed2(-80);
-    Avancer();
-    delay(400);
+  //   if(ultrasonArriere<15 && ultrasonGauche<30)
+  // {
+  //    delay(350);
+  //    setSpeed1(-100);
+  //    setSpeed2(100);
+  //    Avancer();
+  //     delay(500);
+  //     setSpeed1(-80);
+  //   setSpeed2(-80);
+  //   Avancer();
+  //   delay(400);
      
-  }
-  else if (ultrasonGauche>40 )
-  {
+  // }
+  // else if (ultrasonGauche>40 )
+  // {
    
-    delay(350);
-    setSpeed1(100);
-    setSpeed2(-100);
-    Avancer();
-    delay(500);
-    setSpeed1(-80);
-    setSpeed2(-80);
-    Avancer();
-    delay(400);
+  //   delay(350);
+  //   setSpeed1(100);
+  //   setSpeed2(-100);
+  //   Avancer();
+  //   delay(500);
+  //   setSpeed1(-80);
+  //   setSpeed2(-80);
+  //   Avancer();
+  //   delay(400);
     
 
-  }
-
-  // obstacle devant/libre gauche et droite
-
-  // obstacle gauche et devant
-  // else if (ultrasonGauche>35 && ultrasonDroite<30.0 && ultrasonArriere>35.0)
-  // {
-  //   setSpeed1(-80);
-  //   setSpeed2(90);
-  //   delay(500);
   // }
-  // obstacle droite et devant
-
-  //obstacle gauche et devant
-
-  else
-  {
-      AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonDevant);
-  }
+  // else
+  // {
+  //     AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonDevant);
+  // }
 }
 

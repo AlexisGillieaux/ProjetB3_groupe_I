@@ -6,5 +6,6 @@
 // Déclaration des fonctions
 void EtatAttente();
 bool transition_Attente_Action();
+bool transition_Attente_MainDroiteFauteuil();
 
 #endif
