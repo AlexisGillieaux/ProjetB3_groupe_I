@@ -4,29 +4,22 @@
 #include "gestionIR.h"
 #include "gestionRGB.h"
 
-/**
- * Fonction exécutée pendant l'état initial
- * éteint la LED et passe à l'état ATTENTE sur appui du bouton
- * @param aucun
- * @return aucun
- */
-void EtatInitial() {
+
+void EtatSequence() {
   
   
-// resourdre les sequences de characters avec 0 = avancer, 1 = gauche, 2 = droite
+//Resourdre les sequences de characters avec 0 = avancer, 1 = gauche, 2 = droite
 
 }
  
-/**
- * Fonction de transition de l'état initial vers l'état d'attente
- * @param aucun
- * @return true si le bouton est pressé, false sinon
- */
-bool transition_Initial_Decodage() {
+
+bool transition_Sequence_Shortcut() {
   return dataComplete;
 }
 
-bool transition_Initial_MainDroiteFauteuil() {
-    return true; // À personnaliser si besoin
+bool transition_Sequence_Fauteuil() {
+    return true; 
 }
-
+bool transition_Sequence_Final() {
+    return true; 
+}

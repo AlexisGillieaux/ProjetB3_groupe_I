@@ -12,6 +12,14 @@ void EtatFinal()
     // À compléter : logique de l'état Final
     sendCode0(&sStoredIRData0);
     sendCode1(&sStoredIRData1);
+    digitalWrite(PIN_BUZZER, HIGH);
+    delay(500);
+    digitalWrite(PIN_BUZZER, LOW);
+    delay(500);
+    digitalWrite(PIN_BUZZER, HIGH);
+    delay(500);
+    digitalWrite(PIN_BUZZER, LOW);
+    delay(500);
 }
 
 /**
@@ -19,13 +27,6 @@ void EtatFinal()
  * @param aucun
  * @return true si le bouton est pressé, false sinon
  */
-bool transition_Final_Initial() 
-{
-    // À compléter : condition de transition
-    
-    return true;
-}
-
-bool transition_Final_MainDroiteFauteuil() {
+bool transition_Final_Stop(){
     return true;
 }
