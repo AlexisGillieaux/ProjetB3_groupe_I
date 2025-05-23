@@ -78,13 +78,9 @@ void setup()
   connexion();
   rfid_init();
 
-  // Transitions classiques
+  // Transitions principales
   etatInitial->addTransition(&transition_Initial_Decodage, etatDecodage);
   etatDecodage->addTransition(&transition_Decodage_Porte, etatPorte);
-  // etatPorte->addTransition(&transition_Porte_Haut, etatMainDroiteFauteuil);
-  // etatPorte->addTransition(&transition_Porte_Bas, etatMainDroiteFinal);
-  // etatPorte->addTransition(&transition_Porte_Gauche, etatRGB);
-  //etatPorte->addTransition(&transition_Porte_Droite, etatFinal);
 
   etatMainDroiteFauteuil->addTransition(&transition_MainDroiteFauteuil_Fauteuil, etatFauteuil);
   etatMainDroiteFinal->addTransition(&transition_MainDroiteFinal_Final, etatFinal);
@@ -93,18 +89,10 @@ void setup()
 
   etatFinal->addTransition(&transition_Final_Initial, etatInitial);
 
-  // Transitions vers MainDroiteFauteuil depuis chaque état
-  etatInitial->addTransition(&transition_Initial_MainDroiteFauteuil, etatMainDroiteFauteuil);
-  // etatAttente->addTransition(&transition_Attente_MainDroiteFauteuil, etatMainDroiteFauteuil);
-  // etatAction->addTransition(&transition_Action_MainDroiteFauteuil, etatMainDroiteFauteuil);
-  etatFinal->addTransition(&transition_Final_MainDroiteFauteuil, etatMainDroiteFauteuil);
+  // Transitions vers MainDroiteFauteuil depuis chaque état utile
+  etatInitial->addTransition(&transition_Initial_Porte,EtatPorte);
   etatDecodage->addTransition(&transition_Decodage_MainDroiteFauteuil, etatMainDroiteFauteuil);
   //etatPorte->addTransition(&transition_Porte_MainDroiteFauteuil, etatMainDroiteFauteuil);
-  etatFauteuil->addTransition(&transition_Fauteuil_MainDroiteFauteuil, etatMainDroiteFauteuil);
-
-  etatMainDroiteFinal->addTransition(&transition_MainDroiteFinal_MainDroiteFauteuil, etatMainDroiteFauteuil);
-
-  // Démarrer la machine dans l'état initial
  
 
   delay(100);

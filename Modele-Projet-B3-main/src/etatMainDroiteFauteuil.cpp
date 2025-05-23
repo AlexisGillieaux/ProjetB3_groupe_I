@@ -17,8 +17,54 @@
  */
 void EtatMainDroiteFauteuil()
  {
+      double ultrasonDroite = ultrasonicSensor4.measureDistanceCm();
+   double ultrasonGauche = ultrasonicSensor1.measureDistanceCm();
+   double ultrasonDevant = ultrasonicSensor2.measureDistanceCm();
+   double ultrasonArriere = ultrasonicSensor3.measureDistanceCm();
 
-   mainDroiteFonctionnel();
+   if(ultrasonArriere<13 && ultrasonGauche<30)
+  {
+     //delay(200);
+     setSpeed1(-100);
+     setSpeed2(100);
+     Avancer();
+      delay(500);
+      setSpeed1(-75);
+    setSpeed2(-75);
+    Avancer();
+    delay(700);
+     
+  }
+  else if (ultrasonGauche>40 )
+  {
+   
+    //delay(200);
+    
+    setSpeed1(100);
+    setSpeed2(-100);
+    Avancer();
+    delay(500);
+    if(ultrasonDroite>30)
+    {
+    setSpeed1(-85);
+    setSpeed2(-70);
+    Avancer();
+    delay(800);
+    }
+    else{setSpeed1(-75);
+    setSpeed2(-75);
+    Avancer();
+    delay(600);
+  }
+    
+    
+    
+
+  }
+  else
+  {
+      AvancementRegule(ultrasonGauche, ultrasonDroite, ultrasonArriere, ultrasonDevant);
+  }
 
 }
 
